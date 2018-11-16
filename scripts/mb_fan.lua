@@ -1,21 +1,14 @@
 #!/usr/bin/env lua
 
 --
--- The script outputs a conky command to print the mother boartd temp
+-- The script outputs a conky command to print the fan speed
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/mb_temp.lua}:
---   ${execpi 10 ~/.config/conky/scripts/mb_temp.lua}
+--   ${execpi <TIME_PERIOD> <PATH>/mb_fan.lua}:
+--   ${execpi 10 ~/.config/conky/scripts/mb_fan.lua}
 --
 -- Output:
--- Temp   +25.0°C
---
--- This script implements the conky command below .
--- The script indicates percentage used with color and if there is no
--- specified device, it outputs dashes.
---
--- ${color2}Temp ${color6}${alignr}\
--- ${execi 10 sensors | grep 'temp2' | awk {'print $2'}}
+-- Fan   1000 rpm
 --
 
 --local colors = require("colors")

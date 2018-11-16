@@ -1,21 +1,14 @@
 #!/usr/bin/env lua
 
 --
--- The script outputs a conky command to print the motherboard temp
+-- The script outputs a conky command to print the HDD temp
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/mb_temp.lua}:
---   ${execpi 10 ~/.config/conky/scripts/mb_temp.lua}
+--   ${execpi <TIME_PERIOD> <PATH>/hdd_temp.lua <DISK>}:
+--   ${execpi 10 ~/.config/conky/scripts/hdd_temp.lua /dev/sda}
 --
 -- Output:
--- Temp   +25.0°C
---
--- This script implements the conky command below .
--- The script indicates percentage used with color and if there is no
--- specified device, it outputs dashes.
---
--- ${color2}Temp ${color6}${alignr}\
--- ${execi 10 sensors | grep 'temp2' | awk {'print $2'}}
+-- Disk Temp   +25.0°C
 --
 
 --local colors = require("colors")
@@ -51,18 +44,18 @@ function get_temp(s, temp_str)
         return nil
     end
 
-	p1 = s:find("+", ref)
+	p1 = s:find(": ", ref+1)
 	p2 = s:find("C", p1)
-	temp = s:sub(p1, p2-5)
+	temp = s:sub(p1+2, p2-3)
 
 	return tonumber(temp)
 end
 
 
-function get_mb_temp(result)
-    t = get_temp(result, "temp3")
+function get_hdd_temp(result)
+    t = get_temp(result, ": ")
     if t == nil then
-        return colors.title .. "MB Temp" .. rjust .. colors.warning .. "- - -\n"
+        return colors.title .. "Disk Temp" .. rjust .. colors.warning .. "- - -\n"
     end
 
     local color = colors.normal
@@ -71,12 +64,11 @@ function get_mb_temp(result)
     elseif t > 65.0 then
     	color = colors.warning
     end
-    local output = colors.title .. "MB Temp".. rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
+    local output = colors.title .. "Disk Temp".. rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 
     return output
 end
 
-
-local cmd_result = run_command("sensors")
-local output = get_mb_temp(cmd_result)
+local cmd_result = run_command("hddtemp " .. arg[1])
+local output = get_hdd_temp(cmd_result)
 io.write(output)
