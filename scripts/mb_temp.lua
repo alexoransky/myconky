@@ -40,10 +40,9 @@ function run_command(cmd)
 end
 
 
-function get_temps(s, temp_str, crit_str)
+function get_temp(s, temp_str)
 	local ref = 0
 	local temp = ""
-	local crit = ""
     local p1 = 0
     local p2 = 0
 
@@ -56,36 +55,23 @@ function get_temps(s, temp_str, crit_str)
 	p2 = s:find("C", p1)
 	temp = s:sub(p1, p2-3)
 
-	ref = s:find(crit_str)
-    if ref == nil then
-        return nil
-    end
-
-	p1 = s:find("+", ref)
-	p2 = s:find("C", p1)
-	crit = s:sub(p1, p2-3)
-
-	return tonumber(temp), tonumber(crit)
+	return tonumber(temp)
 end
 
 
 function get_mb_temp(result)
-    t1, c1 = get_temps(result, "temp1", "crit")
-    t2, c2 = get_temps(result, "temp2", "crit")
-    if t1 == nil or t2 == nil then
+    t = get_temp(result, "temp3")
+    if t == nil then
         return colors.title .. "Temp" .. rjust .. colors.warning .. "- - -\n"
     end
 
-    t_max = math.max(t1, t2)
-    c_max = math.max(c1, c2)
-
     local color = colors.normal
-    if t1 > c1 or t2 > c2 then
+    if t > 80.0 then
     	color = colors.critical
-    elseif t1 > c1-20 or t2 > c2-20 then
+    elseif t > 65.0 then
     	color = colors.warning
     end
-    local output = colors.title .. "Temp".. rjust .. color .. " +" .. tostring(t_max) .. "°C" .. "\n"
+    local output = colors.title .. "Temp".. rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 
     return output
 end
