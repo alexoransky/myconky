@@ -10,7 +10,7 @@
 --   ${execpi 10 ~/.config/conky/scripts/disk_size.lua sda3}
 --
 -- Output:
--- /dev/sda3    226G    10% [===                  ]
+-- /dev/sda3    226G    10% [###                  ]
 --
 -- This script implements the conky command below plus extra.
 -- The script indicates percentage used with color and if there is no
