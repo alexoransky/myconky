@@ -28,7 +28,7 @@ colors.normal_bar = "${color4}"
 colors.warning = "${color8}"
 colors.critical = "${color9}"
 
--- conly commands
+-- conky commands
 rjust =  "${alignr}"
 
 function read_from_file(fpath, item)

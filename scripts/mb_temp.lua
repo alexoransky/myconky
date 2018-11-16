@@ -8,7 +8,7 @@
 --   ${execpi 10 ~/.config/conky/scripts/mb_temp.lua}
 --
 -- Output:
--- Temp   +25.0°C
+-- Temp   +25°C
 --
 -- This script implements the conky command below .
 -- The script indicates percentage used with color and if there is no
@@ -27,7 +27,7 @@ colors.normal_bar = "${color4}"
 colors.warning = "${color8}"
 colors.critical = "${color9}"
 
--- conly commands
+-- conky commands
 rjust =  "${alignr}"
 
 
@@ -51,7 +51,7 @@ function get_temp(s, temp_str)
         return nil
     end
 
-	p1 = s:find("+", ref)
+	p1 = s:find("+", ref+1)
 	p2 = s:find("C", p1)
 	temp = s:sub(p1, p2-5)
 

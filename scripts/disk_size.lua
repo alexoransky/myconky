@@ -32,7 +32,7 @@ colors.normal_bar = "${color4}"
 colors.warning = "${color8}"
 colors.critical = "${color9}"
 
--- conly commands
+-- conky commands
 rjust =  "${alignr}"
 tab = "${tab 50}"
 bar = "${fs_bar 6, 100 "
