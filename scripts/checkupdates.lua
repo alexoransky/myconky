@@ -14,14 +14,6 @@
 --           pkg 1.1.0 -> 1.1.1
 --           ...
 --
--- This script implements the conky command below.
---
---   #${color2}Package updates ${alignr}\
---   #${if_match ${exec checkupdates | wc -l} > 0}${color8}\
---   #${else}${color6}\
---   #${endif}\
---   #${exec checkupdates | wc -l}
---
 
 -- conky colors
 --local colors = require("colors")
