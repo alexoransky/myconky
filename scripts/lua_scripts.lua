@@ -12,6 +12,8 @@ colors.critical = "${color9}"
 rjust =  "${alignr}"
 user_number = "${user_number}"
 user_names = "${user_names}"
+loadavg = "${loadavg}"
+
 
 -- returns
 -- ${color2}Logged In ${alignr}${colorX}${user_number}
@@ -24,4 +26,24 @@ function conky_logged_in()
 	return colors.title .. "Logged In " .. rjust .. color .. user_num .. " :  " .. user_names
 end
 
-io.write(conky_sys_info())
+-- returns
+-- ${color2}Load$ {alignr}${color6}${loadavg}
+function conky_loadavg()
+    local load = conky_parse(loadavg)
+
+    local output = colors.title .. "Load " .. rjust
+    for ld in string.gmatch(load, "%S+") do
+        avg = tonumber(ld)
+        color = colors.normal
+        if avg > 2.0 then
+            color = colors.critical
+        elseif avg > 1.0 then
+            color = colors.warning
+        end
+        output = output .. " " .. color .. tostring(string.format("%.2f", avg))
+    end
+
+    return output
+end
+
+io.write(conky_loadavg())
