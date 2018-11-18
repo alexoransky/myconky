@@ -17,6 +17,7 @@
 -- ${color2}Temp ${color6}${alignr}\
 -- ${execi 10 sensors | grep 'temp2' | awk {'print $2'}}
 --
+-- The script needs lm-sensors and/or acpi packets installed.
 
 --local colors = require("colors")
 colors = {}
@@ -40,7 +41,7 @@ function run_command(cmd)
 end
 
 
-function get_temp(s, temp_str)
+function get_sensors_temp(s, temp_str)
 	local ref = 0
 	local temp = ""
     local p1 = 0
@@ -59,8 +60,35 @@ function get_temp(s, temp_str)
 end
 
 
-function get_mb_temp(result)
-    t = get_temp(result, "temp3")
+function get_acpi_temp(s, temp_str)
+	local ref = 0
+	local temp = ""
+    local p1 = 0
+    local p2 = 0
+
+	ref = s:find(temp_str)
+    if ref == nil then
+        return nil
+    end
+
+    local words = {}
+    for word in s:gmatch("%w+") do table.insert(words, word) end
+    local temp = tonumber(words[4]:sub(1, 5))
+
+	return temp
+end
+
+
+function get_mb_temp()
+    -- try sensors first
+    local result = run_command("sensors")
+    local t = get_sensors_temp(result, "temp3")
+
+    if t == nil then
+        result = run_command("acpi -t")
+        t = get_acpi_temp(result, "Thermal 0")
+    end
+
     if t == nil then
         return colors.title .. "MB Temp" .. rjust .. colors.warning .. "- - -\n"
     end
@@ -77,6 +105,5 @@ function get_mb_temp(result)
 end
 
 
-local cmd_result = run_command("sensors")
-local output = get_mb_temp(cmd_result)
+local output = get_mb_temp()
 io.write(output)
