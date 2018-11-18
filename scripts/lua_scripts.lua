@@ -23,7 +23,7 @@ function conky_logged_in()
 	if tonumber(user_num) > 1 then
 		color = colors.warning
 	end
-	return colors.title .. "Logged In " .. rjust .. color .. user_num .. " :  " .. user_names
+	return colors.title .. "Logged In " .. rjust .. color .. user_num .. ":  " .. user_names
 end
 
 -- returns
