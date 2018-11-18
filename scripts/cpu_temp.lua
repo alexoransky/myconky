@@ -74,8 +74,7 @@ end
 function get_cpu_info(cmd_result, dev_id, cpu_num)
     t, h, c = get_temp(cmd_result, dev_id, "high", "crit")
     if t == nil then
-        io.write(colors.warning .. "---\n")
-        do return end
+        return colors.warning .. "---\n"
     end
 
     local color = colors.normal
