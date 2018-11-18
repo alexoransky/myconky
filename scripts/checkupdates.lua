@@ -10,7 +10,7 @@
 --   ${execpi 3600 ~/.config/conky/scripts/checkupdates.lua 3}
 --
 -- Output:
--- Package updates           3:
+-- Total                     3:
 --           pkg 1.1.0 -> 1.1.1
 --           ...
 --
@@ -90,7 +90,7 @@ function get_updates_info(cmd_result, max_cnt)
 
     if max_cnt == nil then max_cnt = 0 end
 
-    local title = "Updates "
+    local title = "Total "
 
     local _, count = cmd_result:gsub('\n', '\n')
     if count == nil then
