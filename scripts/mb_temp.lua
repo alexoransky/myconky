@@ -83,7 +83,7 @@ function get_mb_temp()
     	color = colors.warning
     end
 
-    return output = colors.title .. "MB Temp".. cmds.rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
+    return colors.title .. "MB Temp".. cmds.rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 end
 
 
