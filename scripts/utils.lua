@@ -64,5 +64,13 @@ function utils.ltrim(s)
   return (s:gsub("^%s*", ""))
 end
 
+-- splits the string into words on spaces
+function utils.split_str(s)
+    local words = {}
+    for word in s:gmatch("%S+") do
+        table.insert(words, word)
+    end
+    return words
+end
 
 return utils

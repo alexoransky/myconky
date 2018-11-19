@@ -49,11 +49,9 @@ function get_size_mnt(cmd_out, dev_str)
     local p1 = cmd_out:find("\n", ref)
 	local temp = cmd_out:sub(ref + #dev_str, p1)
 
-    -- split into words
-    local words = {}
-    for word in temp:gmatch("%w+") do table.insert(words, word) end
+    local words = utils.split_str(temp)
     local size = tonumber(words[1]:sub(1, -2))
-    local perc = tonumber(words[4])
+    local perc = tonumber(words[4]:sub(1, -2))
     local mnt = words[5]
     if mnt == nil then
         mnt = "/"

@@ -24,7 +24,7 @@ function conky_loadavg()
     for ld in string.gmatch(load, "%S+") do
         avg = tonumber(ld)
         color = colors.normal
-        if avg > 2.0 then
+        if avg > 5.0 then
             color = colors.critical
         elseif avg > 1.0 then
             color = colors.warning

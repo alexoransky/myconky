@@ -35,6 +35,7 @@ function get_pkgs(cmd_result, max_cnt)
         temp = cmd_result:sub(1, p1)
     end
 
+    -- split into lines and right-justify
     local output = ""
     for line in temp:gmatch("[^\r\n]+") do
          output = output .. " " .. cmds.rjust .. line .. "\n"

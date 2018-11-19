@@ -54,8 +54,8 @@ function get_acpi_temp(s, temp_str)
         return nil
     end
 
-    local words = {}
-    for word in s:gmatch("%w+") do table.insert(words, word) end
+    local str = s:sub(ref)
+    local words = utils.split_str(str)
     local temp = tonumber(words[4]:sub(1, 5))
 
 	return temp
@@ -69,7 +69,9 @@ function get_mb_temp()
 
     if t == nil then
         result = utils.run_command("acpi -t")
-        t = get_acpi_temp(result, "Thermal 0")
+        local t1 = get_acpi_temp(result, "Thermal 0")
+        local t2 = get_acpi_temp(result, "Thermal 1")
+        t = math.max(t1, t2)
     end
 
     if t == nil then
