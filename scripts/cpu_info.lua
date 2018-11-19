@@ -25,14 +25,7 @@
 --
 -- The script requires lm-sensors installed.
 
---local colors = require("colors")
-colors = {}
-colors.text = "${color1}"
-colors.title = "${color2}"
-colors.normal = "${color6}"
-colors.normal_bar = "${color4}"
-colors.warning = "${color8}"
-colors.critical = "${color9}"
+require 'colors'
 
 -- conky commands
 rjust =  "${alignr}"

@@ -1,12 +1,6 @@
 #!/usr/bin/env lua
 
---local colors = require("colors")
-colors = {}
-colors.title = "${color2}"
-colors.text  = "${color1}"
-colors.normal = "${color6}"
-colors.warning = "${color8}"
-colors.critical = "${color9}"
+require 'colors'
 
 -- conky commands
 rjust =  "${alignr}"

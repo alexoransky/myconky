@@ -15,15 +15,7 @@
 -- ${color2}Uptime ${alignr}${color1} $uptime
 --
 
--- conky colors
---local colors = require("colors")
-colors = {}
-colors.title = "${color2}"
-colors.text  = "${color1}"
-colors.normal = "${color6}"
-colors.normal_bar = "${color4}"
-colors.warning = "${color8}"
-colors.critical = "${color9}"
+require 'colors'
 
 -- conky commands
 rjust = "${alignr}"
