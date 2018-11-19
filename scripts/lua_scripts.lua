@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 
-require 'colors'
+require "colors"
 
 -- conky commands
 rjust =  "${alignr}"

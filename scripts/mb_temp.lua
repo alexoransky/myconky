@@ -19,19 +19,11 @@
 --
 -- The script needs lm-sensors and/or acpi packets installed.
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust =  "${alignr}"
-
-
-function run_command(cmd)
-    local handle = io.popen(cmd)
-    local result = handle:read("*a")
-    handle:close()
-
-    return result
-end
 
 
 function get_sensors_temp(s, temp_str)
@@ -74,11 +66,11 @@ end
 
 function get_mb_temp()
     -- try sensors first
-    local result = run_command("sensors")
+    local result = utils.run_command("sensors")
     local t = get_sensors_temp(result, "temp3")
 
     if t == nil then
-        result = run_command("acpi -t")
+        result = utils.run_command("acpi -t")
         t = get_acpi_temp(result, "Thermal 0")
     end
 

@@ -22,24 +22,13 @@
 --   ${fs_bar 6,110}
 --
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust =  "${alignr}"
 tab = "${tab 50}"
 bar = "${fs_bar 6, 100 "
-
-
-function run_command(cmd)
-    -- runs the specified shell command
-    -- and returns the printed output
-
-    local handle = io.popen(cmd)
-    local output = handle:read("*a")
-    handle:close()
-
-    return output
-end
 
 
 function get_size_mnt(cmd_out, dev_str)
@@ -109,7 +98,7 @@ function get_dev_info(cmd_result, dev_id)
 end
 
 
-local cmd_result = run_command("df -h")
+local cmd_result = utils.run_command("df -h")
 local dev_id = "/dev/" .. arg[1]
 
 local output = get_dev_info(cmd_result, dev_id)

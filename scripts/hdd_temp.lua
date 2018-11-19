@@ -11,19 +11,11 @@
 -- Disk Temp   +25.0°C
 --
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust =  "${alignr}"
-
-
-function run_command(cmd)
-    local handle = io.popen(cmd)
-    local result = handle:read("*a")
-    handle:close()
-
-    return result
-end
 
 
 function get_temp(s, temp_str)
@@ -62,6 +54,6 @@ function get_hdd_temp(result)
     return output
 end
 
-local cmd_result = run_command("hddtemp " .. arg[1])
+local cmd_result = utils.run_command("hddtemp " .. arg[1])
 local output = get_hdd_temp(cmd_result)
 io.write(output)

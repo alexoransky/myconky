@@ -25,7 +25,8 @@
 --
 -- The script requires lm-sensors installed.
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust =  "${alignr}"
@@ -33,21 +34,6 @@ tab = "${tab 40}"
 cpu = "${cpu cpuX}"
 freq = "${freq_g}"
 bar = "${cpubar cpuX 6, 100}"
-
-
-function run_command(cmd)
-    local handle = io.popen(cmd)
-    local result = handle:read("*a")
-    handle:close()
-
-    return result
-end
-
-
-function count(str, substr)
-    local _, cnt = str:gsub(substr, substr)
-    return cnt
-end
 
 
 function get_temp(s, temp_str, high_str, crit_str)
@@ -115,14 +101,14 @@ function get_cpu_info(cmd_result, dev_id, cpu_num)
 end
 
 
-local cmd_result = run_command("sensors")
+local cmd_result = utils.run_command("sensors")
 local dev_id = "Package id 0"
 local cpu_num = 0
 local max_cnt = 0
 local output = ""
 
 if arg[1] == "-a" then
-    max_cnt = count(cmd_result, "Core ")
+    max_cnt = utils.count_substr(cmd_result, "Core ")
     output = get_cpu_info(cmd_result, dev_id, cpu_num)
     for i = 0, max_cnt-1 do
         dev_id = "Core " .. i

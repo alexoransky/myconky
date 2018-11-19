@@ -11,26 +11,11 @@
 -- Fan   1000 rpm
 --
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust =  "${alignr}"
-
-
-function run_command(cmd)
-    local handle = io.popen(cmd)
-    local result = handle:read("*a")
-    handle:close()
-
-    return result
-end
-
-
--- remove leading whitespace from string.
--- http://en.wikipedia.org/wiki/Trim_(programming)
-function ltrim(s)
-  return (s:gsub("^%s*", ""))
-end
 
 
 function get_rpm(s, fan_str)
@@ -46,7 +31,7 @@ function get_rpm(s, fan_str)
 
 	p1 = s:find(":", ref)
 	p2 = s:find("RPM", p1)
-	result = ltrim(s:sub(p1+1, p2-1))
+	result = utils.ltrim(s:sub(p1+1, p2-1))
 
     return tonumber(result)
 end
@@ -68,7 +53,7 @@ function get_fan_rpm(result)
 end
 
 
-local cmd_result = run_command("sensors")
+local cmd_result = utils.run_command("sensors")
 local output = get_fan_rpm(cmd_result)
 
 io.write(output)

@@ -15,7 +15,8 @@
 -- ${color1}${nodename}${alignr}${sysname} ${kernel}
 --
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust = "${alignr}"

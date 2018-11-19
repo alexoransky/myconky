@@ -18,28 +18,12 @@
 -- ${execi 3600 cat /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq}
 --
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust =  "${alignr}"
 
-function read_from_file(fpath, item)
-    -- check if the file exists
-    local f = io.open(fpath, "rb")
-    if f == nil then
-        return nil
-    end
-    f:close()
-
-    for line in io.lines(fpath) do
-        local ref = line:find(item)
-        if ref ~= nil then
-            return line
-        end
-    end
-
-    return nil
-end
 
 function get_cpu_info(fpath, item, return_speed)
     -- parses the /proc/cpuinfo for the cpu model name
@@ -52,7 +36,7 @@ function get_cpu_info(fpath, item, return_speed)
 
     -- find the cpu model
     local ref = 0
-	local temp = read_from_file(fpath, item)
+	local temp = utils.read_from_file(fpath, item)
     if temp ~= nil then
         ref = temp:find(":")
     end

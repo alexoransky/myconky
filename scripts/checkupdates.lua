@@ -15,41 +15,11 @@
 --           ...
 --
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust = "${alignr}"
-
-
-function run_command(cmd)
-    -- runs the specified shell command
-    -- and returns the printed output
-
-    local handle = io.popen(cmd)
-    local output = handle:read("*a")
-    handle:close()
-
-    return output
-end
-
-
-function find_nth(str, substr, cnt)
-    local i = 1
-    local ref = 1
-    local p1 = 1
-    local p2 = 1
-    while i <= cnt do
-        p1 = str:find(substr, ref)
-        if p1 == nil or p1 == p2 then
-            return nil
-        end
-        i = i + 1
-        p2 = p1
-        ref = p1+1
-    end
-
-    return p1
-end
 
 
 function get_pkgs(cmd_result, max_cnt)
@@ -60,7 +30,7 @@ function get_pkgs(cmd_result, max_cnt)
     end
 
     local temp = ""
-    local p1 = find_nth(cmd_result, "\n", max_cnt)
+    local p1 = utils.find_substr(cmd_result, "\n", max_cnt)
     if p1 == nil then
         temp = cmd_result
     else
@@ -84,7 +54,7 @@ function get_updates_info(cmd_result, max_cnt)
 
     local title = "Total "
 
-    local _, count = cmd_result:gsub('\n', '\n')
+    local count = utils.count_substr(cmd_result, '\n')
     if count == nil then
         return colors.title .. title .. rjust .. "  - - -\n"
     end
@@ -106,7 +76,7 @@ function get_updates_info(cmd_result, max_cnt)
 end
 
 
-local cmd_result = run_command("checkupdates")
+local cmd_result = utils.run_command("checkupdates")
 local max_cnt = tonumber(arg[1])
 
 local output = get_updates_info(cmd_result, max_cnt)

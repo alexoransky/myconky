@@ -15,7 +15,8 @@
 -- ${color2}Uptime ${alignr}${color1} $uptime
 --
 
-require 'colors'
+require "colors"
+require "utils"
 
 -- conky commands
 rjust = "${alignr}"
