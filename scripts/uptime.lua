@@ -16,15 +16,12 @@
 --
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust = "${alignr}"
-uptime = "${uptime}"
 
 
 function get_uptime()
-    return colors.title .. "Uptime " .. rjust .. colors.text .. uptime .. "\n"
+    return colors.title .. "Uptime " .. cmds.rjust .. colors.text .. cmds.uptime .. "\n"
 end
 
 

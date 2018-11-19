@@ -23,12 +23,8 @@
 --
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust =  "${alignr}"
-tab = "${tab 50}"
-bar = "${fs_bar 6, 100 "
 
 
 function get_size_mnt(cmd_out, dev_str)
@@ -78,7 +74,7 @@ function get_dev_info(cmd_result, dev_id)
 
     size, perc, mnt = get_size_mnt(cmd_result, dev_id)
     if size == nil then
-        return colors.title .. dev_id .. tab .. "  - - -\n"
+        return colors.title .. dev_id .. cmds.tab50 .. "  - - -\n"
     end
 
     local color = colors.normal
@@ -91,8 +87,8 @@ function get_dev_info(cmd_result, dev_id)
         color_bar = colors.warning
     end
 
-    local output = colors.title .. dev_id .. tab .. colors.text .. size
-    output = output .. rjust .. color .. perc .. "%  " .. color_bar .. bar .. mnt .. "}\n"
+    local output = colors.title .. dev_id .. cmds.tab50 .. colors.text .. size ..
+                   cmds.rjust .. color .. perc .. "%  " .. color_bar .. cmds.fsbar .. mnt .. "}\n"
 
     return output
 end

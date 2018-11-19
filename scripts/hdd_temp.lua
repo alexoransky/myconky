@@ -12,10 +12,8 @@
 --
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust =  "${alignr}"
 
 
 function get_temp(s, temp_str)
@@ -40,7 +38,7 @@ end
 function get_hdd_temp(result)
     t = get_temp(result, ": ")
     if t == nil then
-        return colors.title .. "Disk Temp" .. rjust .. colors.warning .. "- - -\n"
+        return colors.title .. "Disk Temp" .. cmds.rjust .. colors.warning .. "- - -\n"
     end
 
     local color = colors.normal
@@ -49,9 +47,8 @@ function get_hdd_temp(result)
     elseif t > 65.0 then
     	color = colors.warning
     end
-    local output = colors.title .. "Disk Temp".. rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 
-    return output
+    return output = colors.title .. "Disk Temp".. cmds.rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 end
 
 local cmd_result = utils.run_command("hddtemp " .. arg[1])

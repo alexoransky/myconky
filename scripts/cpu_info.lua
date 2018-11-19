@@ -26,14 +26,8 @@
 -- The script requires lm-sensors installed.
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust =  "${alignr}"
-tab = "${tab 40}"
-cpu = "${cpu cpuX}"
-freq = "${freq_g}"
-bar = "${cpubar cpuX 6, 100}"
 
 
 function get_temp(s, temp_str, high_str, crit_str)
@@ -91,11 +85,12 @@ function get_cpu_info(cmd_result, dev_id, cpu_num)
     local cpu_str = "cpu" .. cpu_num
     local core_str = colors.title .. tostring(cpu_num)
     if cpu_num == 0 then
-        core_str = colors.text .. freq .. " GHz"
+        core_str = colors.text .. cmds.freq .. " GHz"
     end
 
-    local output = core_str .. tab .. color .. "+" .. tostring(t) .. "°C "
-    output = output .. rjust .. color .. cpu:gsub("cpuX", cpu_str) .. "%  " .. colors.normal_bar .. bar:gsub("cpuX", cpu_str) .. "\n"
+    local output = core_str .. cmds.tab40 .. color .. "+" .. tostring(t) .. "°C " ..
+                   cmds.rjust .. color .. cmds.cpu:gsub("cpuX", cpu_str) .. "%  " ..
+                   colors.normal_bar .. cmds.cpubar:gsub("cpuX", cpu_str) .. "\n"
 
     return output
 end

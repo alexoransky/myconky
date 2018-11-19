@@ -19,10 +19,8 @@
 --
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust =  "${alignr}"
 
 
 function get_cpu_info(fpath, item, return_speed)
@@ -42,7 +40,7 @@ function get_cpu_info(fpath, item, return_speed)
     end
 
     if temp == nil or ref == nil then
-        return colors.title .. "CPU " .. rjust .. "  - - -\n"
+        return colors.title .. "CPU " .. cmds.rjust .. "  - - -\n"
     end
 
     local sp = 0
@@ -54,7 +52,7 @@ function get_cpu_info(fpath, item, return_speed)
         end
     end
 
-    return colors.title .. "CPU " .. rjust .. colors.text .. output .. "\n"
+    return colors.title .. "CPU " .. cmds.rjust .. colors.text .. output .. "\n"
 end
 
 local output = get_cpu_info("/proc/cpuinfo", "model name", (arg[1] == "-s"))

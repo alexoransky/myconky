@@ -12,10 +12,8 @@
 --
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust =  "${alignr}"
 
 
 function get_rpm(s, fan_str)
@@ -40,16 +38,15 @@ end
 function get_fan_rpm(result)
     t = get_rpm(result, "fan1")
     if t == nil then
-        return colors.title .. "Fan" .. rjust .. colors.warning .. "- - -\n"
+        return colors.title .. "Fan" .. cmds.rjust .. colors.warning .. "- - -\n"
     end
 
     local color = colors.normal
     if t < 12 then
     	color = colors.critical
     end
-    local output = colors.title .. "Fan".. rjust .. color .. tostring(t) .. " rpm\n"
 
-    return output
+    return colors.title .. "Fan".. cmds.rjust .. color .. tostring(t) .. " rpm\n"
 end
 
 

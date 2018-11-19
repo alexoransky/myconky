@@ -16,17 +16,12 @@
 --
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust = "${alignr}"
-host_name = "${nodename}"
-sys_name = "${sysname}"
-kernel = "${kernel}"
 
 
 function get_sys_info()
-    return colors.text .. host_name .. rjust .. sys_name .. " " .. kernel .. "\n"
+    return colors.text .. cmds.host_name .. cmds.rjust .. cmds.sys_name .. " " .. cmds.kernel .. "\n"
 end
 
 

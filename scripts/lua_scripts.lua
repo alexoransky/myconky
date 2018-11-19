@@ -1,31 +1,26 @@
 #!/usr/bin/env lua
 
 require "colors"
-
--- conky commands
-rjust =  "${alignr}"
-user_number = "${user_number}"
-user_names = "${user_names}"
-loadavg = "${loadavg}"
+require "cmds"
 
 
 -- returns
 -- ${color2}Logged In ${alignr}${colorX}${user_number}
 function conky_logged_in()
-	local user_num = conky_parse(user_number)
+	local user_num = conky_parse(cmds.user_number)
 	local color = colors.normal
 	if tonumber(user_num) > 1 then
 		color = colors.warning
 	end
-	return colors.title .. "Logged In " .. rjust .. color .. user_num .. ":  " .. user_names
+	return colors.title .. "Logged In " .. cmds.rjust .. color .. user_num .. ":  " .. cmds.user_names
 end
 
 -- returns
 -- ${color2}Load$ {alignr}${color6}${loadavg}
 function conky_loadavg()
-    local load = conky_parse(loadavg)
+    local load = conky_parse(cmds.loadavg)
 
-    local output = colors.title .. "Load " .. rjust
+    local output = colors.title .. "Load " .. cmds.rjust
     for ld in string.gmatch(load, "%S+") do
         avg = tonumber(ld)
         color = colors.normal

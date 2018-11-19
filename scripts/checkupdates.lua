@@ -16,10 +16,8 @@
 --
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust = "${alignr}"
 
 
 function get_pkgs(cmd_result, max_cnt)
@@ -39,7 +37,7 @@ function get_pkgs(cmd_result, max_cnt)
 
     local output = ""
     for line in temp:gmatch("[^\r\n]+") do
-         output = output .. " " .. rjust .. line .. "\n"
+         output = output .. " " .. cmds.rjust .. line .. "\n"
      end
 
     return output
@@ -56,7 +54,7 @@ function get_updates_info(cmd_result, max_cnt)
 
     local count = utils.count_substr(cmd_result, '\n')
     if count == nil then
-        return colors.title .. title .. rjust .. "  - - -\n"
+        return colors.title .. title .. cmds.rjust .. "  - - -\n"
     end
 
     local color = colors.normal
@@ -64,7 +62,7 @@ function get_updates_info(cmd_result, max_cnt)
     	color = colors.warning
     end
 
-    local first_line = colors.title .. title .. rjust .. color ..  tostring(count)
+    local first_line = colors.title .. title .. cmds.rjust .. color ..  tostring(count)
     local output = ""
     if max_cnt < 1 then
         output = first_line .. "\n"

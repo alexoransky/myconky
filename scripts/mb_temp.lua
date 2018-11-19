@@ -20,10 +20,8 @@
 -- The script needs lm-sensors and/or acpi packets installed.
 
 require "colors"
+require "cmds"
 require "utils"
-
--- conky commands
-rjust =  "${alignr}"
 
 
 function get_sensors_temp(s, temp_str)
@@ -75,7 +73,7 @@ function get_mb_temp()
     end
 
     if t == nil then
-        return colors.title .. "MB Temp" .. rjust .. colors.warning .. "- - -\n"
+        return colors.title .. "MB Temp" .. cmds.rjust .. colors.warning .. "- - -\n"
     end
 
     local color = colors.normal
@@ -84,9 +82,8 @@ function get_mb_temp()
     elseif t > 65.0 then
     	color = colors.warning
     end
-    local output = colors.title .. "MB Temp".. rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 
-    return output
+    return output = colors.title .. "MB Temp".. cmds.rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 end
 
 
