@@ -5,21 +5,13 @@
 -- specified disk and also prints the indicator bar.
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/disk_size.lua <DEVICE>}:
+--   ${execpi <TIME_PERIOD> <PATH>/disk_size.lua [<DEVICE>]}:
 --   e.g. for /dev/sda3:
 --   ${execpi 10 ~/.config/conky/scripts/disk_size.lua sda3}
+--   if <DEVICE> is skipped, will print info on available /dev/sdaX and sdbX.
 --
 -- Output:
 -- /dev/sda3    226G    10% [###                  ]
---
--- This script implements the conky command below plus extra.
--- The script indicates percentage used with color and if there is no
--- specified device, it outputs dashes.
---
---   ${exec df -h | grep /dev/sda3 | awk '{print $1}'}\
---   ${exec df -h | grep /dev/sda3 | awk '{print $2}'}\
---   ${alignr}${exec df -h | grep /dev/sda3 | awk '{print $5}'}  \
---   ${fs_bar 6,110}
 --
 
 require "colors"
@@ -66,13 +58,17 @@ function get_size_mnt(cmd_out, dev_str)
 end
 
 
-function get_dev_info(cmd_result, dev_id)
+function get_dev_info(cmd_result, dev_id, dashes)
     -- parses the output of df -h command for the specified device and
     -- forms the output string that conky can parse in its turn
 
     size, perc, mnt = get_size_mnt(cmd_result, dev_id)
     if size == nil then
-        return colors.title .. dev_id .. cmds.tab50 .. "  - - -\n"
+        if dashes then
+            return colors.title .. dev_id .. cmds.tab50 .. "  - - -\n"
+        else
+            return nil
+        end
     end
 
     local color = colors.normal
@@ -93,7 +89,26 @@ end
 
 
 local cmd_result = utils.run_command("df -h")
-local dev_id = "/dev/" .. arg[1]
+local dev_id = ""
+local output = ""
+local result = nil
 
-local output = get_dev_info(cmd_result, dev_id)
+if arg[1] == nil then
+    -- output for all available sdaX and sdbX
+    for c = 97, 98 do
+        dev_id_base = "/dev/sd" .. string.char(c)
+        for i = 1, 9 do
+            dev_id = dev_id_base .. string.char(i+48)
+            result = get_dev_info(cmd_result, dev_id, false)
+            if result == nil then
+                break
+            end
+            output = output .. result
+        end
+    end
+else
+    dev_id = "/dev/" .. arg[1]
+    output = get_dev_info(cmd_result, dev_id, true)
+end
+
 io.write(output)

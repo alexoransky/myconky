@@ -17,7 +17,7 @@
 --
 --   ${execpi 3600 ~/.config/conky/scripts/cpu_info.lua}
 --   ${execpi 3600 ~/.config/conky/scripts/cpu_info.lua 0}
---   ${execpi 3600 ~/.config/conky/scripts/cpu_info.lua -all}
+--   ${execpi 3600 ~/.config/conky/scripts/cpu_info.lua -a}
 --
 -- Output:
 -- 2.74 GHz:   +50°C   5%  [####     ]
