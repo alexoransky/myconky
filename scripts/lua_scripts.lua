@@ -15,8 +15,8 @@ function conky_logged_in()
 	return colors.title .. "Logged In " .. cmds.rjust .. color .. user_num .. ":  " .. cmds.user_names
 end
 
--- returns
 -- ${color2}Load$ {alignr}${color6}${loadavg}
+-- returns
 function conky_loadavg()
     local load = conky_parse(cmds.loadavg)
 
@@ -34,5 +34,12 @@ function conky_loadavg()
 
     return output
 end
+
+-- returns
+-- ${color2}Uptime ${alignr}${color1} $uptime
+function conky_uptime()
+    return colors.title .. "Uptime " .. cmds.rjust .. colors.text .. cmds.uptime
+end
+
 
 io.write(conky_loadavg())
