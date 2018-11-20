@@ -1,6 +1,7 @@
 cmds = {}
 
 -- conky commands
+cmds.center = "${alignc}"
 cmds.rjust = "${alignr}"
 cmds.tab40 = "${tab 40}"
 cmds.tab50 = "${tab 50}"
@@ -15,6 +16,9 @@ cmds.uptime = "${uptime}"
 cmds.host_name = "${nodename}"
 cmds.sys_name = "${sysname}"
 cmds.kernel = "${kernel}"
-
+cmds.diskio_read = "${diskio_read /dev/sdXY}"
+cmds.diskio_write = "${diskio_write /dev/sdXY}"
+cmds.diskgr_read = "${diskiograph_read /dev/sdXY 20, 130}"
+cmds.diskgr_write = "${diskiograph_write /dev/sdXY 20, 130}"
 
 return cmds
