@@ -1,6 +1,7 @@
 cmds = {}
 
 -- conky commands
+cmds.line = "${hr 2}"
 cmds.center = "${alignc}"
 cmds.rjust = "${alignr}"
 cmds.tab40 = "${tab 40}"

@@ -1,7 +1,19 @@
 #!/usr/bin/env lua
 
 require "colors"
+require "fonts"
 require "cmds"
+
+--
+-- This script contains:
+-- 1. Functions that require conky to parse the variable to a value before the
+--    value can be used for highlighting.
+-- 2. Functions that need to run every cycle.
+--
+-- This script does not contain functions that require shell commands to run or
+-- functions that provide information at a slow rate, such as every our.
+-- Those functions are implemented in stand-alone scripts.
+--
 
 
 -- returns
@@ -12,8 +24,10 @@ function conky_logged_in()
 	if tonumber(user_num) > 1 then
 		color = colors.warning
 	end
-	return colors.title .. "Logged In " .. cmds.rjust .. color .. user_num .. ":  " .. cmds.user_names
+	return colors.title .. "Logged In " .. cmds.rjust .. color .. user_num ..
+           ":  " .. cmds.user_names
 end
+
 
 -- ${color2}Load$ {alignr}${color6}${loadavg}
 -- returns
@@ -35,10 +49,19 @@ function conky_loadavg()
     return output
 end
 
+
 -- returns
 -- ${color2}Uptime ${alignr}${color1} $uptime
 function conky_uptime()
     return colors.title .. "Uptime " .. cmds.rjust .. colors.text .. cmds.uptime
+end
+
+-- returns
+-- ${color3}${font Roboto:size=9:weight:bold}<TITLE> ${hr 2}
+-- ${font Roboto:size=9:weight:regular}\
+function conky_section(section)
+    return colors.section .. fonts.section .. section .. " " .. cmds.line ..
+           fonts.text .. "\\"
 end
 
 

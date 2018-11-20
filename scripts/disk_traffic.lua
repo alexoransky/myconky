@@ -15,11 +15,10 @@
 --
 
 require "colors"
+require "fonts"
 require "cmds"
 require "utils"
 
-font_roboto = "${font Roboto:size=9:weight:regular}"
-font_source = "${font Source Sans Pro:size=7:weight:regular}"
 
 function get_size_mnt(cmd_out, dev_str)
     -- parses the output of df -h and returns the info on the specified dev
@@ -61,11 +60,11 @@ end
 
 
 function get_dev_traffic(dev_id)
-    local output = colors.normal .. font_source .. "▼  " .. font_roboto ..
+    local output = colors.normal .. fonts.symbols .. "▼  " .. fonts.text ..
                    cmds.diskio_write:gsub("/dev/sdXY", dev_id) ..
                    colors.title .. cmds.center .. "          " .. dev_id ..
                    colors.normal .. cmds.rjust .. cmds.diskio_read:gsub("/dev/sdXY", dev_id) ..
-                   font_source .. "  ▲" .. font_roboto .. "\n" ..
+                   fonts.symbols .. "  ▲" .. fonts.text .. "\n" ..
                    colors.normal_bar .. cmds.diskgr_write:gsub("/dev/sdXY", dev_id) ..
                    cmds.rjust .. cmds.diskgr_read:gsub("/dev/sdXY", dev_id) .. "\n"
     return output
