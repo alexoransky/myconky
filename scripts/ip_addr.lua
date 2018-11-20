@@ -33,7 +33,9 @@ end
 
 local output = ""
 if arg[1] ~= nil then
-    output = colors.text .. cmds.addr:gsub("XXX", arg[1])
+    local infc = arg[1]
+    output = colors.text .. cmds.addr:gsub("XXX", infc) ..
+             colors.title ..cmds.center .. "                " .. infc
     if arg[2] == "-e" then
         local cmd_result = utils.run_command("curl ipinfo.io/ip")
         output = output .. get_ip_addr(cmd_result)
