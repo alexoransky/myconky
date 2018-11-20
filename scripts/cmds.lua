@@ -21,5 +21,6 @@ cmds.diskio_read = "${diskio_read /dev/sdXY}"
 cmds.diskio_write = "${diskio_write /dev/sdXY}"
 cmds.diskgr_read = "${diskiograph_read /dev/sdXY 20, 130}"
 cmds.diskgr_write = "${diskiograph_write /dev/sdXY 20, 130}"
+cmds.addr = "${addr XXX}"
 
 return cmds
