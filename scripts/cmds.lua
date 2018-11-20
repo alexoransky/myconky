@@ -4,6 +4,8 @@ cmds = {}
 cmds.line = "${hr 2}"
 cmds.center = "${alignc}"
 cmds.rjust = "${alignr}"
+cmds.tab37 = "${tab 37}"
+cmds.tab48 = "${tab 48}"
 cmds.tab40 = "${tab 40}"
 cmds.tab50 = "${tab 50}"
 cmds.cpu = "${cpu cpuX}"
@@ -22,5 +24,12 @@ cmds.diskio_write = "${diskio_write /dev/sdXY}"
 cmds.diskgr_read = "${diskiograph_read /dev/sdXY 20, 130}"
 cmds.diskgr_write = "${diskiograph_write /dev/sdXY 20, 130}"
 cmds.addr = "${addr XXX}"
+
+cmds.dn_speed = "${downspeed XXX}"
+cmds.up_speed = "${upspeed XXX}"
+cmds.dn_total = "${totaldown XXX}"
+cmds.up_total = "${totalup XXX}"
+cmds.dn_speed_gr = "${downspeedgraph XXX 20, 130 color7 3399FF 10000000 -l -t}"
+cmds.up_speed_gr = "${upspeedgraph XXX 20, 130 color7 3399FF 10000000 -l -t}"
 
 return cmds

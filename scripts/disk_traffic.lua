@@ -10,9 +10,6 @@
 --   ${execpi 10 ~/.config/conky/scripts/disk_traffic.lua sda3 sdb1}
 --   Note that if the device is not mounted, there will be no ooutput.
 --
--- Output:
--- /dev/sda3    226G    10% [###                  ]
---
 
 require "colors"
 require "fonts"
