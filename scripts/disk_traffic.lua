@@ -5,10 +5,10 @@
 -- specified disk.
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/disk_size.lua [<DEVICE>]}:
---   e.g. for /dev/sda3:
---   ${execpi 10 ~/.config/conky/scripts/disk_size.lua sda3}
---   if <DEVICE> is skipped, will display info on available /dev/sdaX and sdbX.
+--   ${execpi <TIME_PERIOD> <PATH>/disk_traffic.lua <DEVICE> [<DEVICE> ...]}:
+--   e.g. for /dev/sda3 and /dev/sdb1:
+--   ${execpi 10 ~/.config/conky/scripts/disk_traffic.lua sda3 sdb1}
+--   Note that if the device is not mounted, there will be no ooutput.
 --
 -- Output:
 -- /dev/sda3    226G    10% [###                  ]

@@ -5,10 +5,11 @@
 -- specified disk and also prints the indicator bar.
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/disk_size.lua [<DEVICE>]}:
---   e.g. for /dev/sda3:
---   ${execpi 10 ~/.config/conky/scripts/disk_size.lua sda3}
---   if <DEVICE> is skipped, will print info on available /dev/sdaX and sdbX.
+--   ${execpi <TIME_PERIOD> <PATH>/disk_size.lua [<DEVICE>  <DEVICE> ...]}:
+--   e.g. for /dev/sda3 and /dev/sdb1:
+--   ${execpi 10 ~/.config/conky/scripts/disk_size.lua sda3 sdb1}
+--   if <DEVICE>s are skipped, will print info on available /dev/sdaX and sdbX.
+--   Note that if the device is not mounted, there will be no ooutput.
 --
 -- Output:
 -- /dev/sda3    226G    10% [###                  ]
@@ -65,7 +66,7 @@ function get_dev_info(cmd_result, dev_id, dashes)
     size, perc, mnt = get_size_mnt(cmd_result, dev_id)
     if size == nil then
         if dashes then
-            return colors.title .. dev_id .. cmds.tab50 .. "  - - -\n"
+            return colors.title .. dev_id .. cmds.tab40 .. "  - - -\n"
         else
             return nil
         end
@@ -81,7 +82,7 @@ function get_dev_info(cmd_result, dev_id, dashes)
         color_bar = colors.warning
     end
 
-    local output = colors.title .. dev_id .. cmds.tab50 .. colors.text .. size ..
+    local output = colors.title .. dev_id .. cmds.tab40 .. colors.text .. size ..
                    cmds.rjust .. color .. perc .. "%  " .. color_bar .. cmds.fsbar .. mnt .. "}\n"
 
     return output
@@ -107,8 +108,14 @@ if arg[1] == nil then
         end
     end
 else
-    dev_id = "/dev/" .. arg[1]
-    output = get_dev_info(cmd_result, dev_id, true)
+    for i = 1, #arg do
+        dev_id = "/dev/" .. arg[i]
+        size, _, _ = get_size_mnt(cmd_result, dev_id)
+        if size ~= nil then
+            result =  get_dev_info(cmd_result, dev_id, true)
+            output = output .. result
+        end
+    end
 end
 
 io.write(output)
