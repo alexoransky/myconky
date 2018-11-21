@@ -21,6 +21,11 @@ cmds.sys_name = "${sysname}"
 cmds.kernel = "${kernel}"
 cmds.diskio_read = "${diskio_read /dev/sdXY}"
 cmds.diskio_write = "${diskio_write /dev/sdXY}"
+-- processes
+cmds.top_name = "${top name X}"
+cmds.top_pid = "${top pid X}"
+cmds.top_cpu = "${top cpu X}"
+cmds.top_mem = "${top mem X}"
 -- network
 cmds.addr = "${addr XXX}"
 cmds.dn_speed = "${downspeed XXX}"

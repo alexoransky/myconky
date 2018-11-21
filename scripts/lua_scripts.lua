@@ -101,4 +101,37 @@ function conky_metar(icao)
            cmds.metar_wind_speed:gsub("ICAO", icao) .. " km/h"
 end
 
-io.write(conky_metar("KMLB"))
+
+-- returns
+-- ${color3}${font Roboto:size=9:weight:bold}NAME${alignr}PID       CPU        MEM
+-- ${color6}${font Roboto:size=9:weight:regular}\
+-- ${top name 1}${alignr}${color6}${top pid 1}  ${top cpu 1}%  ${top mem 1}%
+-- ${top name 2}${alignr}${color6}${top pid 2}  ${top cpu 2}%  ${top mem 2}%
+-- ${top name 3}${alignr}${color6}${top pid 3}  ${top cpu 3}%  ${top mem 3}%
+-- ${top name 4}${alignr}${color6}${top pid 4}  ${top cpu 4}%  ${top mem 4}%
+-- ${top name 5}${alignr}${color6}${top pid 5}  ${top cpu 5}%  ${top mem 5}%
+function conky_ps(total)
+    if total == nil then
+        return "\\"
+    end
+
+    local cnt = tonumber(total)
+    if cnt < 1 then
+        return "\\"
+    end
+
+    local output = colors.section .. fonts.section .. "NAMES" .. cmds.rjust ..
+                   "PID       CPU        MEM\n" .. colors.normal .. fonts.text
+    for i = 1, cnt do
+        output = output .. cmds.top_name:gsub("X", i) .. cmds.rjust ..
+                 cmds.top_pid:gsub("X", i) .. "  " ..
+                 cmds.top_cpu:gsub("X", i) .. "%  " .. cmds.top_mem:gsub("X", i) .. "%"
+        if i ~= cnt then
+            output = output .. "\n"
+        end
+    end
+
+    return output
+end
+
+io.write(conky_ps(arg[1]))
