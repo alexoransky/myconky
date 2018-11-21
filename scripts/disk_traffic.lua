@@ -62,8 +62,8 @@ function get_dev_traffic(dev_id)
                    colors.title .. cmds.center .. "          " .. dev_id ..
                    colors.normal .. cmds.rjust .. cmds.diskio_read:gsub("/dev/sdXY", dev_id) ..
                    fonts.symbols .. "  ▲" .. fonts.text .. "\n" ..
-                   colors.normal_bar .. cmds.diskgr_write:gsub("/dev/sdXY", dev_id) ..
-                   cmds.rjust .. cmds.diskgr_read:gsub("/dev/sdXY", dev_id) .. "\n"
+                   colors.normal_bar .. cmds.disk_write_gr:gsub("/dev/sdXY", dev_id) ..
+                   cmds.rjust .. cmds.disk_read_gr:gsub("/dev/sdXY", dev_id) .. "\n"
     return output
 end
 

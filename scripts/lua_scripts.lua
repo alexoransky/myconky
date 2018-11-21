@@ -65,4 +65,10 @@ function conky_section(section)
 end
 
 
+-- returns
+--${color7}${cpugraph 20,278 color7 ff0000 -t}
+function conky_cpu_graph()
+    return colors.normal_bar .. cmds.cpu_gr
+end
+
 io.write(conky_loadavg())

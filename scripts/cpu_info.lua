@@ -90,7 +90,7 @@ function get_cpu_info(cmd_result, dev_id, cpu_num)
 
     local output = core_str .. cmds.tab40 .. color .. "+" .. tostring(t) .. "°C " ..
                    cmds.rjust .. color .. cmds.cpu:gsub("cpuX", cpu_str) .. "%  " ..
-                   colors.normal_bar .. cmds.cpubar:gsub("cpuX", cpu_str) .. "\n"
+                   colors.normal_bar .. cmds.cpu_bar:gsub("cpuX", cpu_str) .. "\n"
 
     return output
 end
