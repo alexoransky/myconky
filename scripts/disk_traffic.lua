@@ -56,31 +56,61 @@ function get_size_mnt(cmd_out, dev_str)
 end
 
 
-function get_dev_traffic(dev_id)
+function get_dev_traffic(dev_id, total_cnt)
     local output = colors.normal .. fonts.symbols .. "▼  " .. fonts.text ..
-                   cmds.diskio_write:gsub("/dev/sdXY", dev_id) ..
-                   colors.title .. cmds.center .. "          " .. dev_id ..
-                   colors.normal .. cmds.rjust .. cmds.diskio_read:gsub("/dev/sdXY", dev_id) ..
-                   fonts.symbols .. "  ▲" .. fonts.text .. "\n" ..
-                   colors.normal_bar .. cmds.disk_write_gr:gsub("/dev/sdXY", dev_id) ..
-                   cmds.rjust .. cmds.disk_read_gr:gsub("/dev/sdXY", dev_id) .. "\n"
+                   cmds.diskio_write:gsub("/dev/sdXY", dev_id)
+
+    if total_cnt > 1 then
+        output = output .. colors.title .. cmds.center .. "          " .. dev_id .. colors.normal
+    end
+
+    output = output .. cmds.rjust .. cmds.diskio_read:gsub("/dev/sdXY", dev_id) ..
+                       fonts.symbols .. "  ▲" .. fonts.text .. "\n" ..
+                       colors.normal_bar .. cmds.disk_write_gr:gsub("/dev/sdXY", dev_id) ..
+                       cmds.rjust .. cmds.disk_read_gr:gsub("/dev/sdXY", dev_id) .. "\n"
+
+    return output
+end
+
+
+function total_dev_active(cmd_result, args)
+    local size = nil
+    local cnt = 0
+
+    for i = 1, #args do
+        dev_id = "/dev/" .. args[i]
+        size, _, _ = get_size_mnt(cmd_result, dev_id)
+        if size ~= nil then
+            cnt = cnt + 1
+        end
+    end
+
+    return cnt
+end
+
+
+function iterate_devs(cmd_result, args)
+    local dev_id = ""
+    local output = ""
+    local result = ""
+    local size = nil
+
+    local cnt = total_dev_active(cmd_result, args)
+
+    for i = 1, #args do
+        dev_id = "/dev/" .. args[i]
+        size, _, _ = get_size_mnt(cmd_result, dev_id)
+        if size ~= nil then
+            result = get_dev_traffic(dev_id, cnt)
+            output = output .. result
+        end
+    end
+
     return output
 end
 
 
 local cmd_result = utils.run_command("df -h")
-local dev_id = ""
-local output = ""
-local result = ""
-local size = nil
-
-for i = 1, #arg do
-    dev_id = "/dev/" .. arg[i]
-    size, _, _ = get_size_mnt(cmd_result, dev_id)
-    if size ~= nil then
-        result = get_dev_traffic(dev_id)
-        output = output .. result
-    end
-end
+local output = iterate_devs(cmd_result, arg)
 
 io.write(output)
