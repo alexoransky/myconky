@@ -56,6 +56,13 @@ function conky_uptime()
     return colors.title .. "Uptime " .. cmds.rjust .. colors.text .. cmds.uptime
 end
 
+
+-- returns
+-- ${color2}UTC ${alignr}${color1}$utime
+function conky_utc()
+    return colors.title .. "UTC " .. cmds.rjust .. colors.text .. cmds.utc
+end
+
 -- returns
 -- ${color3}${font Roboto:size=9:weight:bold}<TITLE> ${hr 2}
 -- ${font Roboto:size=9:weight:regular}\
@@ -71,4 +78,27 @@ function conky_cpu_graph()
     return colors.normal_bar .. cmds.cpu_gr
 end
 
-io.write(conky_loadavg())
+
+-- returns
+-- ${color2}KMLB \
+-- ${alignr}${color6}${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb last_update} UTC
+-- ${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb cloud_cover} \
+-- ${alignr}${color6}${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb weather}
+-- T: ${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb temperature} °C   \
+-- P: ${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb pressure} hPa   \
+-- H: ${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb humidity}%   \
+-- ${alignr}W: ${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb wind_dir}  \
+-- ${weather http://tgftp.nws.noaa.gov/data/observations/metar/stations/ kmlb wind_speed} km/h
+function conky_metar(icao)
+    return colors.title .. icao .. cmds.rjust .. colors.normal ..
+           cmds.metar_time:gsub("ICAO", icao) .. " UTC\n" ..
+           cmds.metar_cloud_cover:gsub("ICAO", icao) .. cmds.rjust ..
+           colors.warning .. cmds.metar_weather:gsub("ICAO", icao) .. colors.normal .. "\n" ..
+           "T:  " .. cmds.metar_temperature:gsub("ICAO", icao) .. " °C   "  ..
+           "P:  " .. cmds.metar_pressure:gsub("ICAO", icao) .. "  hPa      "  ..
+           "H:  " .. cmds.metar_humidity:gsub("ICAO", icao) .. " %   "  .. cmds.rjust ..
+           "W:  " .. cmds.metar_wind_dir:gsub("ICAO", icao) .. "  " ..
+           cmds.metar_wind_speed:gsub("ICAO", icao) .. " km/h"
+end
+
+io.write(conky_metar("KMLB"))

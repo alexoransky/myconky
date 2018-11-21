@@ -15,6 +15,7 @@ cmds.user_number = "${user_number}"
 cmds.user_names = "${user_names}"
 cmds.loadavg = "${loadavg}"
 cmds.uptime = "${uptime}"
+cmds.utc = "${utime}"
 cmds.host_name = "${nodename}"
 cmds.sys_name = "${sysname}"
 cmds.kernel = "${kernel}"
@@ -36,5 +37,17 @@ cmds.disk_write_gr = "${diskiograph_write /dev/sdXY 20, 130}"
 cmds.dn_speed_gr = "${downspeedgraph XXX 20, 130 color7 3399FF 10000000 -l -t}"
 cmds.up_speed_gr = "${upspeedgraph XXX 20, 130 color7 3399FF 10000000 -l -t}"
 cmds.cpu_gr = "${cpugraph 20,278 color7 ff0000 -t}"
+-- weather
+cmds.metar_templ = "${weather SRC ICAO INFO}"
+cmds.metar_src = "http://tgftp.nws.noaa.gov/data/observations/metar/stations/"
+cmds.metar_template = cmds.metar_templ:gsub("SRC", cmds.metar_src)
+cmds.metar_time = cmds.metar_template:gsub("INFO", "last_update")
+cmds.metar_cloud_cover = cmds.metar_template:gsub("INFO", "cloud_cover")
+cmds.metar_weather = cmds.metar_template:gsub("INFO", "weather")
+cmds.metar_temperature = cmds.metar_template:gsub("INFO", "temperature")
+cmds.metar_pressure = cmds.metar_template:gsub("INFO", "pressure")
+cmds.metar_humidity = cmds.metar_template:gsub("INFO", "humidity")
+cmds.metar_wind_dir = cmds.metar_template:gsub("INFO", "wind_dir")
+cmds.metar_wind_speed = cmds.metar_template:gsub("INFO", "wind_speed")
 
 return cmds
