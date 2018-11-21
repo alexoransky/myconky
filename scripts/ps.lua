@@ -35,11 +35,12 @@ CPU = 2
 TOTAL = 3
 PROCESSED = 4
 NAME = 5
+PID = 6
 
 
 function get_info(s)
     tokens = utils.split_str(s)
-	return tokens[2], tonumber(tokens[3]), tonumber(tokens[4])
+	return tokens[2], tonumber(tokens[3]), tonumber(tokens[4]), tonumber(tokens[1])
 end
 
 
@@ -48,7 +49,7 @@ function process_results(cmd_result, group)
     local i = 1
 
     for line in cmd_result:gmatch("[^\r\n]+") do
-        name, mem, cpu = get_info(line)
+        name, mem, cpu, pid = get_info(line)
         if name ~= "COMMAND" then
             if group then
                 if mem ~= 0 or cpu ~= 0 then
@@ -59,6 +60,7 @@ function process_results(cmd_result, group)
                         info[TOTAL] = mem + cpu
                         info[PROCESSED] = false
                         info[NAME] = name
+                        info[PID] = -1
                         ps[name] = info
                     else
                         local info = ps[name]
@@ -75,6 +77,7 @@ function process_results(cmd_result, group)
                     info[TOTAL] = mem + cpu
                     info[PROCESSED] = false
                     info[NAME] = name
+                    info[PID] = pid
                     ps[i] = info
                     i = i+1
                 end
@@ -114,19 +117,35 @@ function get_top(ps, cnt, idx)
 end
 
 
-function get_output(sorted)
-    local output = colors.title .. "NAME" .. cmds.rjust ..
-                   "CPU                           MEM\n" .. colors.normal
+function get_output(sorted, grouped)
+    local output = colors.title .. "NAME" .. cmds.rjust
+    if grouped then
+        output = output ..  "CPU                           MEM\n" .. colors.normal
+    else
+        output = output ..  "PID          CPU         MEM\n" .. colors.normal
+    end
 
     local spaces = ""
+    local spaces2 = ""
     for k, v in pairs(sorted) do
-        if v[MEM] >= 10.0 then
+        output = output .. v[NAME] .. cmds.rjust
+        if grouped then
             spaces = "                         "
+            if v[MEM] < 10.0 then
+                spaces = spaces .. "  "
+            end
+            output = output .. v[CPU] .. "%" .. spaces .. v[MEM] .. "%\n"
         else
-            spaces = "                           "
+            spaces = "       "
+            spaces2 = "       "
+            if v[MEM] < 10.0 then
+                spaces = spaces .. "  "
+            end
+            if v[CPU] < 10.0 then
+                spaces2 = spaces2 .. "  "
+            end
+            output = output .. v[PID] .. spaces2 .. v[CPU] .. "%" .. spaces .. v[MEM] .. "%\n"
         end
-        output = output .. v[NAME] .. cmds.rjust .. v[CPU] .. "%" ..
-                 spaces .. v[MEM] .. "%\n"
     end
 
     return output
@@ -153,7 +172,7 @@ if cnt ~= nil then
     local output = ""
     local ps = process_results(cmd_result, group)
     local sorted = get_top(ps, cnt, idx)
-    local output = get_output(sorted)
+    local output = get_output(sorted, group)
 
     io.write(output)
 end
