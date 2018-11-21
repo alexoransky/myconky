@@ -120,7 +120,7 @@ function conky_ps(total)
         return "\\"
     end
 
-    local output = colors.section .. fonts.section .. "NAMES" .. cmds.rjust ..
+    local output = colors.title .. "NAMES" .. cmds.rjust ..
                    "PID       CPU        MEM\n" .. colors.normal .. fonts.text
     for i = 1, cnt do
         output = output .. cmds.top_name:gsub("X", i) .. cmds.rjust ..
@@ -134,4 +134,9 @@ function conky_ps(total)
     return output
 end
 
-io.write(conky_ps(arg[1]))
+-- returns
+-- ${color2}Total P/T ${alignr}${color1}${processes} / ${threads}
+function conky_processes_treads()
+    return colors.title .. "Total P/T " .. cmds.rjust .. colors.normal ..
+           cmds.processes .. " / " .. cmds.threads
+end

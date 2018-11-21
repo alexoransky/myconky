@@ -26,6 +26,8 @@ cmds.top_name = "${top name X}"
 cmds.top_pid = "${top pid X}"
 cmds.top_cpu = "${top cpu X}"
 cmds.top_mem = "${top mem X}"
+cmds.processes = "${processes}"
+cmds.threads = "${threads}"
 -- network
 cmds.addr = "${addr XXX}"
 cmds.dn_speed = "${downspeed XXX}"
