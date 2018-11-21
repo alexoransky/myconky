@@ -64,6 +64,7 @@ function utils.ltrim(s)
   return (s:gsub("^%s*", ""))
 end
 
+
 -- splits the string into words on spaces
 function utils.split_str(s)
     local words = {}
@@ -72,5 +73,6 @@ function utils.split_str(s)
     end
     return words
 end
+
 
 return utils
