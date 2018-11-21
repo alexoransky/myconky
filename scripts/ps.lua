@@ -1,34 +1,20 @@
 #!/usr/bin/env lua
 
 --
--- The script outputs a conky command to print the CPU frequency, core temp and
--- show the cpu percentage bar.
+-- The script outputs a conky command to print the top processes.
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/cpu_info.lua [options]}:
---   options:
---   -a: (all)- prints CPU freq, CPU temp, CPU percentage and CPU utilization
---              bar and prints the core temp, core percentage and core
---              utilization bar for each core.
---   <CORE ID>: is the core #: 0, 1, etc. Prints the core temp, core percentage
---              and core utilization bar
---   When options is skipped, prints CPU freq, CPU temp, CPU percentage and CPU
---   utilization bar.
+--   ${execpi <TIME_PERIOD> <PATH>/ps.lua <CNT> -c|-m|-t [-g]}:
+--   <CNT> defines the number of process to print
+--   -c will sort by CPU%, -m by Memory% and -t by total% (combined CPU and memory)
+--   -g will group processes by the command name and sum up their usage.
+--   E.g.
+--   ${execp ~/.config/conky/scripts/ps.lua 5 -t -g}
 --
---   ${execpi 3600 ~/.config/conky/scripts/cpu_info.lua}
---   ${execpi 3600 ~/.config/conky/scripts/cpu_info.lua 0}
---   ${execpi 3600 ~/.config/conky/scripts/cpu_info.lua -a}
---
--- Output:
--- 2.74 GHz:   +50°C   5%  [####     ]
--- 1:          +50°C   5%  [####     ]
---
--- The script requires lm-sensors installed.
 
 require "colors"
 require "cmds"
 require "utils"
-
 
 MEM = 1
 CPU = 2
