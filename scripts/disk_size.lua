@@ -83,7 +83,7 @@ function get_dev_info(cmd_result, dev_id, dashes)
     end
 
     local output = colors.title .. dev_id .. cmds.tab40 .. colors.text .. size ..
-                   cmds.rjust .. color .. perc .. "%  " .. color_bar .. cmds.fs_bar .. mnt .. "}\n"
+                   cmds.rjust .. color .. perc .. "%  " .. color_bar .. cmds.fs_bar:gsub("XXX", mnt) .. "\n"
 
     return output
 end

@@ -36,8 +36,7 @@ cmds.dn_total = "${totaldown XXX}"
 cmds.up_total = "${totalup XXX}"
 -- bars
 cmds.cpu_bar = "${cpubar cpuX 6, 100}"
--- TODO: fix the command
-cmds.fs_bar = "${fs_bar 6, 100 "
+cmds.fs_bar = "${fs_bar 6, 100 XXX}"
 -- graphs
 cmds.disk_read_gr = "${diskiograph_read /dev/sdXY 20, 130}"
 cmds.disk_write_gr = "${diskiograph_write /dev/sdXY 20, 130}"

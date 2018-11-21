@@ -31,13 +31,15 @@ function get_ip_addr(cmd_result)
 end
 
 
+local cmd = "curl -s ipinfo.io/ip"
+
 local output = ""
 if arg[1] ~= nil then
     local infc = arg[1]
     output = colors.text .. cmds.addr:gsub("XXX", infc) ..
              colors.title ..cmds.center .. "                " .. infc
     if arg[2] == "-e" then
-        local cmd_result = utils.run_command("curl ipinfo.io/ip")
+        local cmd_result = utils.run_command(cmd)
         output = output .. get_ip_addr(cmd_result)
     else
         output = output .. "\n"

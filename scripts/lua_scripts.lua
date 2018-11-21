@@ -121,7 +121,7 @@ function conky_ps(total)
     end
 
     local output = colors.title .. "NAMES" .. cmds.rjust ..
-                   "PID       CPU        MEM\n" .. colors.normal .. fonts.text
+                   "PID       CPU        MEM\n" .. colors.normal
     for i = 1, cnt do
         output = output .. cmds.top_name:gsub("X", i) .. cmds.rjust ..
                  cmds.top_pid:gsub("X", i) .. "  " ..
