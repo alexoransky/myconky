@@ -155,7 +155,6 @@ end
 
 if cnt ~= nil then
     local cmd_result = utils.run_command("ps -eo pid,comm,%mem,%cpu")
-    local output = ""
     local ps = process_results(cmd_result, group)
     local sorted = get_top(ps, cnt, idx)
     local output = get_output(sorted, group)
