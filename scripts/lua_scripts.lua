@@ -140,3 +140,37 @@ function conky_processes_treads()
     return colors.title .. "Total P/T " .. cmds.rjust .. colors.normal ..
            cmds.processes .. " / " .. cmds.threads
 end
+
+
+-- returns
+-- ${color2}RAM: ${tab 38} \
+-- ${color1}${memmax} ${alignr}${color6}$memperc%  ${color4}${membar 6, 100}
+-- ${color2}Swap: ${tab 38} \
+-- ${color1}${swapmax} ${alignr}${color6}$swapperc%  ${color4}${swapbar 6, 100}
+function conky_mem_size(swap)
+    local mem_used = tonumber(conky_parse(cmds.mem_used))
+    local swap_used = tonumber(conky_parse(cmds.swap_used))
+
+	local color = colors.normal
+	if mem_used > 75 then
+		color = colors.warning
+	end
+	local output = colors.title .. "RAM" .. cmds.tab40 .. colors.text ..
+                   cmds.mem_total .. cmds.rjust .. color .. mem_used ..
+                   "%  " .. colors.normal_bar .. cmds.mem_bar
+
+    if swap ~= "-s" or swap_used < 1 and mem_used <= 75 then
+        return output
+    end
+
+	color = colors.normal
+	if swap_used > 75 then
+		color = colors.warning
+	end
+
+    output = output .. "\n" .. colors.title .. "SWAP" .. cmds.tab40 ..
+             colors.text .. cmds.swap_total .. cmds.rjust .. color ..
+             swap_used .. "%  " .. colors.normal_bar .. cmds.swap_bar
+
+    return output
+end

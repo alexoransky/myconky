@@ -28,6 +28,11 @@ cmds.top_cpu = "${top cpu X}"
 cmds.top_mem = "${top mem X}"
 cmds.processes = "${processes}"
 cmds.threads = "${threads}"
+-- memory
+cmds.mem_total = "${memmax}"
+cmds.mem_used = "${memperc}"
+cmds.swap_total = "${swapmax}"
+cmds.swap_used = "${swapperc}"
 -- network
 cmds.addr = "${addr XXX}"
 cmds.dn_speed = "${downspeed XXX}"
@@ -37,6 +42,8 @@ cmds.up_total = "${totalup XXX}"
 -- bars
 cmds.cpu_bar = "${cpubar cpuX 6, 100}"
 cmds.fs_bar = "${fs_bar 6, 100 XXX}"
+cmds.mem_bar = "${membar 6, 100}"
+cmds.swap_bar = "${swapbar 6, 100}"
 -- graphs
 cmds.disk_read_gr = "${diskiograph_read /dev/sdXY 20, 130}"
 cmds.disk_write_gr = "${diskiograph_write /dev/sdXY 20, 130}"
