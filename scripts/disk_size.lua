@@ -76,10 +76,10 @@ function get_dev_info(cmd_result, dev_id, dashes)
     local color_bar = colors.normal_bar
     if perc > 90 then
     	color = colors.critical
-        color_bar = colors.critical
+        color_bar = colors.critical_bar
     elseif perc > 75 then
     	color = colors.warning
-        color_bar = colors.warning
+        color_bar = colors.warning_bar
     end
 
     local output = colors.title .. dev_id .. cmds.tab40 .. colors.text .. size ..

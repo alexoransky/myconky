@@ -152,25 +152,29 @@ function conky_mem_size(swap)
     local swap_used = tonumber(conky_parse(cmds.swap_used))
 
 	local color = colors.normal
+    local color_bar = colors.normal_bar
 	if mem_used > 75 then
 		color = colors.warning
+        color_bar = colors.warning_bar
 	end
 	local output = colors.title .. "RAM" .. cmds.tab40 .. colors.text ..
                    cmds.mem_total .. cmds.rjust .. color .. mem_used ..
-                   "%  " .. colors.normal_bar .. cmds.mem_bar
+                   "%  " .. color_bar .. cmds.mem_bar
 
     if swap ~= "-s" or swap_used < 1 and mem_used <= 75 then
         return output
     end
 
 	color = colors.normal
+    color_bar = colors.normal_bar
 	if swap_used > 75 then
 		color = colors.warning
+        color_bar = colors.warning_bar
 	end
 
     output = output .. "\n" .. colors.title .. "SWAP" .. cmds.tab40 ..
              colors.text .. cmds.swap_total .. cmds.rjust .. color ..
-             swap_used .. "%  " .. colors.normal_bar .. cmds.swap_bar
+             swap_used .. "%  " .. color_bar .. cmds.swap_bar
 
     return output
 end

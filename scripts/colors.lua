@@ -6,6 +6,8 @@ colors.section = "${color3}"
 colors.normal = "${color6}"
 colors.normal_bar = "${color4}"
 colors.warning = "${color8}"
+colors.warning_bar = "${color8}"
 colors.critical = "${color9}"
+colors.critical_bar = "${color9}"
 
 return colors
