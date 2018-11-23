@@ -41,13 +41,25 @@ function get_disk_test(cmd_result, age)
         return colors.title .. "Test " .. cmds.rjust .. "  - - -\n"
     end
 
+    -- find first records for the short and the long tests
     local p1 = cmd_result:find("Short offline", ref)
-    if p1 == nil then
+    local short = p1
+    local p1 = cmd_result:find("Extended offline", ref)
+    local long = p1
+    if short == nil and long == nil then
         return colors.title .. "Test " .. cmds.rjust .. "  - - -\n"
     end
 
+    -- find the latest test, newest first
+    local test = "Long test "
+    if long == nil or short < long then
+        p1 = short
+        test = "Short test "
+    end
+
+    -- find the test result and the age of the disk when it was performed
     local p2 = cmd_result:find("\n", p1)
-    local temp = cmd_result:sub(p1 + 14, p2-1)
+    local temp = cmd_result:sub(p1 + 17, p2-1)
     local words = utils.split_str(temp)
 
     local status = "FAIL"
@@ -58,6 +70,7 @@ function get_disk_test(cmd_result, age)
         color = colors.normal
     end
 
+    -- determine the color based on the test age
     local test_hr = tonumber(words[5])
     local t_diff = age - test_hr
     if (color == colors.normal) and (t_diff < 0 or t_diff > 24) then
@@ -69,7 +82,7 @@ function get_disk_test(cmd_result, age)
         test_hr_str = tostring(t_diff) .. "h ago:  "
     end
 
-    return cmds.rjust .. color .. test_hr_str .. "TEST " .. status .. "\n"
+    return cmds.rjust .. color .. test_hr_str .. test .. status .. "\n"
 end
 
 local dev_id = "/dev/" .. arg[1]
