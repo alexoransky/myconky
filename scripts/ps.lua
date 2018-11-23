@@ -36,7 +36,10 @@ function process_results(cmd_result, group)
 
     for line in cmd_result:gmatch("[^\r\n]+") do
         name, mem, cpu, pid = get_info(line)
-        if name ~= "COMMAND" then
+        if name ~= nil and name ~= "COMMAND" then
+            if mem == nil then mem = 0.0 end
+            if cpu == nil then cpu = 0.0 end
+            if pid == nil then pid = 0 end
             if group then
                 if mem ~= 0 or cpu ~= 0 then
                     if ps[name] == nil then
