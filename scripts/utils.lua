@@ -75,4 +75,13 @@ function utils.split_str(s)
 end
 
 
+function utils.hr_to_mdh(hr)
+    local m = math.floor(hr / 744)
+    local d = math.floor((hr - 744*m) / 24)
+    local h = math.floor(math.fmod(hr, 24))
+
+    return m .. "m " .. d .. "d " .. h .. "h"
+end
+
+
 return utils
