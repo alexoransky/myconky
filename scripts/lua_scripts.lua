@@ -94,10 +94,10 @@ function conky_metar(icao)
            cmds.metar_time:gsub("ICAO", icao) .. " UTC\n" ..
            cmds.metar_cloud_cover:gsub("ICAO", icao) .. cmds.rjust ..
            colors.warning .. cmds.metar_weather:gsub("ICAO", icao) .. colors.normal .. "\n" ..
-           "T:  " .. cmds.metar_temperature:gsub("ICAO", icao) .. " °C   "  ..
-           "P:  " .. cmds.metar_pressure:gsub("ICAO", icao) .. "  hPa      "  ..
-           "H:  " .. cmds.metar_humidity:gsub("ICAO", icao) .. " %   "  .. cmds.rjust ..
-           "W:  " .. cmds.metar_wind_dir:gsub("ICAO", icao) .. "  " ..
+           colors.title .. "T:  " .. colors.normal ..cmds.metar_temperature:gsub("ICAO", icao) .. " °C   "  ..
+           colors.title .. "P:  " .. colors.normal ..cmds.metar_pressure:gsub("ICAO", icao) .. " hPa   "  ..
+           colors.title .. "H:  " .. colors.normal ..cmds.metar_humidity:gsub("ICAO", icao) .. " %   "  .. cmds.rjust ..
+           colors.title .. "W:  " .. colors.normal ..cmds.metar_wind_dir:gsub("ICAO", icao) .. "  " ..
            cmds.metar_wind_speed:gsub("ICAO", icao) .. " km/h"
 end
 
