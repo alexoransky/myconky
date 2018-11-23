@@ -51,10 +51,10 @@ function get_disk_test(cmd_result, age)
     end
 
     -- find the latest test, newest first
-    local test = "Long test "
+    local test = "Long "
     if long == nil or short < long then
         p1 = short
-        test = "Short test "
+        test = "Short "
     end
 
     -- find the test result and the age of the disk when it was performed
