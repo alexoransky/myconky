@@ -1,5 +1,4 @@
 # myconky
-Conky config and Lua scripts
 
 Conky is an awesome tool to monitor the computer but the config file can be a total mess.
 The problem is that conky does not support user variables, nor does it provide loops. As a result, the same command gets executed several times from the config and multiple if statements are a nightmare.
