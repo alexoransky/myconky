@@ -36,9 +36,11 @@ function get_pkgs(cmd_result, max_cnt)
     end
 
     -- split into lines and right-justify
-    local output = ""
+    local output = colors.title .. "PACKAGE" .. cmds.tab55 .. "OLD" ..
+                   cmds.tab102 .. "NEW\n" .. colors.normal
     for line in temp:gmatch("[^\r\n]+") do
-         output = output .. " " .. cmds.rjust .. line .. "\n"
+        local words = utils.split_str(line)
+        output = output .. words[1] .. cmds.tab55 .. words[2] .. cmds.tab102 .. words[4] .. "\n"
      end
 
     return output
@@ -61,6 +63,9 @@ function get_updates_info(cmd_result, max_cnt)
     local color = colors.normal
     if count > 0 then
     	color = colors.warning
+    end
+    if count > max_cnt then
+    	color = colors.critical
     end
 
     local first_line = colors.title .. title .. cmds.rjust .. color ..  tostring(count)
