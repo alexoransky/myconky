@@ -73,16 +73,17 @@ function get_disk_test(cmd_result, age)
     -- determine the color based on the test age
     local test_hr = tonumber(words[5])
     local t_diff = age - test_hr
-    if (color == colors.normal) and (t_diff < 0 or t_diff > 24) then
-        color = colors.warning
+    local color_age = colors.normal
+    if t_diff < 0 or t_diff > 24 then
+        color_age = colors.warning
     end
 
     local test_hr_str = ""
     if t_diff > 0 then
-        test_hr_str = tostring(t_diff) .. "h ago:  "
+        test_hr_str = tostring(t_diff) .. "h ago   "
     end
 
-    return cmds.rjust .. color .. test_hr_str .. test .. status .. "\n"
+    return cmds.rjust .. color_age .. test_hr_str .. color .. test .. status .. "\n"
 end
 
 local dev_id = "/dev/" .. arg[1]
