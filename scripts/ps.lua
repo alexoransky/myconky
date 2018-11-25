@@ -106,21 +106,35 @@ end
 function get_output(sorted, grouped)
     local output = colors.title .. "NAME" .. cmds.rjust
     if grouped then
-        output = output ..  "CPU                           MEM\n" .. colors.normal
+        output = output ..  "CPU                           MEM\n"
     else
-        output = output ..  "PID          CPU         MEM\n" .. colors.normal
+        output = output ..  "PID          CPU         MEM\n"
     end
 
     local spaces = ""
     local spaces2 = ""
+    local color_mem = colors.normal
+    local color_cpu = colors.normal
     for k, v in pairs(sorted) do
-        output = output .. v[NAME] .. cmds.rjust
+        output = output .. colors.normal .. v[NAME] .. cmds.rjust
         if grouped then
             spaces = "                         "
             if v[MEM] < 10.0 then
                 spaces = spaces .. "  "
             end
-            output = output .. v[CPU] .. "%" .. spaces .. v[MEM] .. "%\n"
+            color_mem = colors.normal
+            color_cpu = colors.normal
+            if v[CPU] > 200 then
+                color_cpu = colors.critical
+            elseif v[CPU] > 100 then
+                color_cpu = colors.warning
+            end
+            if v[MEM] > 90 then
+                color_mem = colors.critical
+            elseif v[MEM] > 75 then
+                color_mem = colors.warning
+            end
+            output = output .. color_cpu .. v[CPU] .. "%" .. spaces .. color_mem .. v[MEM] .. "%\n"
         else
             spaces = "       "
             spaces2 = "       "
@@ -130,7 +144,19 @@ function get_output(sorted, grouped)
             if v[CPU] < 10.0 then
                 spaces2 = spaces2 .. "  "
             end
-            output = output .. v[PID] .. spaces2 .. v[CPU] .. "%" .. spaces .. v[MEM] .. "%\n"
+            color_mem = colors.normal
+            color_cpu = colors.normal
+            if v[CPU] > 200 then
+                color_cpu = colors.critical
+            elseif v[CPU] > 100 then
+                color_cpu = colors.warning
+            end
+            if v[MEM] > 90 then
+                color_mem = colors.critical
+            elseif v[MEM] > 75 then
+                color_mem = colors.warning
+            end
+            output = output .. v[PID] .. spaces2 .. color_cpu .. v[CPU] .. "%" .. spaces .. color_mem .. v[MEM] .. "%\n"
         end
     end
 
