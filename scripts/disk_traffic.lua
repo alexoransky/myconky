@@ -1,4 +1,8 @@
 #!/usr/bin/env lua
+--
+-- Alex Oransky, 2018
+-- https://github.com/alexoransky/myconky
+--
 
 --
 -- The script outputs a conky command to display the disk traffic for the

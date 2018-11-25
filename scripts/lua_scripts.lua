@@ -1,8 +1,8 @@
 #!/usr/bin/env lua
-
-require "colors"
-require "fonts"
-require "cmds"
+--
+-- Alex Oransky, 2018
+-- https://github.com/alexoransky/myconky
+--
 
 --
 -- This script contains:
@@ -15,6 +15,9 @@ require "cmds"
 -- Those functions are implemented in stand-alone scripts.
 --
 
+require "colors"
+require "fonts"
+require "cmds"
 
 -- returns
 -- ${color2}Logged In ${alignr}${colorX}${user_number}

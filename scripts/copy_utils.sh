@@ -1,3 +1,8 @@
+#
+# Alex Oransky, 2018
+# https://github.com/alexoransky/myconky
+#
+
 DEST='/usr/lib/lua/5.3'
 
 sudo cp colors.lua $DEST

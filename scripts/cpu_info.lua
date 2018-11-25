@@ -72,7 +72,13 @@ end
 function get_cpu_info(cmd_result, dev_id, cpu_num)
     t, h, c = get_temp(cmd_result, dev_id, "high", "crit")
     if t == nil then
-        return colors.warning .. "---\n"
+        return colors.warning .. "- - -\n"
+    end
+
+    local cpu_str = "cpu" .. cpu_num
+    local core_str = colors.title .. tostring(cpu_num)
+    if cpu_num == 0 then
+        core_str = colors.text .. cmds.freq .. " GHz"
     end
 
     local color = colors.normal
@@ -80,12 +86,6 @@ function get_cpu_info(cmd_result, dev_id, cpu_num)
     	color = colors.critical
     elseif t > h then
     	color = colors.warning
-    end
-
-    local cpu_str = "cpu" .. cpu_num
-    local core_str = colors.title .. tostring(cpu_num)
-    if cpu_num == 0 then
-        core_str = colors.text .. cmds.freq .. " GHz"
     end
 
     local output = core_str .. cmds.tab40 .. color .. "+" .. tostring(t) .. "°C " ..

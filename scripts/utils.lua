@@ -1,3 +1,8 @@
+--
+-- Alex Oransky, 2018
+-- https://github.com/alexoransky/myconky
+--
+
 utils = {}
 
 -- reads a line from file "fpath" if the line contains "item"

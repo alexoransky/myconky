@@ -1,4 +1,8 @@
 #!/usr/bin/env lua
+--
+-- Alex Oransky, 2018
+-- https://github.com/alexoransky/myconky
+--
 
 --
 -- The script outputs conky commands to print the smartctl info (drive op age

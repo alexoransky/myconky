@@ -1,3 +1,8 @@
+--
+-- Alex Oransky, 2018
+-- https://github.com/alexoransky/myconky
+--
+
 colors = {}
 
 colors.text = "${color1}"
