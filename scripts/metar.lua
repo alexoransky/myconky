@@ -28,7 +28,7 @@ function parse_metar(cmd_result, icao)
 
     -- parse the main part, skip remarks
     -- pack 6 words in one line
-    words = utils.split_str(cmd_result:sub(ref, -4))
+    words = utils.split_str(cmd_result:sub(ref+5, -4))
     local base = 0
     local idx = base
     while true do
@@ -39,7 +39,7 @@ function parse_metar(cmd_result, icao)
             end
             output = output .. words[idx] .. "  "
         end
-        if words[idx] == nil then
+        if words[idx] == nil or words[idx] == "RMK" then
             break
         end
         base = base + 6
