@@ -64,5 +64,7 @@ cmds.metar_pressure = cmds.metar_template:gsub("INFO", "pressure")
 cmds.metar_humidity = cmds.metar_template:gsub("INFO", "humidity")
 cmds.metar_wind_dir = cmds.metar_template:gsub("INFO", "wind_dir")
 cmds.metar_wind_speed = cmds.metar_template:gsub("INFO", "wind_speed")
+-- parsing
+cmds.lua_parse = "${lua_parse FN PARAM}"
 
 return cmds

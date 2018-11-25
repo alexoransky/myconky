@@ -73,6 +73,26 @@ end
 
 
 -- returns
+-- ${color6}percentage% ${color8}${cpu_bar cpu1}
+function conky_cpu_bar(cpu_str)
+    local cmd = cmds.cpu:gsub("cpuX", cpu_str)
+    local perc = tonumber(conky_parse(cmd))
+
+    local color = colors.normal
+    local color_bar = colors.normal_bar
+    if perc > 90 then
+    	color = colors.critical
+        color_bar = colors.critical
+    elseif perc > 75 then
+    	color = colors.warning
+        color_bar = colors.warning
+    end
+
+    return color .. perc .. "%  " .. color_bar .. cmds.cpu_bar:gsub("cpuX", cpu_str)
+end
+
+
+-- returns
 --${color7}${cpugraph 20,278 color7 ff0000 -t}
 function conky_cpu_graph()
     return colors.normal_bar .. cmds.cpu_gr
