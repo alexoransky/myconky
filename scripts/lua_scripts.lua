@@ -173,7 +173,11 @@ function conky_mem_size(swap)
 
 	local color = colors.normal
     local color_bar = colors.normal_bar
-	if mem_used > 75 then
+
+    if mem_used > 90 then
+        color = colors.critical
+        color_bar = colors.critical
+	elseif mem_used > 75 then
 		color = colors.warning
         color_bar = colors.warning_bar
 	end
