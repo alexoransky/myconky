@@ -24,11 +24,11 @@ require "utils"
 
 
 function get_ip_addr(cmd_result)
-    -- parses the output of df -h command for the specified device and
+    -- parses the output of "curl -s ipinfo.io/ip" command and
     -- forms the output string that conky can parse in its turn
 
     if cmd_result:find(".") == nil then
-        return cmds.rjust .. colors.title .. "  - - -\n"
+        return cmds.rjust .. colors.warning .. "  - - -\n"
     end
 
     return cmds.rjust .. colors.text .. cmd_result
