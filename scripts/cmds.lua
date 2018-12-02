@@ -51,6 +51,7 @@ cmds.cpu_bar = "${cpubar cpuX 6, 100}"
 cmds.fs_bar = "${fs_bar 6, 100 XXX}"
 cmds.mem_bar = "${membar 6, 100}"
 cmds.swap_bar = "${swapbar 6, 100}"
+cmds.lua_bar = "${lua_bar 6, 100 FN}"
 -- graphs
 cmds.disk_read_gr = "${diskiograph_read /dev/sdXY 20, 130}"
 cmds.disk_write_gr = "${diskiograph_write /dev/sdXY 20, 130}"

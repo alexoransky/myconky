@@ -205,3 +205,9 @@ function conky_mem_size(swap)
 
     return output
 end
+
+
+-- returns the parameter back
+function conky_echo(param)
+    return param
+end

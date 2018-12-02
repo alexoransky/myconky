@@ -25,14 +25,11 @@ function get_status(cmd_result)
     -- parses the output of "ping" command and
     -- forms the output string that conky can parse in its turn
 
-    local ref = cmd_result:find("rtt min/avg/max/mdev =")
-    if ref == nil then
+    local time = utils.parse_ping_return(cmd_result)
+
+    if time == 0 then
         return cmds.rjust .. colors.critical .. "  - - -\n"
     end
-
-    local p1 = cmd_result:find("/", ref+22)
-    local p2 = cmd_result:find("/", p1+2)
-    time = tonumber(cmd_result:sub(p1+1, p2-1))
 
     local color = colors.normal
     if time > 0.9 then
