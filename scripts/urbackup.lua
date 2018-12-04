@@ -54,7 +54,7 @@ function parse_finished(cmd_result)
     -- get the status of the last backup
     local p1 = utils.rfind(cmd_result, "\"success\": ", ref)
     if p1 == nil then
-        return colors.warning .. "? ? ?\n"
+        return colors.warning .. "- - -\n"
     end
 
     local p2 = cmd_result:find("\n", p1)
@@ -147,7 +147,7 @@ function parse_running(cmd_result)
     -- get the percentage
     local p1 = cmd_result:find("\"percent_done\": ", ref)
     if p1 == nil then
-        return colors.warning .. "? ? ?\n"
+        return colors.warning .. "- - -\n"
     end
 
     local p2 = cmd_result:find("\n", p1)
