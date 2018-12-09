@@ -25,6 +25,39 @@ function utils.read_from_file(fpath, item)
 end
 
 
+-- writes an item to file "fpath"
+function utils.write_to_file(fpath, item, overwite)
+    local mode = "a"
+    if overwite ~= nil then
+        if overwite then
+            mode = "wb"
+        end
+    end
+
+    local f = io.open(fpath, mode)
+    if f == nil then
+        return false
+    end
+
+    f:write(item)
+
+    f:flush()
+    f:close()
+
+    return true
+end
+
+
+-- returns true if file exists and is readable
+function utils:file_exists(fpath)
+  local f = io.open(fpath, "rb")
+  if f then
+      f:close()
+  end
+  return f ~= nil
+end
+
+
 -- runs the shell command "cmd" and returns the stdio output
 function utils.run_command(cmd)
     local handle = io.popen(cmd)

@@ -23,58 +23,92 @@ require "colors"
 require "cmds"
 require "utils"
 
--- {
--- "capability_bits": 64,
--- "finished_processes": [{
--- "process_id": 1,
--- "success": true
--- }
--- ,{
--- "process_id": 2,
--- "success": true
--- }
--- ],
--- "internet_connected": false,
--- "internet_status": "connected_local",
--- "last_backup_time": 1543776838,
--- "running_processes": [],
--- "servers": [{
--- "internet_connection": false,
--- "name": "192.168.0.20"
--- }
--- ],
--- "time_since_last_lan_connection": 1761
--- }
+backup_ts_fname = ".urbackup_timestamp.txt"
+backup_time_entry = "\"last_backup_time\": "
+status_entry = "\"success\": "
+
+function read_cached()
+    local ts = utils.read_from_file(backup_ts_fname, backup_time_entry)
+    if ts == nil then
+        return nil
+    end
+    local time = tonumber(ts:sub(20, -1))
+
+    ts = utils.read_from_file(backup_ts_fname, status_entry)
+    if ts == nil then
+        return nil
+    end
+    local status = ts:sub(12, -1)
+
+    return time, status
+end
+
+function write_cashed(time, status)
+    local output = backup_time_entry .. time .. "\n"
+    output = output .. status_entry .. status .. "\n"
+
+    utils.write_to_file(backup_ts_fname, output, true)
+end
+
+
 function parse_finished(cmd_result)
-    local ref = cmd_result:find("\"finished_processes\":")
-    if ref == nil then
-        return colors.warning .. "- - -\n"
+    local time = nil
+    local status = nil
+
+    -- get the cached value
+    time, status = read_cached()
+
+    -- check if there is a finished backup
+    local use_cached = false
+    local ref_no_finished = cmd_result:find("\"finished_processes\": [],", nil, true)
+    if ref_no_finished ~= nil then
+        -- nothing is running and no backup has finished
+        -- this can be either right after the installation or after a reboot
+        -- check the cached value
+        if time == nil then
+            -- there is nothing in the cache from the previous backup\
+            -- it seems that UrBackup was just installed
+            return colors.warning .. "- - -\n"
+        end
+
+        -- it seems that a reboot hapenned
+        use_cached = true
     end
 
-    -- get the status of the last backup
-    local p1 = utils.rfind(cmd_result, "\"success\": ", ref)
-    if p1 == nil then
-        return colors.warning .. "- - -\n"
+    if not use_cached then
+        -- get the last update
+        local ref = cmd_result:find("\"finished_processes\":")
+        if ref == nil then
+            return colors.critical .. "? ? ?\n"
+        end
+
+        -- get the status of the last backup
+        local p1 = utils.rfind(cmd_result, status_entry, ref)
+        if p1 == nil then
+            return colors.critical .. "? ? ?\n"
+        end
+        local p2 = cmd_result:find("\n", p1)
+        status = cmd_result:sub(p1+11, p2-1)
+
+        -- get the last backup time
+        p1 = cmd_result:find(backup_time_entry, ref)
+        if p1 == nil then
+            return colors.critical .. "? ? ?\n"
+        end
+        p2 = cmd_result:find(",\n", p1)
+        time = tonumber(cmd_result:sub(p1+20, p2-1))
+
+        -- store the results
+        write_cashed(time, status)
     end
 
-    local p2 = cmd_result:find("\n", p1)
-    local status = cmd_result:sub(p1+11, p2-1)
-
+    -- format the age and status for output
     local output = colors.normal .. "OK\n"
     if status ~= "true" then
         output = colors.critical .. "ERROR\n"
     end
 
-    -- get the last backup time
-    local p1 = cmd_result:find("\"last_backup_time\": ", ref)
-    if p1 == nil then
-        return output
-    end
-
-    local p2 = cmd_result:find(",\n", p1)
-    local last = tonumber(cmd_result:sub(p1+20, p2-1))
-    local age, sec = utils.time_since(last)
-
+    local age, sec = utils.time_since(time)
     local color = colors.normal
     if sec > 86400 then
         color = colors.warning
@@ -84,70 +118,17 @@ function parse_finished(cmd_result)
     return output
 end
 
--- {
--- "capability_bits": 64,
--- "finished_processes": [{
--- "process_id": 1,
--- "success": true
--- }
--- ],
--- "internet_connected": false,
--- "internet_status": "connected_local",
--- "last_backup_time": 1543759970,
--- "running_processes": [{
--- "action": "INCR",
--- "done_bytes": 172439453,
--- "eta_ms": 0,
--- "percent_done": 100,
--- "process_id": 2,
--- "server_status_id": 12,
--- "speed_bpms": 196.25,
--- "total_bytes": 172492968
--- }
--- ],
--- "servers": [{
--- "internet_connection": false,
--- "name": "192.168.0.20"
--- }
--- ],
--- "time_since_last_lan_connection": 6456
--- }
---
 
--- {
--- "capability_bits": 64,
--- "finished_processes": [],
--- "internet_connected": false,
--- "internet_status": "connected_local",
--- "last_backup_time": 0,
--- "running_processes": [{
--- "action": "FULL",
--- "done_bytes": 9477753279,
--- "eta_ms": 326867,
--- "percent_done": 73,
--- "process_id": 1,
--- "server_status_id": 11,
--- "speed_bpms": 593.666,
--- "total_bytes": 12926481557
--- }
--- ],
--- "servers": [{
--- "internet_connection": false,
--- "name": "192.168.0.20"
--- }
--- ],
--- "time_since_last_lan_connection": 3063
--- }
 function parse_running(cmd_result)
     local ref = cmd_result:find("\"running_processes\":")
     if ref == nil then
-        return colors.warning .. "- - -\n"
+        return colors.critical .. "? ? ?\n"
     end
 
     -- get the percentage
     local p1 = cmd_result:find("\"percent_done\": ", ref)
     if p1 == nil then
-        return colors.warning .. "- - -\n"
+        return colors.critical .. "? ? ?\n"
     end
 
     local p2 = cmd_result:find("\n", p1)
@@ -159,16 +140,15 @@ end
 
 
 function get_status(cmd_result)
-    -- parses the output of "urbackupclient status" command and
-    -- forms the output string that conky can parse in its turn
+    -- parses the output of "urbackupclientctl status" command
+
+    -- check if the output is valid
+    local ref = cmd_result:find("capability_bits")
+    if ref == nil then
+        return colors.critical .. "- - -\n"
+    end
 
     local ref_no_running = cmd_result:find("\"running_processes\": [],", nil, true)
-    local ref_no_finished = cmd_result:find("\"finished_processes\": [],", nil, true)
-
-    -- nothing running and nothing has finished: nothing ever started
-    if ref_no_running ~= nil and ref_finished ~= nil then
-        return colors.warning .. "- - -\n"
-    end
 
     -- check if there is a backup in progress
     if ref_no_running == nil then
@@ -181,8 +161,7 @@ end
 
 
 function get_ping(cmd_result)
-    -- parses the output of "ping" command and
-    -- forms the output string that conky can parse in its turn
+    -- parses the output of "ping" command
 
     local time = utils.parse_ping_return(cmd_result)
 
