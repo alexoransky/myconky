@@ -137,10 +137,16 @@ function utils.time_since(epoch)
     local s = math.floor(math.fmod(sec, 60))
 
     if d > 0 then
-        return d .. "d " .. h .. "h", sec
+        if h > 0 then
+            return d .. "d " .. h .. "h", sec
+        end
+        return d .. "d ", sec
     end
     if h > 0 then
-        return h .. "h " .. m .. "m", sec
+        if m > 0 then
+            return h .. "h " .. m .. "m", sec
+        end
+        return h .. "h ", sec
     end
     if m > 0 then
         return m .. "m", sec
