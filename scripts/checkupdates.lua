@@ -73,14 +73,11 @@ function get_updates_info(cmd_result, max_cnt)
     end
 
     local first_line = colors.title .. title .. cmds.rjust .. color ..  tostring(count)
-    local output = ""
-    if max_cnt < 1 then
-        output = first_line .. "\n"
-    else
-        output = first_line .. ":\n" .. get_pkgs(cmd_result, math.min(max_cnt, count))
+    if (count < 1) or (max_cnt < 1) then
+        return first_line .. " \n"
     end
 
-    return output
+    return first_line .. ":\n" .. get_pkgs(cmd_result, math.min(max_cnt, count))
 end
 
 
