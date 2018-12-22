@@ -5,6 +5,20 @@
 
 utils = {}
 
+function utils.read_file(fpath)
+    -- check if the file exists
+    local f = io.open(fpath, "rb")
+    if f == nil then
+        return nil
+    end
+    f:close()
+
+    f = assert(io.open(fpath, "rb"))
+    local content = f:read("*all")
+    f:close()
+    return content
+end
+
 -- reads a line from file "fpath" if the line contains "item"
 function utils.read_from_file(fpath, item)
     -- check if the file exists
