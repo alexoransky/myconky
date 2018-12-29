@@ -33,6 +33,8 @@ finished_processes = "finished_processes"
 last_backup_time = "last_backup_time"
 success = "success"
 
+one_day = 86400
+
 function read_saved()
     local s = utils.read_file(backup_ts_fname)
     if s == nil then
@@ -75,7 +77,7 @@ function prepare_output(time, success)
 
     local age, sec = utils.time_since(time)
     local color = colors.normal
-    if sec > 86400 then
+    if sec > one_day then
         color = colors.warning
     end
     output = color .. age .. " ago   " .. output
