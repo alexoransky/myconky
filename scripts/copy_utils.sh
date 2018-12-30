@@ -9,3 +9,7 @@ sudo cp colors.lua $DEST
 sudo cp fonts.lua $DEST
 sudo cp cmds.lua $DEST
 sudo cp utils.lua $DEST
+sudo cp dbg.lua $DEST
+sudo cp nd/nd.lua $DEST
+
+ls $DEST
