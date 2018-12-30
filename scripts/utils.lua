@@ -250,4 +250,9 @@ function utils.parse_ping_return(cmd_result)
     return time
 end
 
+
+function utils.round(num)
+    return math.floor(num + 0.5)
+end
+
 return utils
