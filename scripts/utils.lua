@@ -142,13 +142,78 @@ function utils.hr_to_mdh(hr)
 end
 
 
+-- time intervals in seconds
+local one_min = 60
+local one_hour = one_min * 60
+local one_day = one_hour * 24
+local one_month = one_day * 30
+local one_year = one_month * 12
+
+
+function utils.intdiv(a, b)
+    q = math.floor(a / b)
+    r = a - q * b
+    return q, r
+end
+
+
+function utils.sec_to_ymdhms(sec)
+    local y, m, d, h, min, s
+    local rem = math.floor(sec)
+
+    y, rem = utils.intdiv(rem, one_year)
+    m, rem = utils.intdiv(rem, one_month)
+    d, rem = utils.intdiv(rem, one_day)
+    h, rem = utils.intdiv(rem, one_hour)
+    min, s = utils.intdiv(rem, one_min)
+
+    return y, m, d, h, min, s
+end
+
+
+function utils.sec_to_dhms(sec)
+    local d, h, m, s
+    local rem = sec
+
+    d, rem = utils.intdiv(rem, one_day)
+    h, rem = utils.intdiv(rem, one_hour)
+    m, s = utils.intdiv(rem, one_min)
+
+    return d, h, m, s
+end
+
+
+function utils.sec_to_human(sec)
+    local y, m, d, h, min, s = utils.sec_to_ymdhms(sec)
+
+    if y > 0 then
+        return y .. "y " .. m .. "m " .. d .. "d " .. h .. "h " .. min .. "m " .. s .. "s"
+    end
+
+    if m > 0 then
+        return m .. "m " .. d .. "d " .. h .. "h " .. min .. "m " .. s .. "s"
+    end
+
+    if d > 0 then
+        return d .. "d " .. h .. "h " .. min .. "m " .. s .. "s"
+    end
+
+    if h > 0 then
+        return h .. "h " .. min .. "m " .. s .. "s"
+    end
+
+    if min > 0 then
+        return min .. "m " .. s .. "s"
+    end
+
+    return s .. "s"
+end
+
+
 function utils.time_since(epoch)
     local curr_time = os.time()
     local sec = curr_time - epoch
-    local d = math.floor(sec / 86400)
-    local h = math.floor((sec - 86400*d) / 3600)
-    local m = math.floor((sec - 86400*d - 3600*h) / 60)
-    local s = math.floor(math.fmod(sec, 60))
+    local d, h, m, s = utils.sec_to_dhms(sec)
 
     if d > 0 then
         if h > 0 then
@@ -184,6 +249,5 @@ function utils.parse_ping_return(cmd_result)
 
     return time
 end
-
 
 return utils
