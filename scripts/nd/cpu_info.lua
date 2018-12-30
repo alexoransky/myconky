@@ -66,7 +66,7 @@ function get_total(cmd_result)
     for i = 1, #vals do
         perc = perc + vals[i]
     end
-    perc = utils.round(perc)
+    perc = utils.round(perc, 1)
 
     local color, color_bar = colors.define(perc)
 

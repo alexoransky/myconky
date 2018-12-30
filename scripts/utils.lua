@@ -251,8 +251,13 @@ function utils.parse_ping_return(cmd_result)
 end
 
 
-function utils.round(num)
-    return math.floor(num + 0.5)
+function utils.round(num, dec)
+    if dec == nil then
+        dec = 0
+    end
+
+    local mult = 10^dec
+    return math.floor(num*mult + 0.5) / mult
 end
 
 return utils
