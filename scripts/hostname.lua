@@ -55,7 +55,7 @@ if arg[1] ~= nil then
 
     cmd = cmd .. ip
     local cmd_result = utils.run_command(cmd)
-    output = get_name(cmd_result) .. cmds.rjust .. colors.text .. ip .. "\n"
+    output = colors.text .. ip .. cmds.rjust .. get_name(cmd_result) .. "\n"
 end
 
 io.write(output)
