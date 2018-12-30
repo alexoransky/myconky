@@ -21,23 +21,9 @@ require "cmds"
 require "utils"
 require "nd"
 
--- cpu_temp = "cpu.temperature"
 uptime = "system.uptime"
 load = "system.load"
 
--- function get_temp(cmd_result)
---     v1 = nd.get_value(cmd_result, 1)
---     v2 = nd.get_value(cmd_result, 2)
---     if v1 == nil then
---         return colors.critical .. "- - -"
---     end
---     local v = v1
---     if v2 ~= nil then
---         v = math.max(v1, v2)
---     end
---
---     return colors.normal .. v
--- end
 
 function get_uptime(cmd_result)
     local result = colors.title .. "Uptime" .. cmds.rjust
@@ -74,12 +60,8 @@ local output = ""
 if arg[1] ~= nil then
     local ip = arg[1]
 
-    -- local cmd_temp = nd.cmd(ip, cpu_temp)
     local cmd_uptime = nd.cmd(ip, uptime)
     local cmd_load = nd.cmd(ip, load)
-
-    -- cmd_result = utils.run_command(cmd_temp)
-    -- output = output .. cmds.tab40 .. get_temp(cmd_result) .. "\n"
 
     cmd_result = utils.run_command(cmd_uptime)
     output = get_uptime(cmd_result) .. "\n"
