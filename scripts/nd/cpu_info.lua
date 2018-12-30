@@ -88,7 +88,7 @@ end
 
 
 local cmd_result
-local output
+local output = ""
 
 if arg[1] ~= nil then
     local ip = arg[1]
