@@ -27,6 +27,8 @@ require "colors"
 require "cmds"
 require "utils"
 
+TEMP_HIGH = 65
+TEMP_CRITICAL = 80
 
 function get_sensors_temp(s, temp_str)
 	local ref = 0
@@ -82,12 +84,7 @@ function get_mb_temp()
         return colors.title .. "MB Temp" .. cmds.rjust .. colors.warning .. "- - -\n"
     end
 
-    local color = colors.normal
-    if t > 80.0 then
-    	color = colors.critical
-    elseif t > 65.0 then
-    	color = colors.warning
-    end
+    local color, cb = colors.define(t, TEMP_HIGH, TEMP_CRITICAL)
 
     return colors.title .. "MB Temp".. cmds.rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 end

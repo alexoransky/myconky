@@ -40,12 +40,8 @@ function conky_loadavg()
     local output = colors.title .. "Load " .. cmds.rjust
     for ld in string.gmatch(load, "%S+") do
         avg = tonumber(ld)
-        color = colors.normal
-        if avg > 5.0 then
-            color = colors.critical
-        elseif avg > 1.0 then
-            color = colors.warning
-        end
+        local color, cb = colors.define(avg, 1.0, 5.0)
+
         output = output .. " " .. color .. tostring(string.format("%.2f", avg))
     end
 
@@ -81,15 +77,7 @@ function conky_cpu_bar(cpu_str)
     local cmd = cmds.cpu:gsub("cpuX", cpu_str)
     local perc = tonumber(conky_parse(cmd))
 
-    local color = colors.normal
-    local color_bar = colors.normal_bar
-    if perc > 90 then
-    	color = colors.critical
-        color_bar = colors.critical
-    elseif perc > 75 then
-    	color = colors.warning
-        color_bar = colors.warning
-    end
+    local color, color_bar = colors.define(perc)
 
     return color .. perc .. "%  " .. color_bar .. cmds.cpu_bar:gsub("cpuX", cpu_str)
 end

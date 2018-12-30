@@ -85,12 +85,7 @@ function get_cpu_info(cmd_result, dev_id, cpu_num)
         core_str = colors.text .. cmds.freq .. " GHz"
     end
 
-    local color = colors.normal
-    if t > c then
-    	color = colors.critical
-    elseif t > h then
-    	color = colors.warning
-    end
+    local color, cb = colors.define(t, h, c)
 
     local output = core_str .. cmds.tab40 .. color .. "+" .. tostring(t) .. "°C " ..
                    cmds.rjust .. cmds.lua_parse:gsub("FN", "cpu_bar"):gsub("PARAM", cpu_str) .. "\n"

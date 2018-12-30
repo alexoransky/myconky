@@ -64,13 +64,7 @@ function get_updates_info(cmd_result, max_cnt)
         return colors.title .. title .. cmds.rjust .. "  - - -\n"
     end
 
-    local color = colors.normal
-    if count > 0 then
-    	color = colors.warning
-    end
-    if count > max_cnt then
-    	color = colors.critical
-    end
+    local color, cb = colors.define(count, 0, max_cnt)
 
     local first_line = colors.title .. title .. cmds.rjust .. color ..  tostring(count)
     if (count < 1) or (max_cnt < 1) then

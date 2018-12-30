@@ -50,12 +50,7 @@ function get_temp(cmd_result)
         t = math.max(v1, v2)
     end
 
-    local color = colors.normal
-    if t > TEMP_CRITICAL then
-    	color = colors.critical
-    elseif t > TEMP_HIGH then
-    	color = colors.warning
-    end
+    local color, cb = colors.define(t, TEMP_HIGH, TEMP_CRITICAL)
 
     return  color .. "+" .. tostring(t) .. "°C"
 end
@@ -71,17 +66,9 @@ function get_total(cmd_result)
     for i = 1, #vals do
         perc = perc + vals[i]
     end
-    perc = math.floor(perc + 0.5)
+    perc = utils.round(perc)
 
-    local color = colors.normal
-    local color_bar = colors.normal_bar
-    if perc > 90 then
-    	color = colors.critical
-        color_bar = colors.critical
-    elseif perc > 75 then
-    	color = colors.warning
-        color_bar = colors.warning
-    end
+    local color, color_bar = colors.define(perc)
 
     return color .. perc .. "%  " .. color_bar .. cmds.lua_bar:gsub("FN", "echo " .. perc)
 end
