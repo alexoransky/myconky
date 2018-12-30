@@ -85,7 +85,7 @@ if arg[1] ~= nil then
     local cmd_util = nd.cmd(ip, cpu_util)
 
     cmd_result = utils.run_command(cmd_freq)
-    output = get_freq(cmd_result)
+    output = colors.title .. "CPU  " .. get_freq(cmd_result)
 
     cmd_result = utils.run_command(cmd_temp)
     output = output .. cmds.tab40 .. get_temp(cmd_result)
