@@ -5,18 +5,15 @@
 --
 
 --
--- The script outputs a conky command to print the status of the backup in
--- progress or the last backup for UrBackup client.
+-- The script outputs a conky command to print the uptime and load information of
+-- of the remote machine.
+--
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/urbackup.lua [IP]}:
---   IP is the IP address of the UrBackup server.  If specified,
---   the ping time will be printed, as in ping.lua.
---   e.g.
---   ${execpi 60 ~/.config/conky/scripts/urbackup.lua 192.168.0.100}
+--   ${execpi <TIME_PERIOD> <PATH>/sys_info.lua IP}:
+--   ${execpi 3600 ~/.config/conky/scripts/nd/sys_info.lua 192.168.0.100}
 --
--- Output:
--- Backup   0.345 ms    4h 45m ago  OK
+-- The script requires netdata.
 --
 
 require "colors"
