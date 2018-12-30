@@ -47,10 +47,10 @@ As of now, the config file is not compatible with Conky 1.11.1. I had to revert 
 [Lua CJSON](https://github.com/mpx/lua-cjson/) is an extremely fast JSON library for Lua scripting. It is compatible with Lua 5.3. To install, follow the [manual](https://www.kyne.com.au/~mark/software/lua-cjson-manual.html). You will need to change the Makefile to target Lua 5.3 and then copy the .so file to the Lua lib folder.
 
 ### Shell Commands
-Myconky scripts use various CLI commands (ping, ps, avahi-resolve, urbackupclientctl etc.) to obtain the necessary information, parse the command output and create commands that are fed to conky. Follow instructions for your system poackage manager to install them.
+Myconky scripts use various CLI commands (ping, ps, avahi-resolve, urbackupclientctl etc.) to obtain the necessary information, parse the command output and create commands that are fed to Conky. Follow instructions for your system poackage manager to install them.
 
 ### netdata
-A subset of scripts is dedicated to parsing of netdata output.  This allows for monitoring of remote machines, for example, NAS. The remote machine must have [netdata](https://github.com/netdata/netdata) installed.
+A subset of scripts is dedicated to parsing of netdata output.  This allows for monitoring of remote machines, for example, a NAS. The remote machine must have [netdata](https://my-netdata.io) installed.
 
 ## Performace
 Performance-wise, scripting did not affect the CPU usage much. Without Lua scripting, the total CPU usage was 2.1% for all Conky processes (reported by "ps -eo").  With Lua scripting, the CPU% went up to 2.2%, only 0.1%, so I am not worrying.
