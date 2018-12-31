@@ -33,7 +33,7 @@ function get_uptime(cmd_result)
         return result .. colors.warning .. "- - -"
     end
 
-    return result .. colors.normal .. utils.sec_to_human(v)
+    return result .. colors.text .. utils.sec_to_human(v)
 end
 
 function get_load(cmd_result)
