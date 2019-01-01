@@ -31,11 +31,7 @@ function get_dev_traffic(cmd_result)
     local out2 = colors.normal .. fonts.symbols .. "  ▲" .. fonts.text
 
     local val = nd.get_values(cmd_result)
-    if val == nil then
-        return out1 .. colors.warning .. "- - -" .. cmds.rjust .. colors.warning .. "- - -" .. out2
-    end
-
-    if #val < OUT then
+    if val == nil or #val < OUT then
         return out1 .. colors.warning .. "- - -" .. cmds.rjust .. colors.warning .. "- - -" .. out2
     end
 
