@@ -40,6 +40,10 @@ function get_load(cmd_result)
     local output = colors.title .. "Load" .. cmds.rjust
 
     local vals = nd.get_values(cmd_result)
+    if vals == nil then
+        return output .. colors.warning .. "- - -"
+    end
+
     for i = 1, #vals do
         color = colors.normal
         if vals[i] > 5.0 then

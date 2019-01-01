@@ -33,7 +33,7 @@ TEMP_CRITICAL = 75
 function get_freq(cmd_result)
     local v = nd.get_value(cmd_result, 1)
     if v == nil then
-        return colors.warning .. "- - -"
+        return cmds.rjust .. colors.warning .. "- - -"
     end
     return colors.text .. v .. " GHz"
 end
@@ -43,7 +43,7 @@ function get_temp(cmd_result)
     local v1 = nd.get_value(cmd_result, 1)
     local v2 = nd.get_value(cmd_result, 2)
     if v1 == nil then
-        return colors.warning .. "- - -"
+        return ""
     end
     local t = v1
     if v2 ~= nil then
@@ -59,7 +59,7 @@ end
 function get_total(cmd_result)
     local vals = nd.get_values(cmd_result)
     if vals == nil then
-        return colors.warning .. "- - -"
+        return ""
     end
 
     local perc = 0

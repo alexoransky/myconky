@@ -28,7 +28,7 @@ OUT = 2   -- write
 
 function get_dev_traffic(cmd_result)
     local out1 = colors.normal .. fonts.symbols .. "▼  " .. fonts.text
-    local out2 = fonts.symbols .. "  ▲" .. fonts.text .. "\n"
+    local out2 = colors.normal .. fonts.symbols .. "  ▲" .. fonts.text
 
     local val = nd.get_values(cmd_result)
     if val == nil then
@@ -49,7 +49,7 @@ function get_dev_traffic(cmd_result)
     end
 
     return out1 .. colors.normal .. val[OUT] .. "M" ..
-           cmds.rjust .. colors.normal .. val[IN] .. "M" .. out2 ..
+           cmds.rjust .. colors.normal .. val[IN] .. "M" .. out2 .. "\n" ..
            colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_out") ..
            cmds.rjust .. cmds.lua_gr:gsub("FN", "load_data_in") .. "\n"
 end

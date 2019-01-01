@@ -61,7 +61,7 @@ end
 function get_info(ram_result, swap_result)
     local vals = nd.get_values(ram_result)
     if vals == nil then
-        return colors.title .. "RAM  " .. colors.warning .. "- - -"
+        return colors.title .. "RAM  " .. cmds.rjust .. colors.warning .. "- - -"
     end
 
     local mem_total, mem_perc = get_mem_vals(vals)
