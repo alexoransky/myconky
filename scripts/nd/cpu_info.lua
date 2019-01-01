@@ -62,7 +62,7 @@ function get_total(cmd_result)
         return colors.warning .. "- - -"
     end
 
-    perc = 0
+    local perc = 0
     for i = 1, #vals do
         perc = perc + vals[i]
     end
