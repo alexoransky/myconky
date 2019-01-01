@@ -18,6 +18,7 @@
 require "colors"
 require "fonts"
 require "cmds"
+require "utils"
 
 -- returns
 -- ${color2}Logged In ${alignr}${colorX}${user_number}
@@ -162,16 +163,8 @@ function conky_mem_size(swap)
     local mem_used = tonumber(conky_parse(cmds.mem_used))
     local swap_used = tonumber(conky_parse(cmds.swap_used))
 
-	local color = colors.normal
-    local color_bar = colors.normal_bar
+	local color, color_bar = colors.define(mem_used)
 
-    if mem_used > 90 then
-        color = colors.critical
-        color_bar = colors.critical
-	elseif mem_used > 75 then
-		color = colors.warning
-        color_bar = colors.warning_bar
-	end
 	local output = colors.title .. "RAM" .. cmds.tab40 .. colors.text ..
                    cmds.mem_total .. cmds.rjust .. color .. mem_used ..
                    "%  " .. color_bar .. cmds.mem_bar
@@ -180,12 +173,7 @@ function conky_mem_size(swap)
         return output
     end
 
-	color = colors.normal
-    color_bar = colors.normal_bar
-	if swap_used > 75 then
-		color = colors.warning
-        color_bar = colors.warning_bar
-	end
+    color, color_bar = colors.define(swap_used)
 
     output = output .. "\n" .. colors.title .. "SWAP" .. cmds.tab40 ..
              colors.text .. cmds.swap_total .. cmds.rjust .. color ..
@@ -198,4 +186,15 @@ end
 -- returns the parameter back
 function conky_echo(param)
     return param
+end
+
+
+function conky_load_data_in()
+    local v = utils.load_data(1)
+    return v
+end
+
+function conky_load_data_out()
+    local v = utils.load_data(2)
+    return v
 end

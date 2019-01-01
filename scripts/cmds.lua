@@ -58,6 +58,7 @@ cmds.disk_write_gr = "${diskiograph_write /dev/sdXY 20, 130}"
 cmds.dn_speed_gr = "${downspeedgraph XXX 20, 130 color7 3399FF 10000000 -l -t}"
 cmds.up_speed_gr = "${upspeedgraph XXX 20, 130 color7 3399FF 10000000 -l -t}"
 cmds.cpu_gr = "${cpugraph 20,278 color7 ff0000 -t}"
+cmds.lua_gr = "${lua_graph FN 20, 130 -l}"
 -- weather
 cmds.metar_templ = "${weather SRC ICAO INFO}"
 cmds.metar_src = "http://tgftp.nws.noaa.gov/data/observations/metar/stations/"
