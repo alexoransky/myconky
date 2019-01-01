@@ -5,6 +5,10 @@
 
 utils = {}
 
+local cjson = require "cjson.safe"
+local xfer_path = "/mnt/ramdisk/conky_data"
+local xfer_val = {}
+
 function utils.read_file(fpath)
     -- check if the file exists
     local f = io.open(fpath, "rb")
@@ -259,5 +263,31 @@ function utils.round(num, dec)
     local mult = 10^dec
     return math.floor(num*mult + 0.5) / mult
 end
+
+
+function utils.store_data(key, val)
+    xfer_val[key] = val
+    local output = cjson.encode(xfer_val)
+    -- -- local output = "\"" .. "val" .. "\": " .. tostring(v) .. "\n"
+    -- -- output = "{\n" .. output .. "}\n"
+
+    -- local output = tostring(v)
+    utils.write_to_file(xfer_path, output, true)
+end
+
+function utils.load_data(key)
+    local c = utils.read_file(xfer_path)
+    local cr = cjson.decode(c)
+    if cr == nil then
+        return nil
+    end
+
+    local v = cr[key]
+
+    -- local c = utils.read_file(xfer_path)
+    -- local v = tonumber(c)
+    return v
+end
+
 
 return utils
