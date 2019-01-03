@@ -39,13 +39,22 @@ function get_dev_traffic(cmd_result)
         val[i] = math.abs(val[i])
         val[i] = utils.round(val[i], 1)
         if val[i] == 0.0 then
-            val[i] = "0"
+            val[i] = 0
         end
         utils.store_data(i - IN + 1, tonumber(val[i]), utils.xfer_path_disk)  -- indexing is 1-based
     end
 
-    return out1 .. colors.normal .. val[OUT] .. "K" ..
-           cmds.rjust .. colors.normal .. val[IN] .. "K" .. out2 .. "\n" ..
+    vin = val[IN] .. "K"
+    vout = val[OUT] .. "K"
+    if val[IN] > 1024 then
+        vin = utils.round(val[IN] / 1024, 1) .. "M"
+    end
+    if val[OUT] > 1024 then
+        vout = utils.round(val[OUT] / 1024, 1) .. "M"
+    end
+
+    return out1 .. colors.normal .. vout ..
+           cmds.rjust .. colors.normal .. vin .. out2 .. "\n" ..
            colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_out") ..
            cmds.rjust .. cmds.lua_gr:gsub("FN", "load_data_in") .. "\n"
 end

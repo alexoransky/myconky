@@ -45,13 +45,22 @@ function get_net_traffic(cmd_result, infc)
         val[i] = math.abs(val[i])
         val[i] = utils.round(val[i], 1)
         if val[i] == 0.0 then
-            val[i] = "0"
+            val[i] = 0
         end
         utils.store_data(i - RECEIVED + 1, tonumber(val[i]), utils.xfer_path_network)  -- indexing is 1-based
     end
 
-    return out1 .. colors.normal .. val[RECEIVED] .. "K" .. outc ..
-           cmds.rjust .. colors.normal .. val[SENT] .. "K" .. out2 .. "\n" ..
+    recv = val[RECEIVED] .. "K"
+    sent = val[SENT] .. "K"
+    if val[RECEIVED] > 1024 then
+        recv = utils.round(val[RECEIVED] / 1024, 1) .. "M"
+    end
+    if val[SENT] > 1024 then
+        sent = utils.round(val[SENT] / 1024, 1) .. "M"
+    end
+
+    return out1 .. colors.normal .. recv .. outc ..
+           cmds.rjust .. colors.normal .. sent .. out2 .. "\n" ..
            colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_received") ..
            cmds.rjust .. cmds.lua_gr:gsub("FN", "load_data_sent") .. "\n"
 end
