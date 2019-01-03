@@ -274,6 +274,10 @@ function utils.round(num, dec)
         dec = 0
     end
 
+    if dec == 0 then
+        return math.floor(num + 0.5)
+    end
+
     local mult = 10^dec
     return math.floor(num*mult + 0.5) / mult
 end
