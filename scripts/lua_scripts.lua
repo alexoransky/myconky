@@ -190,11 +190,21 @@ end
 
 
 function conky_load_data_in()
-    local v = utils.load_data(1)
+    local v = utils.load_data(utils.DATA_IN, utils.xfer_path_disk)
     return v
 end
 
 function conky_load_data_out()
-    local v = utils.load_data(2)
+    local v = utils.load_data(utils.DATA_OUT, utils.xfer_path_disk)
+    return v
+end
+
+function conky_load_data_received()
+    local v = utils.load_data(utils.DATA_RECEIVED, utils.xfer_path_network)
+    return v
+end
+
+function conky_load_data_sent()
+    local v = utils.load_data(utils.DATA_SENT, utils.xfer_path_network)
     return v
 end

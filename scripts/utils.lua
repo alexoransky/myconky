@@ -6,8 +6,22 @@
 utils = {}
 
 local cjson = require "cjson.safe"
-local xfer_path = "/mnt/ramdisk/conky_data"
+
+utils.xfer_path_disk = "/mnt/ramdisk/conky_data_disk"
+utils.xfer_path_network = "/mnt/ramdisk/conky_data_network"
+
+--
+-- the following is used for lua_scripts.lua
+-- and in netdata modules
+-- disk_traffic.lua
+utils.DATA_IN       = 1  -- conky_load_data_in()
+utils.DATA_OUT      = 2  -- conky_load_data_out()
+-- network_traffic.lua
+utils.DATA_RECEIVED = 1  -- conky_load_data_received()
+utils.DATA_SENT     = 2  -- conky_load_data_sent()
+
 local xfer_val = {}
+--
 
 function utils.read_file(fpath)
     -- check if the file exists
@@ -265,27 +279,23 @@ function utils.round(num, dec)
 end
 
 
-function utils.store_data(key, val)
+function utils.store_data(key, val, xfer_path)
     xfer_val[key] = val
     local output = cjson.encode(xfer_val)
-    -- -- local output = "\"" .. "val" .. "\": " .. tostring(v) .. "\n"
-    -- -- output = "{\n" .. output .. "}\n"
 
-    -- local output = tostring(v)
     utils.write_to_file(xfer_path, output, true)
 end
 
-function utils.load_data(key)
+
+function utils.load_data(key, xfer_path)
     local c = utils.read_file(xfer_path)
+
     local cr = cjson.decode(c)
     if cr == nil then
         return nil
     end
 
     local v = cr[key]
-
-    -- local c = utils.read_file(xfer_path)
-    -- local v = tonumber(c)
     return v
 end
 
