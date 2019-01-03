@@ -30,8 +30,12 @@ cpu_util = "system.cpu"
 TEMP_HIGH = 69
 TEMP_CRITICAL = 75
 
+FREQUENCY = 2
+CPU0 = 2
+CPU1 = 3
+
 function get_freq(cmd_result)
-    local v = nd.get_value(cmd_result, 1)
+    local v = nd.get_value(cmd_result, FREQUENCY)
     if v == nil then
         return cmds.rjust .. colors.warning .. "- - -"
     end
@@ -40,8 +44,8 @@ end
 
 
 function get_temp(cmd_result)
-    local v1 = nd.get_value(cmd_result, 1)
-    local v2 = nd.get_value(cmd_result, 2)
+    local v1 = nd.get_value(cmd_result, CPU0)
+    local v2 = nd.get_value(cmd_result, CPU1)
     if v1 == nil then
         return ""
     end
@@ -63,7 +67,8 @@ function get_total(cmd_result)
     end
 
     local perc = 0
-    for i = 1, #vals do
+    -- timestamp is #1, so start iterating from #2
+    for i = 2, #vals do
         perc = perc + vals[i]
     end
     perc = utils.round(perc, 1)

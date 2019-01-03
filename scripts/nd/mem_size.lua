@@ -26,12 +26,13 @@ require "nd"
 ram_util = "system.ram"
 swap_util = "system.swap"
 
-FREE = 1      -- both in RAM and Swap
-INACTIVE = 3  -- RAM only
+FREE = 2      -- both in RAM and Swap
+INACTIVE = 4  -- RAM only
 
 function get_mem_vals(vals)
     local total = 0
-    for i = 1, #vals do
+    -- timestamp is #1, so start iterating from #2
+    for i = 2, #vals do
         total = total + vals[i]
     end
     total = utils.round(total, 1)  -- value in Mb

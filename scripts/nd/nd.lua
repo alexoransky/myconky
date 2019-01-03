@@ -7,9 +7,9 @@ nd = {}
 
 local cjson = require "cjson.safe"
 
-nd.cmd_tmpl = "curl -s -X GET \"http://IP_ADDR/netdata/api/v1/data?chart=CMD_NAME&after=-1&before=0&points=20&group=average&gtime=0&format=json&options=seconds,jsonwrap\""
+nd.cmd_tmpl = "curl -s -X GET \"http://IP_ADDR/netdata/api/v1/data?chart=CMD_NAME&after=-1&format=json\""
 
-local latest_values = "latest_values"
+local data = "data"
 
 
 function nd.cmd(ip_addr, cmd)
@@ -25,7 +25,12 @@ function nd.get_values(s)
         return nil
     end
 
-    return cr[latest_values]
+    local d = cr[data]
+    if d == nil then
+        return nil
+    end
+
+    return d[1]
 end
 
 
@@ -35,15 +40,17 @@ function nd.get_value(s, n)
         return nil
     end
 
-    local vals = cr[latest_values]
-    if vals ~= nil then
-        local val = vals[n]
-        if val ~= nil then
-            return val
-        end
+    local d = cr[data]
+    if d == nil then
+        return nil
     end
 
-    return nil
+    local val = d[1]
+    if val == nil then
+        return nil
+    end
+
+    return val[n]
 end
 
 

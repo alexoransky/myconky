@@ -24,11 +24,12 @@ require "nd"
 uptime = "system.uptime"
 load = "system.load"
 
+UPTIME = 2
 
 function get_uptime(cmd_result)
     local result = colors.title .. "Uptime" .. cmds.rjust
 
-    v = nd.get_value(cmd_result, 1)
+    v = nd.get_value(cmd_result, UPTIME)
     if v == nil then
         return result .. colors.warning .. "- - -"
     end
@@ -44,7 +45,8 @@ function get_load(cmd_result)
         return output .. colors.warning .. "- - -"
     end
 
-    for i = 1, #vals do
+    -- timestamp is #1, so start iterating from #2
+    for i = 2, #vals do
         color = colors.normal
         if vals[i] > 5.0 then
             color = colors.critical

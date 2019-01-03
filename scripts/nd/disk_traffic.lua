@@ -23,8 +23,8 @@ require "nd"
 
 sysio = "system.io"
 
-IN = 1    -- read
-OUT = 2   -- write
+IN = 2    -- read
+OUT = 3   -- write
 
 function get_dev_traffic(cmd_result)
     local out1 = colors.normal .. fonts.symbols .. "▼  " .. fonts.text
@@ -56,9 +56,7 @@ local output = ""
 
 if arg[1] ~= nil then
     local ip = arg[1]
-
     local cmd_io = nd.cmd(ip, sysio)
-
     cmd_result = utils.run_command(cmd_io)
     output = get_dev_traffic(cmd_result)
 end
