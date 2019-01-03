@@ -140,18 +140,9 @@ function get_output(sorted, grouped)
             if v[CPU] < 10.0 then
                 spaces2 = spaces2 .. "  "
             end
-            color_mem = colors.normal
-            color_cpu = colors.normal
-            if v[CPU] > 200 then
-                color_cpu = colors.critical
-            elseif v[CPU] > 100 then
-                color_cpu = colors.warning
-            end
-            if v[MEM] > 90 then
-                color_mem = colors.critical
-            elseif v[MEM] > 75 then
-                color_mem = colors.warning
-            end
+            color_cpu, cb = colors.define(v[CPU], 100, 200)
+            color_mem, cb = colors.define(v[MEM])
+
             output = output .. v[PID] .. spaces2 .. color_cpu .. v[CPU] .. "%" .. spaces .. color_mem .. v[MEM] .. "%\n"
         end
     end

@@ -47,12 +47,7 @@ function get_load(cmd_result)
 
     -- timestamp is #1, so start iterating from #2
     for i = 2, #vals do
-        color = colors.normal
-        if vals[i] > 5.0 then
-            color = colors.critical
-        elseif vals[i] > 1.0 then
-            color = colors.warning
-        end
+        local color, cb = colors.define(vals[i], 1.0, 5.0)
         output = output .. " " .. color .. tostring(string.format("%.2f", vals[i]))
     end
 
