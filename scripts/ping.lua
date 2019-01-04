@@ -8,7 +8,7 @@
 -- The script outputs a conky command to print if the specified host available.
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/ping.lua <ip> [<name>]}:
+--   ${execpi <TIME_PERIOD> <PATH>/ping.lua <ip> [<title>]}:
 --   e.g.
 --   ${execpi 60 ~/.config/conky/scripts/ping.lua 192.168.0.100 NAS}
 --
@@ -44,12 +44,12 @@ local cmd = "ping -i 0.2 -c 5 -q "
 local output = ""
 if arg[1] ~= nil then
     local ip = arg[1]
-    local host_name = arg[2]
+    local title = arg[2]
 
-    if host_name == nil then
-        output = colors.title .. ip .. cmds.rjust
+    if title == nil then
+        output = colors.text .. ip .. cmds.rjust
     else
-        output = colors.title .. host_name .. cmds.rjust
+        output = colors.title .. title .. cmds.rjust
     end
 
     cmd = cmd .. ip
