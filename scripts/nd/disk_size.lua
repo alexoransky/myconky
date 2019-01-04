@@ -43,18 +43,26 @@ function get_disk_vals(vals)
         free = free + vals[FREE]
     end
     used = total - free
-    if total < 10 then
-        -- value in Tb, convert to Gb
-        total = total * 1024
-        used = used * 1024
-    end
 
     if total > 0 then
         perc = utils.round(used * 100 / total, 1)
     end
-    total = utils.round(total)
 
     return total, perc
+end
+
+
+function format_size(val_gb)
+    local val = val_gb
+    local unit = "G"
+    if val_gb >= 1024 then
+        val = val_gb / 1024
+        unit = "T"
+    elseif val_gb < 1 then
+        val = val_gb * 1024
+        unit = "M"
+    end
+    return utils.round(val) .. unit
 end
 
 
@@ -68,10 +76,8 @@ function get_dev_info(cmd_result, dev_id)
 
     local color, color_bar = colors.define(disk_perc)
 
-    size = disk_total .. "G"
-    if disk_total >= 1024 then
-        size = utils.round(disk_total / 1024) .. "T"
-    end
+    -- the value is in Gb, convert/format for proper display
+    local size = format_size(disk_total)
 
 	local output = colors.title .. dev_id .. cmds.tab40 .. colors.text .. size ..
                    cmds.rjust .. color .. disk_perc ..
@@ -91,7 +97,7 @@ local result = nil
 if arg[1] ~= nil then
     local ip = arg[1]
     for i = 2, #arg do
-        dev_id = "/mnt/.../" .. arg[i]
+        dev_id = "/" .. arg[i]
         ds = disk_space .. arg[i]
         cmd_disk = nd.cmd(ip, ds)
         cmd_result = utils.run_command(cmd_disk)

@@ -54,8 +54,6 @@ function get_mem_vals(vals)
         perc = utils.round(used * 100 / total, 1)
     end
 
-    total = utils.round(total / 1024, 1)  -- convert to Gb
-
     return total, perc
 end
 
@@ -66,6 +64,7 @@ function get_info(ram_result, swap_result)
     end
 
     local mem_total, mem_perc = get_mem_vals(vals)
+    mem_total = utils.round(mem_total / 1024, 1)  -- convert to Gb
 
     local color, color_bar = colors.define(mem_perc)
 	local output = colors.title .. "RAM   " .. colors.text ..
