@@ -25,7 +25,7 @@ function get_disk_on(cmd_result, dev_id)
     -- parse the age
     local p1 = cmd_result:find("Power_On_Hours")
     if p1 == nil then
-        return colors.title .. dev_id .. cmds.rjust .. "  - - -\n"
+        return colors.title .. dev_id .. cmds.rjust .. colors.warning .. "  - - -\n"
     end
 
     local p2 = cmd_result:find("\n", p1)
@@ -40,9 +40,10 @@ end
 
 function get_disk_test(cmd_result, age)
     -- parse the age
+    local err = colors.title .. "Test " .. cmds.rjust .. colors.warning .. "  - - -\n"
     local ref = cmd_result:find("Num  Test_Description")
     if ref == nil then
-        return colors.title .. "Test " .. cmds.rjust .. "  - - -\n"
+        return err
     end
 
     -- find first records for the short and the long tests
@@ -51,7 +52,7 @@ function get_disk_test(cmd_result, age)
     local p1 = cmd_result:find("Extended offline", ref)
     local long = p1
     if short == nil and long == nil then
-        return colors.title .. "Test " .. cmds.rjust .. "  - - -\n"
+        return err
     end
 
     -- find the latest test, newest first
