@@ -22,6 +22,7 @@
 require "colors"
 require "cmds"
 require "utils"
+require "fonts"
 local cjson = require "cjson.safe"
 
 backup_ts_fname = ".urbackup_timestamp.txt"
@@ -32,6 +33,8 @@ percent_done = "percent_done"
 finished_processes = "finished_processes"
 last_backup_time = "last_backup_time"
 success = "success"
+action = "action"
+speed = "speed_bpms"
 
 one_day = 86400
 
@@ -70,9 +73,9 @@ end
 
 function prepare_output(time, success)
     -- format the age and status for output
-    local output = colors.normal .. "OK\n"
+    local status = colors.normal .. "Backup: OK\n"
     if not success then
-        output = colors.critical .. "ERROR\n"
+        status = colors.critical .. "Backup: FAILED\n"
     end
 
     local age, sec = utils.time_since(time)
@@ -80,7 +83,7 @@ function prepare_output(time, success)
     if sec > one_day then
         color = colors.warning
     end
-    output = color .. age .. " ago   " .. output
+    output = colors.title .. "Latest" .. cmds.tab40 .. color .. age .. " ago   " .. cmds.rjust .. status
 
     return output
 end
@@ -90,11 +93,15 @@ function parse_running(proc)
     -- get the percentage
     local perc = proc[percent_done]
     if perc == nil then
-        return colors.critical .. "? ? ?\n"
+        return colors.title .. "In progress" .. cmds.rjust .. colors.warning .. "? ? ?\n"
     end
-
     perc = math.floor(perc)
-    return colors.normal .. perc .. "%  " ..
+
+    local act = proc[action]
+    local spd_val = utils.round(proc[speed] / 1024, 1)
+
+    return colors.normal .. fonts.symbols .. "▲  " .. fonts.text .. spd_val .. "K" ..
+           cmds.tab40 .. act .. cmds.rjust .. perc .. "%  " ..
            colors.normal_bar .. cmds.lua_bar:gsub("FN", "echo " .. perc) .. "\n"
 end
 
@@ -145,10 +152,11 @@ function get_status(cmd_result)
 
     -- check if there is a backup in progress
     local procs = cr[running_processes]
+    local in_progress = ""
     if procs ~= nil then
         local proc = procs[1]
         if proc ~= nil then
-            return parse_running(proc)
+            in_progress = parse_running(proc)
         end
     end
 
@@ -158,48 +166,18 @@ function get_status(cmd_result)
         local proc = procs[#procs]
         if proc ~= nil then
             local time = cr[last_backup_time]
-            return parse_finished(proc, time)
+            return parse_finished(proc, time) .. in_progress
         end
     end
 
-    -- nothing is running and no backup has finished
+    -- no backup has finished
     -- this can be either right after the installation or after a reboot
-    return parse_saved()
-end
-
-
-function get_ping(cmd_result)
-    -- parses the output of "ping" command
-
-    local time = utils.parse_ping_return(cmd_result)
-
-    if time == 0 then
-        return colors.critical .. "- - -"
-    end
-
-    local color = colors.normal
-    if time > 0.9 then
-        color = colors.warning
-    end
-
-    return color .. time .. " ms"
+    return parse_saved() .. in_progress
 end
 
 
 local cmd_status = "urbackupclientctl status"
-local cmd_ping = "ping -i 0.2 -c 5 -q "
-
-local output = colors.title .. "Backup"
-local cmd_result
-
-if arg[1] ~= nil then
-    local ip = arg[1]
-    cmd_ping = cmd_ping .. ip
-    cmd_result = utils.run_command(cmd_ping)
-    output = output .. cmds.tab40 .. get_ping(cmd_result)
-end
-
-cmd_result = utils.run_command(cmd_status)
-output = output .. cmds.rjust .. get_status(cmd_result)
+local cmd_result = utils.run_command(cmd_status)
+local output = get_status(cmd_result)
 
 io.write(output)
