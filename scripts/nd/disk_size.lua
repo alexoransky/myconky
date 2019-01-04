@@ -55,13 +55,18 @@ end
 function format_size(val_gb)
     local val = val_gb
     local unit = "G"
-    if val_gb >= 1024 then
+
+    if val_gb >= 1023.5 then
         val = val_gb / 1024
         unit = "T"
-    elseif val_gb < 1 then
+        return utils.round(val, 1) .. unit
+    end
+
+    if val_gb < 0.95 then
         val = val_gb * 1024
         unit = "M"
     end
+    
     return utils.round(val) .. unit
 end
 
