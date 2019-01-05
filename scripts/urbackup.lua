@@ -35,6 +35,7 @@ last_backup_time = "last_backup_time"
 success = "success"
 action = "action"
 speed = "speed_bpms"
+total_size = "total_bytes"
 
 one_day = 86400
 
@@ -98,10 +99,15 @@ function parse_running(proc)
     perc = math.floor(perc)
 
     local act = proc[action]
-    local spd_val = utils.round(proc[speed] / 1024, 1)
+    local size = proc[total_size] / 1024 / 1024   -- convert bytes to Mb
+    local unit = "M"
+    if size >= 1023.5 then
+        size = size / 1024  -- convert to Gb
+        unit = "G"
+    end
+    size = utils.round(size, 1)
 
-    return colors.normal .. fonts.symbols .. "▲  " .. fonts.text .. spd_val .. "K" ..
-           cmds.tab40 .. act .. cmds.rjust .. perc .. "%  " ..
+    return fonts.text .. act .. cmds.tab40 .. size .. unit .. cmds.rjust .. perc .. "%  " ..
            colors.normal_bar .. cmds.lua_bar:gsub("FN", "echo " .. perc) .. "\n"
 end
 
