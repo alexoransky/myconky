@@ -27,6 +27,20 @@ interface = "net."
 RECEIVED = 2
 SENT = 3
 
+function get_disp_val(val)
+    dv = val
+    unit = "K"
+
+    if dv >= 1023.5 then
+        dv = dv / 1024
+        unit = "M"
+    end
+
+    dv = utils.round(dv, 1)
+
+    return dv .. unit
+end
+
 function get_net_traffic(cmd_result, infc)
     local out1 = colors.normal .. fonts.symbols .. "▼  " .. fonts.text
     local out2 = colors.normal .. fonts.symbols .. "  ▲" .. fonts.text
@@ -47,18 +61,13 @@ function get_net_traffic(cmd_result, infc)
         if val[i] == 0.0 then
             val[i] = 0
         end
+        val[i] = val[i] / 8 -- convert from kilobit/s to kilobyte/s
         utils.store_data(i - RECEIVED + 1, tonumber(val[i]), utils.xfer_path_network)  -- indexing is 1-based
     end
 
-    recv = val[RECEIVED] .. "K"
-    sent = val[SENT] .. "K"
-    if val[RECEIVED] > 1024 then
-        recv = utils.round(val[RECEIVED] / 1024, 1) .. "M"
-    end
-    if val[SENT] > 1024 then
-        sent = utils.round(val[SENT] / 1024, 1) .. "M"
-    end
-
+    local recv = get_disp_val(val[RECEIVED])
+    local sent = get_disp_val(val[SENT])
+    
     return out1 .. colors.normal .. recv .. outc ..
            cmds.rjust .. colors.normal .. sent .. out2 .. "\n" ..
            colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_received") ..
