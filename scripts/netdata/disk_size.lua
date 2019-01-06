@@ -66,7 +66,7 @@ function format_size(val_gb)
         val = val_gb * 1024
         unit = "M"
     end
-    
+
     return utils.round(val) .. unit
 end
 
@@ -74,7 +74,7 @@ end
 function get_dev_info(cmd_result, dev_id)
     local vals = nd.get_values(cmd_result)
     if vals == nil then
-        return colors.title .. dev_id .. cmds.rjust .. colors.warning .. "- - -"
+        return colors.title .. dev_id .. cmds.rjust .. colors.warning .. "- - -\n"
     end
 
     local disk_total, disk_perc = get_disk_vals(vals)
