@@ -22,16 +22,33 @@ require "colors"
 require "cmds"
 require "utils"
 
+ping = "ping -i 0.2 -c 5 -q "
+router_ip = "192.168.0.1"
+google_ip = "8.8.8.8"
 
 function get_ip_addr(cmd_result)
     -- parses the output of "curl -s ipinfo.io/ip" command and
     -- forms the output string that conky can parse in its turn
 
     if cmd_result:find(".") == nil then
+        local cmd = ping .. router_ip
+        local result = utils.run_command(cmd)
+        local time = utils.parse_ping_return(result)
+        if time == 0 then
+            return cmds.rjust .. colors.critical .. "  ROUTER\n"
+        end
+
+        cmd = ping .. google_ip
+        result = utils.run_command(cmd)
+        time = utils.parse_ping_return(result)
+        if time == 0 then
+            return cmds.rjust .. colors.critical .. "  ISP\n"
+        end
+
         return cmds.rjust .. colors.warning .. "  - - -\n"
     end
 
-    return cmds.rjust .. colors.text .. cmd_result
+    return cmds.rjust .. colors.normal .. cmd_result
 end
 
 
