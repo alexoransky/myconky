@@ -65,6 +65,13 @@ function read_saved()
 end
 
 function write_saved(time, status)
+    -- get the saved time and status
+    stime, sstatus = read_saved()
+    if time == stime and status == tostring(sstatus) then
+        -- nothing new to save
+        return
+    end
+
     local output = "\"" .. last_backup_time .. "\": " .. time .. ",\n"
     output = "{\n" .. output .. "\"" .. success .. "\": " .. status .. "\n}\n"
 
@@ -133,7 +140,7 @@ function parse_saved()
     local time = nil
     local status = nil
 
-    -- get the cached value
+    -- get the saved time and status
     time, status = read_saved()
 
     -- check the cached value
