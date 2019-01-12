@@ -71,7 +71,13 @@ function utils.write_to_file(fpath, item, overwite)
         return false
     end
 
-    f:write(item)
+    if type(item) == "table" then
+        for i = 1, #item do
+            f:write(item[i] .. "\n")
+        end
+    else
+        f:write(item)
+    end
 
     f:flush()
     f:close()
@@ -148,6 +154,15 @@ function utils.split_str(s)
         table.insert(words, word)
     end
     return words
+end
+
+
+function utils.split_lines(s)
+    local lines = {}
+    for line in s:gmatch("[^\r\n]+") do
+        table.insert(lines, line)
+    end
+    return lines
 end
 
 
@@ -269,6 +284,31 @@ function utils.parse_ping_return(cmd_result)
 end
 
 
+-- parses the output of "avahi0resolve -a" command, e.g.
+-- 192.168.0.100    NAS.local
+function utils.parse_avahi_resolve(cmd_result)
+    local p = cmd_result:find("Failed to resolve address")
+    if p ~= nil then
+        return nil
+    end
+
+    local ref = cmd_result:find("\t")
+    if ref == nil then
+        return nil
+    end
+
+    local ip = cmd_result:sub(1, ref-1)
+
+    local host = cmd_result:sub(ref+1)
+    p = host:find(".local")
+    if p ~= nil then
+        host = host:sub(1, p-1)
+    end
+
+    return ip, host
+end
+
+
 function utils.round(num, dec)
     if dec == nil then
         dec = 0
@@ -303,5 +343,39 @@ function utils.load_data(key, xfer_path)
     return v
 end
 
+
+-- from https://stackoverflow.com/questions/15706270/sort-a-table-in-lua
+function utils.spairs(t, order)
+    -- collect the keys
+    local keys = {}
+    for k in pairs(t) do keys[#keys+1] = k end
+
+    -- if order function given, sort by it by passing the table and keys a, b,
+    -- otherwise just sort the keys
+    if order then
+        table.sort(keys, function(a,b) return order(t, a, b) end)
+    else
+        table.sort(keys)
+    end
+
+    -- return the iterator function
+    local i = 0
+    return function()
+        i = i + 1
+        if keys[i] then
+            return keys[i], t[keys[i]]
+        end
+    end
+end
+
+function utils.sort_ips(t, ip_a, ip_b)
+    local p1 = utils.rfind(ip_a, "%.")
+    local p2 = utils.rfind(ip_b, "%.")
+
+    ip1 = tonumber(ip_a:sub(p1+1))
+    ip2 = tonumber(ip_b:sub(p2+1))
+
+    return ip1 < ip2
+end
 
 return utils
