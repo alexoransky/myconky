@@ -87,12 +87,23 @@ end
 
 
 -- returns true if file exists and is readable
-function utils:file_exists(fpath)
-  local f = io.open(fpath, "rb")
-  if f then
-      f:close()
-  end
-  return f ~= nil
+function utils.file_exists(fpath)
+    local f = io.open(fpath, "rb")
+    if f then
+        f:close()
+    end
+    return f ~= nil
+end
+
+
+function utils.copy_file(inf, outf)
+    infile = io.open(inf, "r")
+    instr = infile:read("*a")
+    infile:close()
+
+    outfile = io.open(outf, "w")
+    outfile:write(instr)
+    outfile:close()
 end
 
 
