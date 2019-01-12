@@ -28,20 +28,9 @@ function get_name(cmd_result)
     -- 192.168.0.100    NAS.local
     -- and forms the output string that conky can parse in its turn
 
-    local p = cmd_result:find("Failed to resolve address")
-    if p ~= nil then
+    local ip, host = utils.parse_avahi_resolve(cmd_result)
+    if ip == nil then
         return colors.warning .. "- - -"
-    end
-
-    local ref = cmd_result:find("\t")
-    if ref == nil then
-        return colors.warning .. "- - -"
-    end
-
-    host = cmd_result:sub(ref+1)
-    p = host:find(".local")
-    if p ~= nil then
-        host = host:sub(1, p-1)
     end
 
     return colors.normal .. host
