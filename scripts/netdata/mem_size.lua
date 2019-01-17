@@ -77,6 +77,7 @@ function get_info(ram_result, swap_result)
    end
 
    local swap_total, swap_perc = get_mem_vals(vals)
+   swap_total = utils.round(swap_total / 1024, 1)  -- convert to Gb
 
     if swap_perc < 1 and mem_perc <= 75 then
         return output
@@ -85,7 +86,7 @@ function get_info(ram_result, swap_result)
     color, color_bar = colors.define(swap_perc)
 
     output = output .. "\n" .. colors.title .. "SWAP " ..
-             colors.text .. swap_total .. "G".. cmds.rjust .. color ..
+             colors.text .. swap_total .. " G".. cmds.rjust .. color ..
              swap_perc .. "%  " .. color_bar .. cmds.lua_bar:gsub("FN", "echo " .. swap_perc)
 
     return output
