@@ -93,7 +93,7 @@ if arg[1] ~= nil then
     output = colors.title .. "CPU  " .. get_freq(cmd_result)
 
     cmd_result = utils.run_command(cmd_temp)
-    output = output .. cmds.tab40 .. get_temp(cmd_result)
+    output = output .. cmds.tab(40) .. get_temp(cmd_result)
 
     cmd_result = utils.run_command(cmd_util)
     output = output .. cmds.rjust .. get_total(cmd_result) .. "\n"

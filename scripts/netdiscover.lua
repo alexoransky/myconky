@@ -303,7 +303,7 @@ function read_hosts(network, mac, ping)
                 hname = color_name .. prepare_name(h["name"])
             end
 
-            output = output .. color_ip .. ip .. cmds.tab48 .. info ..
+            output = output .. color_ip .. ip .. cmds.tab(48) .. info ..
                      cmds.rjust .. hname .. "\n"
 
             cnt = cnt + 1

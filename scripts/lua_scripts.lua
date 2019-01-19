@@ -165,7 +165,7 @@ function conky_mem_size(swap)
 
 	local color, color_bar = colors.define(mem_used)
 
-	local output = colors.title .. "RAM" .. cmds.tab40 .. colors.text ..
+	local output = colors.title .. "RAM" .. cmds.tab(40) .. colors.text ..
                    cmds.mem_total .. cmds.rjust .. color .. mem_used ..
                    "%  " .. color_bar .. cmds.mem_bar
 
@@ -175,7 +175,7 @@ function conky_mem_size(swap)
 
     color, color_bar = colors.define(swap_used)
 
-    output = output .. "\n" .. colors.title .. "SWAP" .. cmds.tab40 ..
+    output = output .. "\n" .. colors.title .. "SWAP" .. cmds.tab(40) ..
              colors.text .. cmds.swap_total .. cmds.rjust .. color ..
              swap_used .. "%  " .. color_bar .. cmds.swap_bar
 

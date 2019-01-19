@@ -35,7 +35,7 @@ function get_disk_on(cmd_result, dev_id)
     local age_hr = tonumber(words[8])
     local age = utils.hr_to_mdh(age_hr)
 
-    return colors.title .. dev_id .. cmds.tab40 .. colors.text .. age, age_hr
+    return colors.title .. dev_id .. cmds.tab(40) .. colors.text .. age, age_hr
 end
 
 function get_disk_test(cmd_result, age)

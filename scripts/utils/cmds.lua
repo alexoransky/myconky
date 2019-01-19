@@ -9,12 +9,6 @@ cmds = {}
 cmds.line = "${hr 2}"
 cmds.center = "${alignc}"
 cmds.rjust = "${alignr}"
-cmds.tab37 = "${tab 37}"
-cmds.tab40 = "${tab 40}"
-cmds.tab48 = "${tab 48}"
-cmds.tab50 = "${tab 50}"
-cmds.tab55 = "${tab 55}"
-cmds.tab102 = "${tab 102}"
 -- information
 cmds.cpu = "${cpu cpuX}"
 cmds.freq = "${freq_g}"
@@ -73,5 +67,11 @@ cmds.metar_wind_dir = cmds.metar_template:gsub("INFO", "wind_dir")
 cmds.metar_wind_speed = cmds.metar_template:gsub("INFO", "wind_speed")
 -- parsing
 cmds.lua_parse = "${lua_parse FN PARAM}"
+
+
+function cmds.tab(n)
+    return "${tab " .. tostring(n) .. "}"
+end
+
 
 return cmds

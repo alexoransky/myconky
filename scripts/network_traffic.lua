@@ -21,8 +21,8 @@ require "utils"
 
 function get_traffic(infc)
     local output = colors.normal .. fonts.symbols .. "▼  " .. fonts.text ..
-                   cmds.dn_speed:gsub("XXX", infc) .. cmds.tab48 .. cmds.dn_total:gsub("XXX", infc) ..
-                   cmds.tab37..
+                   cmds.dn_speed:gsub("XXX", infc) .. cmds.tab(48) .. cmds.dn_total:gsub("XXX", infc) ..
+                   cmds.tab(37)..
                    cmds.up_speed:gsub("XXX", infc) .. cmds.rjust .. cmds.up_total:gsub("XXX", infc) ..
                    fonts.symbols .. "  ▲" .. fonts.text .. "\n" ..
                    colors.normal_bar .. cmds.dn_speed_gr:gsub("XXX", infc) ..

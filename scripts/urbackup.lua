@@ -91,7 +91,7 @@ function prepare_output(time, success)
     if sec > one_day then
         color = colors.warning
     end
-    output = colors.title .. "Latest" .. cmds.tab40 .. color .. age .. " ago   " .. cmds.rjust .. status
+    output = colors.title .. "Latest" .. cmds.tab(40) .. color .. age .. " ago   " .. cmds.rjust .. status
 
     return output
 end
@@ -114,7 +114,7 @@ function parse_running(proc)
     end
     size = utils.round(size, 1)
 
-    return fonts.text .. act .. cmds.tab40 .. size .. unit .. cmds.rjust .. perc .. "%  " ..
+    return fonts.text .. act .. cmds.tab(40) .. size .. unit .. cmds.rjust .. perc .. "%  " ..
            colors.normal_bar .. cmds.lua_bar:gsub("FN", "echo " .. perc) .. "\n"
 end
 

@@ -67,7 +67,7 @@ function get_info(ram_result, swap_result)
     mem_total = utils.round(mem_total / 1024, 1)  -- convert to Gb
 
     local color, color_bar = colors.define(mem_perc)
-	local output = colors.title .. "RAM   " .. cmds.tab40 .. colors.text ..
+	local output = colors.title .. "RAM   " .. cmds.tab(40) .. colors.text ..
                    mem_total .. " G".. cmds.rjust .. color .. mem_perc ..
                    "%  " .. color_bar .. cmds.lua_bar:gsub("FN", "echo " .. mem_perc)
 
@@ -85,7 +85,7 @@ function get_info(ram_result, swap_result)
 
     color, color_bar = colors.define(swap_perc)
 
-    output = output .. "\n" .. colors.title .. "SWAP " .. cmds.tab40 ..
+    output = output .. "\n" .. colors.title .. "SWAP " .. cmds.tab(40) ..
              colors.text .. swap_total .. " G".. cmds.rjust .. color ..
              swap_perc .. "%  " .. color_bar .. cmds.lua_bar:gsub("FN", "echo " .. swap_perc)
 

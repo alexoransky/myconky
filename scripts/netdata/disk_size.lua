@@ -84,7 +84,7 @@ function get_dev_info(cmd_result, dev_id)
     -- the value is in Gb, convert/format for proper display
     local size = format_size(disk_total)
 
-	local output = colors.title .. dev_id .. cmds.tab40 .. colors.text .. size ..
+	local output = colors.title .. dev_id .. cmds.tab(40) .. colors.text .. size ..
                    cmds.rjust .. color .. disk_perc ..
                    "%  " .. color_bar .. cmds.lua_bar:gsub("FN", "echo " .. disk_perc) .. "\n"
 

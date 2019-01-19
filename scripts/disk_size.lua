@@ -70,7 +70,7 @@ function get_dev_info(cmd_result, dev_id, dashes)
     size, perc, mnt = get_size_mnt(cmd_result, dev_id)
     if size == nil then
         if dashes then
-            return colors.title .. dev_id .. cmds.tab40 .. "  - - -\n"
+            return colors.title .. dev_id .. cmds.tab(40) .. "  - - -\n"
         else
             return nil
         end
@@ -78,7 +78,7 @@ function get_dev_info(cmd_result, dev_id, dashes)
 
     local color, color_bar = colors.define(perc)
 
-    local output = colors.title .. dev_id .. cmds.tab40 .. colors.text .. size ..
+    local output = colors.title .. dev_id .. cmds.tab(40) .. colors.text .. size ..
                    cmds.rjust .. color .. perc .. "%  " .. color_bar .. cmds.fs_bar:gsub("XXX", mnt) .. "\n"
 
     return output
