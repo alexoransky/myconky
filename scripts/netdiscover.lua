@@ -68,8 +68,7 @@ function discover_hosts(network)
 
     local new_ip
     local found = false
-    local lines = utils.split_lines(cmd_result)
-    for i, line in pairs(lines) do
+    for _, line in pairs(utils.split_line(cmd_result)) do
         local p1 = line:find(nmap_scan_report)
         if p1 ~= nil then
             new_ip = line:sub(p1 + #nmap_scan_report, -1)
@@ -101,8 +100,7 @@ end
 function parse_ifconfig(result)
     local ip = nil
     local mac = nil
-    local lines = utils.split_lines(result)
-    for i, line in pairs(lines) do
+    for _, line in pairs(utils.split_line(result)) do
         local words = utils.split_str(line)
         if words[1] == "inet" then
             if words[2] ~= "127.0.0.1" then
@@ -163,8 +161,7 @@ function read_macs(network)
     -- read mac addresses of other hosts
     local new_ip
     local found = false
-    local lines = utils.split_lines(cmd_result)
-    for i, line in pairs(lines) do
+    for _, line in pairs(utils.split_line(cmd_result)) do
         local words = utils.split_str(line)
         if (words[1] ~= "--") and (words[2] ~= nil) then
             new_ip = words[1]

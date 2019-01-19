@@ -168,7 +168,7 @@ function utils.split_str(s)
 end
 
 
-function utils.split_lines(s)
+function utils.split_line(s)
     local lines = {}
     for line in s:gmatch("[^\r\n]+") do
         table.insert(lines, line)

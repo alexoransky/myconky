@@ -38,7 +38,7 @@ function process_results(cmd_result, group)
     local ps = {}
     local i = 1
 
-    for line in cmd_result:gmatch("[^\r\n]+") do
+    for _, line in pairs(utils.split_line(cmd_result)) do
         name, mem, cpu, pid = get_info(line)
         if name ~= nil and name ~= "COMMAND" and cpu ~= nil and mem ~= nil and pid ~= nil then
             if group then
