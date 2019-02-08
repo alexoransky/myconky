@@ -55,7 +55,8 @@ cmds.cpu_gr = "${cpugraph 20,278 color7 ff0000 -t}"
 cmds.lua_gr = "${lua_graph FN 20, 130 -l}"
 -- weather
 cmds.metar_templ = "${weather SRC ICAO INFO}"
-cmds.metar_src = "http://tgftp.nws.noaa.gov/data/observations/metar/stations/"
+-- cmds.metar_src = "http://tgftp.nws.noaa.gov/data/observations/metar/stations/" -- changed to https in Feb 2019
+cmds.metar_src = "https://tgftp.nws.noaa.gov/data/observations/metar/stations/"
 cmds.metar_template = cmds.metar_templ:gsub("SRC", cmds.metar_src)
 cmds.metar_time = cmds.metar_template:gsub("INFO", "last_update")
 cmds.metar_cloud_cover = cmds.metar_template:gsub("INFO", "cloud_cover")
