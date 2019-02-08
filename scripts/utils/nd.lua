@@ -8,6 +8,7 @@ nd = {}
 local cjson = require "cjson.safe"
 
 nd.cmd_tmpl = "curl -s -X GET \"http://IP_ADDR/netdata/api/v1/data?chart=CMD_NAME&after=-1&format=json\""
+nd.cmd_port_tmpl = "curl -s -X GET \"http://IP_ADDR/api/v1/data?chart=CMD_NAME&after=-1&format=json\""
 nd.cmd_stream_tmpl = "curl -s -X GET \"http://127.0.0.1:19999/host/HOST_NAME/api/v1/data?chart=CMD_NAME&after=-1&format=json\""
 
 local data = "data"
@@ -16,13 +17,19 @@ local data = "data"
 function nd.cmd(ip_addr, cmd)
     -- if the host name is supplied, try to use streamed data to the master
     -- if the IP address is supplied, try to fetch the data from that IP
+    -- if port is supplied, will use ip:port instead of /netdata in the command
     local ch = ip_addr:sub(1, 1)
     n = tonumber(ch)
     if n == nil then
         cmd = nd.cmd_stream_tmpl:gsub("CMD_NAME", cmd)
         cmd = cmd:gsub("HOST_NAME", ip_addr)
     else
-        cmd = nd.cmd_tmpl:gsub("CMD_NAME", cmd)
+        local ref = ip_addr:find(":")
+        if ref == nil then
+            cmd = nd.cmd_tmpl:gsub("CMD_NAME", cmd)
+        else
+            cmd = nd.cmd_port_tmpl:gsub("CMD_NAME", cmd)
+        end
         cmd = cmd:gsub("IP_ADDR", ip_addr)
     end
 
