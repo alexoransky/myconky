@@ -9,14 +9,14 @@
 -- specified disk and also prints the indicator bar.
 --
 -- Usage:
---   ${execpi <TIME_PERIOD> <PATH>/disk_size.lua [<DEVICE>  <DEVICE> ...]}:
+--   ${execpi <TIME_PERIOD> <PATH>/disk_size.lua <IP> <DEVPATH> <DEVICE>  <DEVICE> ...}:
 --   e.g. for /dev/sda3 and /dev/sdb1:
---   ${execpi 10 ~/.config/conky/scripts/disk_size.lua sda3 sdb1}
---   if <DEVICE>s are skipped, will print info on available /dev/sdaX and sdbX.
+--   ${execpi 10 ~/.config/conky/scripts/disk_size.lua 192.168.0.100:19999 /dev /sda3 /sdb1}
+--   ${execpi 10 ~/.config/conky/scripts/disk_size.lua 192.168.0.100 . / /boot}
 --   Note that if the device is not mounted, there will be no ooutput.
 --
 -- Output:
--- /dev/sda3    226G    10% [###                  ]
+-- /sda3    226G    10% [###                  ]
 --
 
 require "colors"
@@ -24,7 +24,7 @@ require "cmds"
 require "utils"
 require "nd"
 
-disk_space = "disk_space._mnt_SERVER_"
+disk_space = "disk_space."
 
 FREE = 2  -- "avail"
 USED = 3
@@ -99,11 +99,16 @@ local ds = ""
 local output = ""
 local result = nil
 
-if arg[1] ~= nil then
+if (arg[1] ~= nil) and (arg[2] ~= nil) then
     local ip = arg[1]
-    for i = 2, #arg do
-        dev_id = "/" .. arg[i]
-        ds = disk_space .. arg[i]
+    local path = arg[2]
+    if path == "." then
+        path = ""
+    end
+    for i = 3, #arg do
+        dev_id = arg[i]
+        ds = disk_space .. path .. arg[i]
+        ds = ds:gsub("/", "_")
         cmd_disk = nd.cmd(ip, ds)
         cmd_result = utils.run_command(cmd_disk)
         result =  get_dev_info(cmd_result, dev_id)
