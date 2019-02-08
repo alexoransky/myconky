@@ -12,6 +12,7 @@
 --   ${execpi <TIME_PERIOD> <PATH>/cpu_info.lua IP}:
 --
 --   ${execpi 3600 ~/.config/conky/scripts/nd/cpu_info.lua 192.168.0.100}
+--   ${execpi 3600 ~/.config/conky/scripts/nd/cpu_info.lua 192.168.0.100:19999}
 --
 -- Output:
 -- 2.74 GHz:   +50°C   5%  [####     ]
@@ -37,7 +38,7 @@ CPU1 = 3
 function get_freq(cmd_result)
     local v = nd.get_value(cmd_result, FREQUENCY)
     if v == nil then
-        return cmds.rjust .. colors.warning .. "- - -"
+        return colors.warning .. "- - - " .. " GHz"
     end
     return colors.text .. v .. " GHz"
 end
@@ -47,7 +48,7 @@ function get_temp(cmd_result)
     local v1 = nd.get_value(cmd_result, CPU0)
     local v2 = nd.get_value(cmd_result, CPU1)
     if v1 == nil then
-        return ""
+        return colors.warning .. "- - - " .. "°C"
     end
     local t = v1
     if v2 ~= nil then
