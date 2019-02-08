@@ -26,6 +26,7 @@ require "nd"
 
 cpu_temp = "cpu.temperature"
 cpu_freq = "cpu.scaling_cur_freq"
+cpu_freq2 = "cpu.cpufreq"
 cpu_util = "system.cpu"
 
 TEMP_HIGH = 69
@@ -35,12 +36,19 @@ FREQUENCY = 2
 CPU0 = 2
 CPU1 = 3
 
-function get_freq(cmd_result)
-    local v = nd.get_value(cmd_result, FREQUENCY)
-    if v == nil then
-        return colors.warning .. "- - - " .. " GHz"
+function get_freq(cmd_result1, cmd_result2)
+    local v1 = nd.get_value(cmd_result1, FREQUENCY)
+    if v1 ~= nil then
+        return colors.text .. v1 .. " GHz"
     end
-    return colors.text .. v .. " GHz"
+
+    local v2 = nd.get_value(cmd_result2, FREQUENCY)
+    if v2 ~= nil then
+        v2 = utils.round(v2/1000, 1)
+        return colors.text .. v2 .. " GHz"
+    end
+
+    return colors.warning .. "- - - " .. " GHz"
 end
 
 
@@ -48,7 +56,7 @@ function get_temp(cmd_result)
     local v1 = nd.get_value(cmd_result, CPU0)
     local v2 = nd.get_value(cmd_result, CPU1)
     if v1 == nil then
-        return colors.warning .. "- - - " .. "°C"
+        return colors.warning .. " - - - " .. "°C"
     end
     local t = v1
     if v2 ~= nil then
@@ -87,11 +95,13 @@ if arg[1] ~= nil then
     local ip = arg[1]
 
     local cmd_freq = nd.cmd(ip, cpu_freq)
+    local cmd_freq2 = nd.cmd(ip, cpu_freq2)
     local cmd_temp = nd.cmd(ip, cpu_temp)
     local cmd_util = nd.cmd(ip, cpu_util)
 
     cmd_result = utils.run_command(cmd_freq)
-    output = colors.title .. "CPU  " .. get_freq(cmd_result)
+    cmd_result2 = utils.run_command(cmd_freq2)
+    output = colors.title .. "CPU  " .. get_freq(cmd_result, cmd_result2)
 
     cmd_result = utils.run_command(cmd_temp)
     output = output .. cmds.tab(40) .. get_temp(cmd_result)
