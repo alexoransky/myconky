@@ -208,3 +208,8 @@ function conky_load_data_sent()
     local v = utils.load_data(utils.DATA_SENT, utils.xfer_path_network)
     return v
 end
+
+function conky_hosts_shutdown()
+    -- copy hosts file from the ramdisk to the disk
+    utils.copy_file(utils.hosts_file, utils.hosts_file_save)
+end

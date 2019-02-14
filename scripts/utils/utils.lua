@@ -10,6 +10,9 @@ local cjson = require "cjson.safe"
 utils.xfer_path_disk = "/mnt/ramdisk/conky_data_disk"
 utils.xfer_path_network = "/mnt/ramdisk/conky_data_network"
 
+utils.hosts_file_save = "/home/alex/.config/conky/hosts.txt"
+utils.hosts_file = "/mnt/ramdisk/hosts.txt"
+
 --
 -- the following is used for lua_scripts.lua
 -- and in netdata modules

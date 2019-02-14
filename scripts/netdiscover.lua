@@ -31,8 +31,6 @@ require "cmds"
 require "utils"
 local cjson = require "cjson.safe"
 
-hosts_file_templ = "hosts.txt"
-hosts_file = "/mnt/ramdisk/hosts.txt"
 nmap_scan_report = "Nmap scan report for "
 
 local cmd_nmap = "nmap -sn NETWORK"
@@ -57,7 +55,7 @@ function discover_hosts(network)
     local cmd = cmd_nmap:gsub("NETWORK", network)
     local cmd_result = utils.run_command(cmd)
 
-    local hosts = cjson.decode(utils.read_file(hosts_file))
+    local hosts = cjson.decode(utils.read_file(utils.hosts_file))
     if hosts == nil then
         hosts = {}
     else
@@ -93,7 +91,7 @@ function discover_hosts(network)
     end
 
     s = beautify(cjson.encode(hosts))
-    utils.write_to_file(hosts_file, s, true)
+    utils.write_to_file(utils.hosts_file, s, true)
 end
 
 
@@ -124,7 +122,7 @@ function read_macs(network)
     local cmd = cmd_netdiscover:gsub("NETWORK", network)
     local cmd_result = utils.run_command(cmd)
 
-    local hosts = cjson.decode(utils.read_file(hosts_file))
+    local hosts = cjson.decode(utils.read_file(utils.hosts_file))
     if hosts == nil then
         hosts = {}
     else
@@ -189,12 +187,12 @@ function read_macs(network)
     end
 
     s = beautify(cjson.encode(hosts))
-    utils.write_to_file(hosts_file, s, true)
+    utils.write_to_file(utils.hosts_file, s, true)
 end
 
 
 function ping_hosts()
-    local hosts = cjson.decode(utils.read_file(hosts_file))
+    local hosts = cjson.decode(utils.read_file(utils.hosts_file))
     if hosts == nil then
         return
     else
@@ -214,14 +212,14 @@ function ping_hosts()
     end
 
     s = beautify(cjson.encode(hosts))
-    utils.write_to_file(hosts_file, s, true)
+    utils.write_to_file(utils.hosts_file, s, true)
 end
 
 
 function identify_hosts()
     -- identifies hosts (resolves IPs to names) using avahi-resolve
 
-    local hosts = cjson.decode(utils.read_file(hosts_file))
+    local hosts = cjson.decode(utils.read_file(utils.hosts_file))
     if hosts == nil then
         return
     end
@@ -248,7 +246,7 @@ function identify_hosts()
     end
 
     s = beautify(cjson.encode(hosts))
-    utils.write_to_file(hosts_file, s, true)
+    utils.write_to_file(utils.hosts_file, s, true)
 end
 
 
@@ -268,7 +266,7 @@ function read_hosts(network, mac, ping)
     local time = 0
     local info = ""
     local hname = ""
-    local hosts = cjson.decode(utils.read_file(hosts_file))
+    local hosts = cjson.decode(utils.read_file(utils.hosts_file))
     if hosts ~= nil then
         for ip, h in utils.spairs(hosts, utils.sort_ips) do
             color_ip = colors.normal
@@ -315,10 +313,10 @@ end
 function init_hosts(copy)
     -- copy hosts if requested
     if (copy ~= nil) and copy then
-        utils.copy_file(hosts_file_templ, hosts_file)
+        utils.copy_file(utils.hosts_file_save, utils.hosts_file)
     end
 
-    local hosts = cjson.decode(utils.read_file(hosts_file))
+    local hosts = cjson.decode(utils.read_file(utils.hosts_file))
     if hosts == nil then
         hosts = {}
     else
@@ -331,7 +329,7 @@ function init_hosts(copy)
     end
 
     s = beautify(cjson.encode(hosts))
-    utils.write_to_file(hosts_file, s, true)
+    utils.write_to_file(utils.hosts_file, s, true)
 end
 
 
@@ -354,7 +352,8 @@ local output = ""
 local cmd = ""
 local cmd_result = ""
 if network ~= nil then
-    if not utils.file_exists(hosts_file) then
+    if not utils.file_exists(utils.hosts_file) then
+        -- display the saved lists of hosts right away at startup
         init_hosts(true)
     else
         init_hosts()
