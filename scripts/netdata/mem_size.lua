@@ -66,20 +66,23 @@ function get_info(ram_result, swap_result)
     local mem_total, mem_perc = get_mem_vals(vals)
     mem_total = utils.round(mem_total / 1024, 1)  -- convert to Gb
 
-    local color, color_bar = colors.define(mem_perc)
+    -- highlight if memory usage is more than 90%
+    local color, color_bar = colors.define(mem_perc, 90, 95)
 	local output = colors.title .. "RAM   " .. cmds.tab(40) .. colors.text ..
                    mem_total .. " G".. cmds.rjust .. color .. mem_perc ..
                    "%  " .. color_bar .. cmds.lua_bar:gsub("FN", "echo " .. mem_perc)
 
-   vals = nd.get_values(swap_result)
-   if vals == nil then
-       return output
-   end
+    vals = nd.get_values(swap_result)
+    if vals == nil then
+        return output
+    end
 
-   local swap_total, swap_perc = get_mem_vals(vals)
-   swap_total = utils.round(swap_total / 1024, 1)  -- convert to Gb
+    local swap_total, swap_perc = get_mem_vals(vals)
+    swap_total = utils.round(swap_total / 1024, 1)  -- convert to Gb
 
-    if swap_perc < 1 and mem_perc <= 75 then
+    -- show swap if swap utilization is more than 1% or
+    -- memory utilization is more than 95%
+    if swap_perc <= 1 and mem_perc <= 95 then
         return output
     end
 
