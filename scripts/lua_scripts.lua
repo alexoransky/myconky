@@ -209,7 +209,14 @@ function conky_load_data_sent()
     return v
 end
 
+-- shutdown functions
+
 function conky_hosts_shutdown()
     -- copy hosts file from the ramdisk to the disk
     utils.copy_file(utils.hosts_file, utils.hosts_file_save)
+end
+
+function conky_system_shutdown()
+    -- copy printer file from the ramdisk to the disk
+    utils.copy_file(utils.printer_file, utils.printer_file_save)
 end

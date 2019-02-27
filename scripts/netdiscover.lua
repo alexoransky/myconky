@@ -40,14 +40,6 @@ local cmd_avahi = "avahi-resolve -a "
 local cmd_ifconfig = "ifconfig -a"
 
 
-function beautify(json)
-    local s = json:gsub("{", "{\n")
-    s = s:gsub("}", "\n}")
-    s = s:gsub(",", ",\n")
-    return s
-end
-
-
 function discover_hosts(network)
     -- discovers hosts using nmap
     -- and updates hosts.txt file
@@ -90,7 +82,7 @@ function discover_hosts(network)
         end
     end
 
-    s = beautify(cjson.encode(hosts))
+    s = utils.beautify(cjson.encode(hosts))
     utils.write_to_file(utils.hosts_file, s, true)
 end
 
@@ -186,7 +178,7 @@ function read_macs(network)
         end
     end
 
-    s = beautify(cjson.encode(hosts))
+    s = utils.beautify(cjson.encode(hosts))
     utils.write_to_file(utils.hosts_file, s, true)
 end
 
@@ -211,7 +203,7 @@ function ping_hosts()
         h["ping_time"] = time
     end
 
-    s = beautify(cjson.encode(hosts))
+    s = utils.beautify(cjson.encode(hosts))
     utils.write_to_file(utils.hosts_file, s, true)
 end
 
@@ -245,7 +237,7 @@ function identify_hosts()
         end
     end
 
-    s = beautify(cjson.encode(hosts))
+    s = utils.beautify(cjson.encode(hosts))
     utils.write_to_file(utils.hosts_file, s, true)
 end
 
@@ -328,7 +320,7 @@ function init_hosts(copy)
         end
     end
 
-    s = beautify(cjson.encode(hosts))
+    s = utils.beautify(cjson.encode(hosts))
     utils.write_to_file(utils.hosts_file, s, true)
 end
 

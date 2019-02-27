@@ -10,8 +10,11 @@ local cjson = require "cjson.safe"
 utils.xfer_path_disk = "/mnt/ramdisk/conky_data_disk"
 utils.xfer_path_network = "/mnt/ramdisk/conky_data_network"
 
+-- state files
 utils.hosts_file_save = "/home/alex/.config/conky/hosts.txt"
 utils.hosts_file = "/mnt/ramdisk/hosts.txt"
+utils.printer_file_save = "/home/alex/.config/conky/printer.txt"
+utils.printer_file = "/mnt/ramdisk/printer.txt"
 
 --
 -- the following is used for lua_scripts.lua
@@ -107,6 +110,14 @@ function utils.copy_file(inf, outf)
     outfile = io.open(outf, "w")
     outfile:write(instr)
     outfile:close()
+end
+
+
+function utils.beautify(json)
+    local s = json:gsub("{", "{\n")
+    s = s:gsub("}", "\n}")
+    s = s:gsub(",", ",\n")
+    return s
 end
 
 
