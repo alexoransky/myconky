@@ -19,6 +19,7 @@ require "colors"
 require "fonts"
 require "cmds"
 require "utils"
+require "files"
 
 -- returns
 -- ${color2}Logged In ${alignr}${colorX}${user_number}
@@ -218,5 +219,5 @@ end
 
 function conky_system_shutdown()
     -- copy printer file from the ramdisk to the disk
-    utils.copy_file(utils.printer_file, utils.printer_file_save)
+    files.save_file(files.printer)
 end

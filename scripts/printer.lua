@@ -16,11 +16,14 @@
 require "colors"
 require "cmds"
 require "utils"
+require "files"
 
 local cjson = require "cjson.safe"
 
-warning = "moni moniWarning"
-level = "class=\"tonerremain\" height=\""
+local cmd = "curl  -s -X GET http://<IP>/general/status.html"
+
+local warning = "moni moniWarning"
+local level = "class=\"tonerremain\" height=\""
 
 function save_printer_file(cmd_result)
     local title = "\"Status\""
@@ -57,11 +60,11 @@ function save_printer_file(cmd_result)
     end
 
     s = utils.beautify(output)
-    utils.write_to_file(utils.printer_file, s, true)
+    utils.write_to_file(files.temp_path .. files.printer, s, true)
 end
 
 function read_printer_file()
-    local toners = cjson.decode(utils.read_file(utils.printer_file))
+    local toners = cjson.decode(utils.read_file(files.temp_path .. files.printer))
     if toners == nil then
         return colors.normal .. "Status" .. cmds.rjust .. colors.critical .. "- - -" .. "\n"
     end
@@ -89,19 +92,17 @@ function read_printer_file()
 end
 
 
-printer_status_url = "http://<IP>/general/status.html"
-local cmd = "curl  -s -X GET " .. printer_status_url
-
 local output = ""
 local ip = arg[1]
 if ip ~= nil then
-    if (not utils.file_exists(utils.printer_file)) and (utils.file_exists(utils.printer_file_save)) then
-        utils.copy_file(utils.printer_file_save, utils.printer_file)
-    else
+    -- if running for the first time, copy the file from HDD to RAM disk
+    -- if not, run the command and save the result into a file
+    if not files.restore_file(files.printer) then
         cmd = cmd:gsub("<IP>", ip)
         local cmd_result = utils.run_command(cmd)
         save_printer_file(cmd_result)
     end
+    -- read the file from the RAM disk, process it and display the result
     output = read_printer_file()
 end
 
