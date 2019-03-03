@@ -5,7 +5,7 @@
 --
 
 --
--- The script outputs conky commands to print the smartctl info (drive op age
+-- The script outputs conky commands to print the smartctl info (drive op time
 -- and the last test) for the specified disk.
 --
 -- Usage:
