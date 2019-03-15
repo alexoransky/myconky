@@ -24,6 +24,9 @@ require "cmds"
 require "utils"
 require "nd"
 
+-- temp through the old bash script:
+sensors_temp = "sensors.temp_thermal_zone0_thermal_thermal_zone0"
+-- temp through the new python module:
 cpu_temp = "cpu.temperature"
 cpu_freq = "cpu.scaling_cur_freq"
 cpu_freq2 = "cpu.cpufreq"
@@ -62,6 +65,7 @@ function get_temp(cmd_result)
     if v2 ~= nil then
         t = math.max(v1, v2)
     end
+    t = utils.round(t, 1)
 
     local color, cb = colors.define(t, TEMP_HIGH, TEMP_CRITICAL)
 
@@ -93,10 +97,14 @@ local output = ""
 
 if arg[1] ~= nil then
     local ip = arg[1]
+    local temp_group = cpu_temp
+    if arg[2] == "-s" then
+        temp_group = sensors_temp
+    end
 
     local cmd_freq = nd.cmd(ip, cpu_freq)
     local cmd_freq2 = nd.cmd(ip, cpu_freq2)
-    local cmd_temp = nd.cmd(ip, cpu_temp)
+    local cmd_temp = nd.cmd(ip, temp_group)
     local cmd_util = nd.cmd(ip, cpu_util)
 
     cmd_result = utils.run_command(cmd_freq)
