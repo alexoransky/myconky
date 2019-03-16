@@ -303,7 +303,7 @@ function utils.parse_ping_return(cmd_result)
 
     local p1 = cmd_result:find("/", ref+22)
     local p2 = cmd_result:find("/", p1+2)
-    time = tonumber(cmd_result:sub(p1+1, p2-1))
+    time = utils.round(tonumber(cmd_result:sub(p1+1, p2-1)), 2)
 
     return time
 end
