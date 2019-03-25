@@ -16,6 +16,7 @@ files.perm_path = "/home/alex/.config/conky/"
 -- save files
 files.hosts = "conky_hosts.txt"
 files.printer = "conky_printer.txt"
+files.speedtest = "conky_speedtest.txt"
 
 function files.restore_file(fname)
     local hdd_path = files.perm_path .. fname

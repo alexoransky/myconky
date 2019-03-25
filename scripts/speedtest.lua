@@ -21,7 +21,12 @@ require "colors"
 require "fonts"
 require "cmds"
 require "utils"
+require "files"
+local cjson = require "cjson.safe"
 
+CMD_SIMPLE = "speedtest-cli --simple"
+CMD_JSON = "speedtest-cli --json"
+FORMAT_SIMPLE = "-s"
 
 PING = "Ping: "
 DOWNLOAD = "Download: "
@@ -47,10 +52,33 @@ function get_data(s, param_str, unit_str)
 end
 
 
-function parse_result(result)
-    local ping = get_data(result, PING, MS)
-    local dn = get_data(result, DOWNLOAD, MBITS)
-    local up = get_data(result, UPLOAD, MBITS)
+function parse_result(result, format)
+    local ping
+    local dn
+    local up
+
+    if format == FORMAT_SIMPLE then
+        ping = get_data(result, PING, MS)
+        dn = get_data(result, DOWNLOAD, MBITS)
+        up = get_data(result, UPLOAD, MBITS)
+    else
+        local data = cjson.decode(result)
+        if data == nil then
+            data = {}
+        end
+        ping = utils.round(data["ping"], 2)
+        dn = utils.round(data["download"] / (1000*1000), 2)
+        up = utils.round(data["upload"] / (1000*1000), 2)
+        ts = data["timestamp"]
+
+        local data_out = {}
+        data_out["timestamp"] = ts
+        data_out["ping"] = ping
+        data_out["download"] = dn
+        data_out["upload"] = up
+        local out_str = cjson.encode(data_out)
+        utils.write_to_file(files.perm_path .. files.speedtest, utils.beautify(out_str)..",\n")
+    end
 
     if ping == nil then
         return colors.critical .. fonts.symbols .. "▼  " .. fonts.text .. "- - -" ..
@@ -76,6 +104,10 @@ end
 
 
 local output = ""
-local cmd_result = utils.run_command("speedtest-cli --simple")
-local output = parse_result(cmd_result)
+local cmd = CMD_JSON
+if arg[1] == FORMAT_SIMPLE then
+    cmd = CMD_SIMPLE
+end
+local cmd_result = utils.run_command(cmd)
+local output = parse_result(cmd_result, arg[1])
 io.write(output)
