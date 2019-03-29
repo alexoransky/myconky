@@ -39,27 +39,29 @@ function get_volume(s, ss)
         end
     end
 
-    local col = colors.warning_bar
+    local col = colors.warning
+    local col_bar = colors.warning_bar
     if status == "on" then
-        col = colors.normal_bar
+        col = colors.normal
+        col_bar = colors.normal_bar
     end
 
-    return tonumber(perc), col
+    return tonumber(perc), col, col_bar
 end
 
 function parse_result(cmd_result)
-    local left_col = colors.warning_bar
-    local right_col = colors.warning_bar
-    local left_perc = "0"
-    local right_perc = "0"
-    if cmd_result ~= "" then
-        left_perc, left_col = get_volume(cmd_result, left)
-        right_perc, right_col = get_volume(cmd_result, right)
-    end
-
+    local col, col_bar
+    local perc = "0"
     local output = ""
-    output = output .. colors.text .. "Left" .. colors.normal .. cmds.rjust .. left_perc .. "% " .. left_col .. cmds.lua_bar:gsub("FN", "echo " .. left_perc) .. "\n"
-    output = output .. colors.text .. "Right" .. colors.normal .. cmds.rjust .. right_perc .. "% " .. right_col .. cmds.lua_bar:gsub("FN", "echo " .. right_perc) .. "\n"
+    if cmd_result ~= "" then
+        perc, col, col_bar = get_volume(cmd_result, left)
+        output = output .. colors.title .. "Left" .. cmds.rjust .. col .. perc .. "% " .. col_bar .. cmds.lua_bar:gsub("FN", "echo " .. perc) .. "\n"
+        perc, col, col_bar = get_volume(cmd_result, right)
+        output = output .. colors.title .. "Right" .. cmds.rjust .. col .. perc .. "% " .. col_bar .. cmds.lua_bar:gsub("FN", "echo " .. perc) .. "\n"
+    else
+        output = output .. colors.title .. "Left" .. cmds.rjust .. colors.critical .. "- - -\n"
+        output = output .. colors.title .. "Right" .. cmds.rjust .. colors.critical .. "- - -\n"
+    end
 
     return output
 end
