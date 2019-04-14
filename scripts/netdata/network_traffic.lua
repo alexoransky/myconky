@@ -41,7 +41,7 @@ function get_disp_val(val)
     return dv .. unit
 end
 
-function get_net_traffic(cmd_result, infc)
+function get_net_traffic(cmd_result, infc, ip)
     local out1 = colors.normal .. fonts.symbols .. "▼  " .. fonts.text
     local out2 = colors.normal .. fonts.symbols .. "  ▲" .. fonts.text
 
@@ -49,6 +49,9 @@ function get_net_traffic(cmd_result, infc)
     if infc ~= nil then
         outc = cmds.center .. colors.title .. "                " .. infc
     end
+
+    local p1 = utils.rfind(ip, "%.")
+    local last_num = ip:sub(p1+1)
 
     local val = nd.get_values(cmd_result)
     if val == nil or #val < SENT then
@@ -62,16 +65,16 @@ function get_net_traffic(cmd_result, infc)
             val[i] = 0
         end
         val[i] = val[i] / 8 -- convert from kilobit/s to kilobyte/s
-        utils.store_data(i - RECEIVED + 1, tonumber(val[i]), utils.xfer_path_network)  -- indexing is 1-based
+        utils.store_data(i - RECEIVED + 1, tonumber(val[i]), utils.xfer_path_network..last_num)  -- indexing is 1-based
     end
 
     local recv = get_disp_val(val[RECEIVED])
     local sent = get_disp_val(val[SENT])
-    
+
     return out1 .. colors.normal .. recv .. outc ..
            cmds.rjust .. colors.normal .. sent .. out2 .. "\n" ..
-           colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_received") ..
-           cmds.rjust .. cmds.lua_gr:gsub("FN", "load_data_sent") .. "\n"
+           colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_received_"..last_num) ..
+           cmds.rjust .. cmds.lua_gr:gsub("FN", "load_data_sent_"..last_num) .. "\n"
 end
 
 
@@ -88,7 +91,7 @@ if arg[1] ~= nil then
 
     local cmd_io = nd.cmd(ip, cmd)
     cmd_result = utils.run_command(cmd_io)
-    output = get_net_traffic(cmd_result, arg[2])
+    output = get_net_traffic(cmd_result, arg[2], ip)
 end
 
 

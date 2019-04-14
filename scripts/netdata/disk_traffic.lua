@@ -26,9 +26,12 @@ sysio = "system.io"
 IN = 2    -- read
 OUT = 3   -- write
 
-function get_dev_traffic(cmd_result)
+function get_dev_traffic(cmd_result, ip)
     local out1 = colors.normal .. fonts.symbols .. "▼  " .. fonts.text
     local out2 = colors.normal .. fonts.symbols .. "  ▲" .. fonts.text
+
+    local p1 = utils.rfind(ip, "%.")
+    local last_num = ip:sub(p1+1)
 
     local val = nd.get_values(cmd_result)
     if val == nil or #val < OUT then
@@ -41,7 +44,7 @@ function get_dev_traffic(cmd_result)
         if val[i] == 0.0 then
             val[i] = 0
         end
-        utils.store_data(i - IN + 1, tonumber(val[i]), utils.xfer_path_disk)  -- indexing is 1-based
+        utils.store_data(i - IN + 1, tonumber(val[i]), utils.xfer_path_disk..last_num)  -- indexing is 1-based
     end
 
     vin = val[IN] .. "K"
@@ -55,8 +58,8 @@ function get_dev_traffic(cmd_result)
 
     return out1 .. colors.normal .. vout ..
            cmds.rjust .. colors.normal .. vin .. out2 .. "\n" ..
-           colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_out") ..
-           cmds.rjust .. cmds.lua_gr:gsub("FN", "load_data_in") .. "\n"
+           colors.normal_bar .. cmds.lua_gr:gsub("FN", "load_data_out_"..last_num) ..
+           cmds.rjust .. cmds.lua_gr:gsub("FN", "load_data_in_"..last_num) .. "\n"
 end
 
 
@@ -67,7 +70,7 @@ if arg[1] ~= nil then
     local ip = arg[1]
     local cmd_io = nd.cmd(ip, sysio)
     cmd_result = utils.run_command(cmd_io)
-    output = get_dev_traffic(cmd_result)
+    output = get_dev_traffic(cmd_result, ip)
 end
 
 io.write(output)

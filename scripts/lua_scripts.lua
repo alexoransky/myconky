@@ -189,24 +189,45 @@ function conky_echo(param)
     return param
 end
 
+-- IO functions for each host
 
-function conky_load_data_in()
-    local v = utils.load_data(utils.DATA_IN, utils.xfer_path_disk)
+function conky_load_data_in_106()
+    local v = utils.load_data(utils.DATA_IN, utils.xfer_path_disk .. "106")
     return v
 end
 
-function conky_load_data_out()
-    local v = utils.load_data(utils.DATA_OUT, utils.xfer_path_disk)
+function conky_load_data_out_106()
+    local v = utils.load_data(utils.DATA_OUT, utils.xfer_path_disk .. "106")
     return v
 end
 
-function conky_load_data_received()
-    local v = utils.load_data(utils.DATA_RECEIVED, utils.xfer_path_network)
+function conky_load_data_in_112()
+    local v = utils.load_data(utils.DATA_IN, utils.xfer_path_disk .. "112")
     return v
 end
 
-function conky_load_data_sent()
-    local v = utils.load_data(utils.DATA_SENT, utils.xfer_path_network)
+function conky_load_data_out_112()
+    local v = utils.load_data(utils.DATA_OUT, utils.xfer_path_disk .. "112")
+    return v
+end
+
+function conky_load_data_received_106()
+    local v = utils.load_data(utils.DATA_RECEIVED, utils.xfer_path_network .. "106")
+    return v
+end
+
+function conky_load_data_sent_106()
+    local v = utils.load_data(utils.DATA_SENT, utils.xfer_path_network .. "106")
+    return v
+end
+
+function conky_load_data_received_112()
+    local v = utils.load_data(utils.DATA_RECEIVED, utils.xfer_path_network .. "112")
+    return v
+end
+
+function conky_load_data_sent_112()
+    local v = utils.load_data(utils.DATA_SENT, utils.xfer_path_network .. "112")
     return v
 end
 
