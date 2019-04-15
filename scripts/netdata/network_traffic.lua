@@ -51,7 +51,8 @@ function get_net_traffic(cmd_result, infc, ip)
     end
 
     local p1 = utils.rfind(ip, "%.")
-    local last_num = ip:sub(p1+1)
+    local p2 = utils.rfind(ip, ":")
+    local last_num = ip:sub(p1+1, p2)
 
     local val = nd.get_values(cmd_result)
     if val == nil or #val < SENT then
