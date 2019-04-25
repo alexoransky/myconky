@@ -201,6 +201,16 @@ function conky_load_data_out_106()
     return v
 end
 
+function conky_load_data_in_108()
+    local v = utils.load_data(utils.DATA_IN, utils.xfer_path_disk .. "108")
+    return v
+end
+
+function conky_load_data_out_108()
+    local v = utils.load_data(utils.DATA_OUT, utils.xfer_path_disk .. "108")
+    return v
+end
+
 function conky_load_data_in_112()
     local v = utils.load_data(utils.DATA_IN, utils.xfer_path_disk .. "112")
     return v
@@ -218,6 +228,16 @@ end
 
 function conky_load_data_sent_106()
     local v = utils.load_data(utils.DATA_SENT, utils.xfer_path_network .. "106")
+    return v
+end
+
+function conky_load_data_received_108()
+    local v = utils.load_data(utils.DATA_RECEIVED, utils.xfer_path_network .. "108")
+    return v
+end
+
+function conky_load_data_sent_108()
+    local v = utils.load_data(utils.DATA_SENT, utils.xfer_path_network .. "108")
     return v
 end
 

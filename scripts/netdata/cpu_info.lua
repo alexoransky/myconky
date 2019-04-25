@@ -26,6 +26,7 @@ require "nd"
 
 -- temp through the old bash script:
 sensors_temp = "sensors.temp_thermal_zone0_thermal_thermal_zone0"
+core_temp = "sensors.coretemp_isa_0000_temperature"
 -- temp through the new python module:
 cpu_temp = "cpu.temperature"
 cpu_freq = "cpu.scaling_cur_freq"
@@ -100,6 +101,9 @@ if arg[1] ~= nil then
     local temp_group = cpu_temp
     if arg[2] == "-s" then
         temp_group = sensors_temp
+    end
+    if arg[2] == "-c" then
+        temp_group = core_temp
     end
 
     local cmd_freq = nd.cmd(ip, cpu_freq)

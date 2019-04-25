@@ -403,4 +403,17 @@ function utils.sort_ips(t, ip_a, ip_b)
     return ip1 < ip2
 end
 
+function utils.last_ip_num(ip)
+    local p1 = utils.rfind(ip, "%.")
+    local p2 = utils.rfind(ip, ":")
+    local last_num
+    if p2 == nil then
+        last_num = ip:sub(p1+1, p2)
+    else
+        last_num = ip:sub(p1+1, p2-1)
+    end
+
+    return last_num
+end
+
 return utils
