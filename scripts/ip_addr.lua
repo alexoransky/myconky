@@ -18,9 +18,9 @@
 -- 192.168.0.10      12.34.567.89
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 ping = "ping -i 0.2 -c 5 -q "
 router_ip = "192.168.0.1"

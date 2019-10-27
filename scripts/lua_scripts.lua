@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 --
--- Alex Oransky, 2018
+-- Alex Oransky, 2018, 2019
 -- https://github.com/alexoransky/myconky
 --
 
@@ -15,11 +15,11 @@
 -- Those functions are implemented in stand-alone scripts.
 --
 
-require "colors"
-require "fonts"
-require "cmds"
-require "utils"
-require "files"
+require "./utils/colors"
+require "./utils/fonts"
+require "./utils/cmds"
+require "./utils/utils"
+require "./utils/files"
 
 -- returns
 -- ${color2}Logged In ${alignr}${colorX}${user_number}
@@ -57,6 +57,24 @@ function conky_uptime()
     return colors.title .. "Uptime " .. cmds.rjust .. colors.text .. cmds.uptime
 end
 
+-- returns
+function conky_battery()
+	local cmd = cmds.bat_avail:gsub("XXX", "BAT0")
+	local bat_avail = tonumber(conky_parse(cmd))
+
+	local ac_in = conky_parse(cmds.ac_in)
+	local ac = ""
+	if ac_in == "on-line" then
+		ac = "  A/C"
+	end
+
+	local color, color_bar = colors.define(100 - bat_avail)
+
+	local output = colors.title .. "Battery" .. ac .. cmds.tab(40) ..
+	                 cmds.rjust .. color .. bat_avail ..
+                   "%  " .. color_bar .. cmds.bat_bar
+	return output
+end
 
 -- returns
 -- ${color2}UTC ${alignr}${color1}$utime
@@ -161,8 +179,8 @@ end
 -- ${color2}Swap: ${tab 38} \
 -- ${color1}${swapmax} ${alignr}${color6}$swapperc%  ${color4}${swapbar 6, 100}
 function conky_mem_size(swap)
-    local mem_used = tonumber(conky_parse(cmds.mem_used))
-    local swap_used = tonumber(conky_parse(cmds.swap_used))
+  local mem_used = tonumber(conky_parse(cmds.mem_used))
+  local swap_used = tonumber(conky_parse(cmds.swap_used))
 
 	local color, color_bar = colors.define(mem_used)
 

@@ -22,9 +22,9 @@
 -- ${execi 3600 cat /proc/cpuinfo | grep 'model name' | sed -e 's/model name.*: //'| uniq}
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_cpu_info(fpath, item, return_speed)

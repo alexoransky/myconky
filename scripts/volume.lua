@@ -13,9 +13,9 @@
 --   ${execpi 60 ~/.config/conky/scripts/volume.lua}
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 local cmd = "amixer get Master"
 

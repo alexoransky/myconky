@@ -13,10 +13,10 @@
 --   ${execp ~/.config/conky/scripts/network_traffic.lua eno1 wlan0}
 --
 
-require "colors"
-require "fonts"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/fonts"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_traffic(infc)

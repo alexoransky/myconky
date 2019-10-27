@@ -16,9 +16,9 @@
 -- NAS   0.345 ms
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_status(cmd_result)

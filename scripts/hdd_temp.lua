@@ -15,9 +15,9 @@
 -- Disk Temp   +25.0°C
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 TEMP_HIGH = 65
 TEMP_CRITICAL = 80
@@ -49,7 +49,7 @@ function get_hdd_temp(result)
 
     local color, cb = colors.define(t, TEMP_HIGH, TEMP_CRITICAL)
 
-    return output = colors.title .. "Disk Temp".. cmds.rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
+    return colors.title .. "Disk Temp".. cmds.rjust .. color .. " +" .. tostring(t) .. "°C" .. "\n"
 end
 
 local cmd_result = utils.run_command("hddtemp " .. arg[1])

@@ -16,9 +16,9 @@
 --   ${execp ~/.config/conky/scripts/ps.lua 5 -t -g}
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 MEM = 1
 CPU = 2

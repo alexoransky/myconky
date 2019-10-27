@@ -26,9 +26,9 @@
 --
 
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 local cjson = require "cjson.safe"
 
 nmap_scan_report = "Nmap scan report for "

@@ -15,9 +15,9 @@
 -- Fan   1000 rpm
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_rpm(s, fan_str)

@@ -18,9 +18,9 @@
 -- Notes:
 -- Currently supports avahi-resolve only.
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_name(cmd_result)

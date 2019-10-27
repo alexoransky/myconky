@@ -15,10 +15,10 @@
 --   Note that if the device is not mounted, there will be no ooutput.
 --
 
-require "colors"
-require "fonts"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/fonts"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_size_mnt(cmd_out, dev_str)

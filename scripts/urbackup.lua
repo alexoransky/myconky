@@ -19,10 +19,10 @@
 -- Backup   0.345 ms    4h 45m ago  OK
 --
 
-require "colors"
-require "cmds"
-require "utils"
-require "fonts"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
+require "./utils/fonts"
 local cjson = require "cjson.safe"
 
 backup_ts_fname = ".urbackup_timestamp.txt"

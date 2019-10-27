@@ -16,9 +16,9 @@
 -- Disk  LITEON IT LCS-256L9S
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_disk_info(cmd_result)

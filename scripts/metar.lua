@@ -17,9 +17,9 @@
 -- KMLB 241953Z 27011G18KT 10SM CLR 30/17 A2978 RMK AO2 SLP082 T03000172
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function parse_metar(cmd_result, icao)

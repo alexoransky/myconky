@@ -17,11 +17,11 @@
 --   pip install speedtest-cli
 --
 
-require "colors"
-require "fonts"
-require "cmds"
-require "utils"
-require "files"
+require "./utils/colors"
+require "./utils/fonts"
+require "./utils/cmds"
+require "./utils/utils"
+require "./utils/files"
 local cjson = require "cjson.safe"
 
 CMD_SIMPLE = "speedtest-cli --simple"

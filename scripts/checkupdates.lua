@@ -19,9 +19,9 @@
 --           ...
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_pkgs(cmd_result, max_cnt)

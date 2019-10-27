@@ -23,9 +23,9 @@
 --
 -- The script needs lm-sensors and/or acpi packets installed.
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 TEMP_HIGH = 65
 TEMP_CRITICAL = 80
@@ -77,7 +77,11 @@ function get_mb_temp()
         result = utils.run_command("acpi -t")
         local t1 = get_acpi_temp(result, "Thermal 0")
         local t2 = get_acpi_temp(result, "Thermal 1")
-        t = math.max(t1, t2)
+				if t2 == nil then
+					t = t1
+				else
+        	t = math.max(t1, t2)
+				end
     end
 
     if t == nil then

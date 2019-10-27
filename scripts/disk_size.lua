@@ -19,9 +19,9 @@
 -- /dev/sda3    226G    10% [###                  ]
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_size_mnt(cmd_out, dev_str)

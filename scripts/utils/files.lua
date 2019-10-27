@@ -8,7 +8,7 @@
 
 files = {}
 
-require "utils"
+require "../utils/utils"
 
 files.temp_path = "/mnt/ramdisk/"
 files.perm_path = "/home/alex/.config/conky/"

@@ -19,9 +19,9 @@
 -- ${color1}${nodename}${alignr}${sysname} ${kernel}
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_sys_info()

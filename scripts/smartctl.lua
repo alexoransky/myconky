@@ -16,9 +16,9 @@
 -- Disk  3m 2d 25h   3h ago: TEST OK
 --
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_disk_on(cmd_result, dev_id)

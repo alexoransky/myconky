@@ -13,10 +13,10 @@
 --   ${execpi 60 ~/.config/conky/scripts/printer.lua 192.168.0.100}
 --
 
-require "colors"
-require "cmds"
-require "utils"
-require "files"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
+require "./utils/files"
 
 local cjson = require "cjson.safe"
 

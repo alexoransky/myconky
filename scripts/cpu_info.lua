@@ -29,9 +29,9 @@
 --
 -- The script requires lm-sensors installed.
 
-require "colors"
-require "cmds"
-require "utils"
+require "./utils/colors"
+require "./utils/cmds"
+require "./utils/utils"
 
 
 function get_temp(s, temp_str, high_str, crit_str)
